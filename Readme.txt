@@ -1,21 +1,26 @@
-Lock Free Hash Table / CAS Hash Table / 无锁哈希表
+# Lock Free Hash Table / CAS Hash Table / 无锁哈希表
 
-2015年8月份，在微信公众号上看到《史上最强算法论战：请不要嘻哈，这是哈希》 http://chuansong.me/n/1489885
-一文中阐述的上交所股票交易系统的核心数据结构和算法十分吸引人，我用了一个月的业余时间做了一份C#的实现，并且
-顺利的应用到公司的某产品的测试阶段。
+背景：2015年8月份，在微信公众号上看到《史上最强算法论战：请不要嘻哈，这是哈希》 http://chuansong.me/n/1489885 一文中阐述的上交所股票交易系统的核心数据结构和算法十分吸引人，我用了一个月的业余时间做了一份C#的实现，并且顺利的应用到公司的某产品的测试阶段。
 
-性能实测数据如下：
-When key is a Int64 integer and value is 256 bytes, tested on a DELL Z440 work station with 16 GB memory and 8 core CPU:
-a.	Load 3,000,000 key value pairs one by one into memory in 4 seconds with one thread.
-b.	Process 7,113,400 random get requests / 8,927,000 random update requests / 13,566,040 random delete requests in 1 second simultaneously.
-c.	Its capability should be able to increases in a linear manner along with CPU core quantity increasing
+## 性能实测结果：
+> 1. 测试机为Dell Z440 工作站，16GB内存，8核CPU；当key为64位整形、value为256 bytes 时，测试结果如下：
+> 2. 单进程装载3百万键值对用时4秒。
+> 3. CPU压满情况下，一秒钟处理711,3400 随机 “读取” 请求，892,7004 随机 “更新” 请求以及1356,6043随机 “删除” 请求。
+> 4. 吞吐量能够随着CPU数量增加，同比例增长。
 
-代码说明：
-CASHashTable工程中是核心代码。
-Test是测试工程。
+## 在同样条件下，Lock-Free Hash Table 与 .Net Concurrent Dictionary 性能对比
+|操作类型|Lock-Free Hash Table|.Net Concurrent Dictionary|优势百分比|
+|:----------|:----------|:---------:|:---------:|
+|Get|7,113,400|1,681,929|422.93%|
+|Add/Update|8,927,004|240,321|3714.61%|
+|Delete|13,566,043|245,884|5517.26%|
 
-压力测试分别测试了随机key的性能和固定一个key的增删改查性能。测试结果充分证明，随机key的增删改查性能远高于.Net提供的Concurrent Dictionary。
-固定key的增删改查性能依旧领先。具体压力测试结果，参考：CASHashTable/PerfTestingResults.xlsx
+性能对比结果报告完整版参考：CASHashTable/PerfTestingResults.xlsx
+
+## 在同样条说明：
+CASHashTable工程中是核心代码；Test是测试工程。
+
+## 使用方法：
 
 如果想实测、使用，需要修改：
 1. Utility.cs 中获取数据的SQL字段，可以随机生成key/value测试。
