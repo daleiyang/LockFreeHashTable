@@ -1,9 +1,9 @@
 # Lock Free Hash Table / CAS Hash Table / 无锁哈希表
 
-### 背景
+## 背景
 2015年8月份，我在微信公众号“大数据文摘”上看到[《史上最强算法论战：请不要嘻哈，这是哈希》](http://chuansong.me/n/1489885)一文中阐述的上交所股票交易系统的核心数据结构和算法十分吸引人。我用了一个月的业余时间做了一份C#的实现，并在公司某产品的测试阶段进行实测。希望我的这份实现能够给各位观众的日常工作带来帮助。如需表达感谢之情，请感谢“知象科技”的“龙白滔”，没有他的分享，就没有我的这一份实现。
 
-### 性能实测结果汇总
+## 性能实测结果汇总
 测试机为Dell Z440 工作站，16GB内存，8核CPU；当key为64位整形、value为256 bytes 时，测试结果如下
 - 单进程装载3百万键值对用时4秒。
 - CPU压满情况下，一秒钟处理711,3400 随机 “读取” 请求，892,7004 随机 “更新” 请求以及1356,6043随机 “删除” 请求。此处的随机指的是从装载入表的3百万Key中随机选取。
@@ -17,9 +17,9 @@
 |Add/Update|8,927,004|240,321|<font color="red">3714.61%</font>|
 |Delete|13,566,043|245,884|<font color="red">5517.26%</font>|
 
-### 性能对比结果、压力测试报告[PerfTestingResults.xlsx](https://github.com/daleiyang/LockFreeHashTable/raw/master/CASHashTable/PerfTestingResults.xlsx)详解
+## 性能对比结果、压力测试报告[PerfTestingResults.xlsx](https://github.com/daleiyang/LockFreeHashTable/raw/master/CASHashTable/PerfTestingResults.xlsx)详解
 
-随机抽取数据的方式进行测试，同时10个进程“读取”操作、10个进程“添加/更新”操作、10个进程“删除”操作
+### 随机抽取数据的方式进行测试，同时10个进程“读取”操作、10个进程“添加/更新”操作、10个进程“删除”操作
 
 #### 10个“读取”进程测试结果
 
@@ -62,7 +62,7 @@
 - Is Deleted Percentage：目标数据已经删除次数占总尝试次数百分比。
 - Test Elapsed Time：测试总用时。
 
-对同一个数据进行极限测试，同时10个进程“读取”操作、10个进程“添加/更新”操作、10个进程“删除”操作
+### 对同一个数据进行极限测试，同时10个进程“读取”操作、10个进程“添加/更新”操作、10个进程“删除”操作
 
 #### 10个“读取”进程测试结果
 
@@ -79,7 +79,7 @@
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Delete%20One.jpg)
 每列含义:同上
 
-### 源代码说明：
+## 源代码说明：
 - CASHashTable工程中的[KeyIn54BitCASHashTableBase.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/CASHashTable/KeyIn54BitCASHashTableBase.cs)是核心代码、基类，代码中提供了详细的注释，解释了每种位运算的原理、对应不同操作(set/update,get,delete)时CAS操作应该出现的位置和原理。
 
 - CASHashTable工程中的[KeyIn54BitCASHashTable.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/CASHashTable/KeyIn54BitCASHashTable.cs)是使用基类的例子，使用者需要提供TrySet，TryGet，TryDelete和GenerateKey的实现。如果需要理解代码，可以从这里入手。
@@ -92,7 +92,7 @@
 
 - 上述逻辑正确的断言是基于大量测试而没有发现问题的经验，并不是严格的证明。关于多进程、高并发的严格测试方法，我在学习研究Paxos算法时发现可以采用[Leslie Lamport](http://www.lamport.org/)提出的方法：首先把算法用[PlusCal](http://lamport.azurewebsites.net/tla/tla.html)语言进行描述，然后用[TLA+](http://lamport.azurewebsites.net/tla/tla.html)框架来长时间的测试。Leslie的[Specifying Systems](https://www.microsoft.com/en-us/research/publication/specifying-systems-the-tla-language-and-tools-for-hardware-and-software-engineers/?from=http%3A%2F%2Fresearch.microsoft.com%2Fusers%2Flamport%2Ftla%2Fbook.html)这本书详细讲解了这种方法，我读了前9章。目前还没有实施这种测试。
 
-### 使用方法：
+## 使用方法：
 - Utility.cs 中获取数据的SQL字段，可以随机生成key/value测试。
 
 - 修改KeyIn54BitCASHashTable.cs，提供你自己的TrySet，TryGet，TryDelete， GenerateKey函数。
