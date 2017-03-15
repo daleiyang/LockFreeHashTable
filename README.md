@@ -1,9 +1,7 @@
 # Lock Free Hash Table / CAS Hash Table / 无锁哈希表
 
 ### 背景
-2015年8月份，我在微信公众号“大数据文摘”上看到[《史上最强算法论战：请不要嘻哈，这是哈希》](http://chuansong.me/n/1489885)一文中阐述的上交所股票交易系统的核心数据结构和算法十分吸引人。我用了一个月的业余时间做了一份C#的实现，并在公司某产品的测试阶段进行实测。
-
-希望我的这份实现能够给各位观众的日常工作带来帮助。如需表达感谢之情，请感谢“知象科技”的“龙白滔”，没有他的分享，就没有我的这一份实现。
+2015年8月份，我在微信公众号“大数据文摘”上看到[《史上最强算法论战：请不要嘻哈，这是哈希》](http://chuansong.me/n/1489885)一文中阐述的上交所股票交易系统的核心数据结构和算法十分吸引人。我用了一个月的业余时间做了一份C#的实现，并在公司某产品的测试阶段进行实测。希望我的这份实现能够给各位观众的日常工作带来帮助。如需表达感谢之情，请感谢“知象科技”的“龙白滔”，没有他的分享，就没有我的这一份实现。
 
 ### 性能实测结果汇总
 测试机为Dell Z440 工作站，16GB内存，8核CPU；当key为64位整形、value为256 bytes 时，测试结果如下
@@ -64,7 +62,22 @@
 - Is Deleted Percentage：目标数据已经删除次数占总尝试次数百分比。
 - Test Elapsed Time：测试总用时。
 
-#### 让30个进程的三种不同操作“读取/更新/删除”同时操作同一个数据的极限情况测试
+对同一个数据进行极限测试，同时10个进程“读取”操作、10个进程“添加/更新”操作、10个进程“删除”操作
+
+#### 10个“读取”进程测试结果
+
+![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Get%20One.jpg)
+每列含义:同上
+
+#### 10个“更新”进程测试结果
+
+![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Update%20One.jpg)
+每列含义:同上
+
+#### 10个“删除”进程测试结果
+
+![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Delete%20One.jpg)
+每列含义:同上
 
 ### 源代码说明：
 - CASHashTable工程中的[KeyIn54BitCASHashTableBase.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/CASHashTable/KeyIn54BitCASHashTableBase.cs)是核心代码、基类，代码中提供了详细的注释，解释了每种位运算的原理、对应不同操作(set/update,get,delete)时CAS操作应该出现的位置和原理。
