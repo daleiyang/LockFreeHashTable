@@ -17,9 +17,10 @@
 |Add/Update|8,927,004|240,321|<font color="red">3714.61%</font>|
 |Delete|13,566,043|245,884|<font color="red">5517.26%</font>|
 
-### 性能对比结果、压力测试报告[PerfTestingResults.xlsx](https://github.com/daleiyang/LockFreeHashTable/raw/master/CASHashTable/PerfTestingResults.xlsx)详解。
+### 性能对比结果、压力测试报告[PerfTestingResults.xlsx](https://github.com/daleiyang/LockFreeHashTable/raw/master/CASHashTable/PerfTestingResults.xlsx)详解
 
-#### 使用随机抽取数据进行操作的方式时，对30个进程的三种不同操作“读取/更新/删除”，已“读取”操作为例
+#### 使用随机抽取数据的方式进行测试，使用30个进程分别进行“读取/更新/删除”操作
+“读取”操作测试结果
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Get%20Random.jpg)
 每列含义:
 - Get Attemps：尝试“读取”的次数。每次调用时在装载的3百万的键值中随机选择一个。
