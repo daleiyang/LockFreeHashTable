@@ -42,9 +42,23 @@
 每列含义:
 - Update Attemps：尝试“更新”的总次数。每次调用时在装载的3百万的键值中随机选择一个。
 - API Call Elapsed Time：单纯TrySet函数调用所消耗时间，排除其他辅助测试逻辑的时间消耗。
-- Update RPS / Thread：每秒执行的TrySet函数调用次数。
-- Update API Call Elapsed Time / 100,000,000 Attemps：每1亿次TrySet调用所消耗的时间。
+- Update RPS/Thread：每秒执行的TrySet函数调用次数。
+- Update API Call Elapsed Time/100,000,000 Attemps：每1亿次TrySet调用所消耗的时间。
 - Update Successfully：更新成功的次数。
+- Test Elapsed Time：测试总用时。
+
+10个“删除”进程测试结果
+
+![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Delete%20Random.jpg)
+每列含义:
+- Delete Attemps：尝试“删除”的总次数。每次调用时在装载的3百万的键值中随机选择一个。
+- API Call Elapsed Time：单纯TryDelete函数调用所消耗时间，排除其他辅助测试逻辑的时间消耗。
+- Delete RPS/Thread：每秒执行的TryDelete函数调用次数。
+- Delete API Call Elapsed Time/100,000,000 Attemps：每1亿次TryDelete调用所消耗的时间。
+- Delete Successfully：删除成功的次数。
+- Delete Successfully Percentage：删除成功次数占总尝试次数的百分比。
+- Is Deleted：目标数据已经删除的次数。
+- Is Deleted Percentage：目标数据已经删除次数占总尝试次数百分比。
 - Test Elapsed Time：测试总用时。
 
 #### 让30个进程的三种不同操作“读取/更新/删除”同时操作同一个数据的极限情况测试
