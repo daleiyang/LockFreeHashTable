@@ -5,8 +5,8 @@
 
 希望我的这份实现能够给各位观众的日常工作带来帮助。如需表达感谢之情，请感谢“知象科技”的“龙白滔”，没有他的分享，就没有我的这一份实现。
 
-### 性能实测结果
-测试机为Dell Z440 工作站，16GB内存，8核CPU；当key为64位整形、value为256 bytes 时，测试结果如下：
+### 性能实测结果汇总
+测试机为Dell Z440 工作站，16GB内存，8核CPU；当key为64位整形、value为256 bytes 时，测试结果如下
 - 单进程装载3百万键值对用时4秒。
 - CPU压满情况下，一秒钟处理711,3400 随机 “读取” 请求，892,7004 随机 “更新” 请求以及1356,6043随机 “删除” 请求。此处的随机指的是从装载入表的3百万Key中随机选取。
 - 吞吐量能够随着CPU数量增加，同比例增长。
@@ -21,8 +21,9 @@
 
 ### 性能对比结果、压力测试报告[PerfTestingResults.xlsx](https://github.com/daleiyang/LockFreeHashTable/raw/master/CASHashTable/PerfTestingResults.xlsx)详解
 
-#### 随机抽取数据的方式进行测试，同时10个进程“读取”操作、10个进程“添加/更新”操作、10个进程“删除”操作
-10个“读取”进程测试结果
+随机抽取数据的方式进行测试，同时10个进程“读取”操作、10个进程“添加/更新”操作、10个进程“删除”操作
+
+#### 10个“读取”进程测试结果
 
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Get%20Random.jpg)
 每列含义:
@@ -38,7 +39,7 @@
 - Result Match Percentage：数据正确性百分比。
 - Test Elapsed Time：测试总用时。
 
-10个“更新”进程测试结果
+#### 10个“更新”进程测试结果
 
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Update%20Random.jpg)
 每列含义:
@@ -49,7 +50,7 @@
 - Update Successfully：更新成功的次数。
 - Test Elapsed Time：测试总用时。
 
-10个“删除”进程测试结果
+#### 10个“删除”进程测试结果
 
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Delete%20Random.jpg)
 每列含义:
