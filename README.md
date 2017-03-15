@@ -17,7 +17,15 @@
 |Add/Update|8,927,004|240,321|<font color="red">3714.61%</font>|
 |Delete|13,566,043|245,884|<font color="red">5517.26%</font>|
 
-性能对比结果报告完整版参考：CASHashTable目录下的[PerfTestingResults.xlsx](https://github.com/daleiyang/LockFreeHashTable/raw/master/CASHashTable/PerfTestingResults.xlsx)
+### 性能对比结果、压力测试报告详解
+完整版在CASHashTable目录下的[PerfTestingResults.xlsx](https://github.com/daleiyang/LockFreeHashTable/raw/master/CASHashTable/PerfTestingResults.xlsx)。
+
+#### 使用随机抽取数据进行操作的方式时，对30个进程的三种不同操作“读取/更新/删除”
+已“读取”操作为例
+![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Get%20Random.jpg)
+
+
+#### 让30个进程的三种不同操作“读取/更新/删除”同时操作同一个数据的极限情况测试
 
 ### 源代码说明：
 - CASHashTable工程中的[KeyIn54BitCASHashTableBase.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/CASHashTable/KeyIn54BitCASHashTableBase.cs)是核心代码、基类，代码中提供了详细的注释，解释了每种位运算的原理、对应不同操作(set/update,get,delete)时CAS操作应该出现的位置和原理。
@@ -26,7 +34,7 @@
 
 - Test测试工程中的[KeyIn54BitCASHashTableFunctionalTest.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/Test/KeyIn54BitCASHashTableFunctionalTest.cs)是功能测试，包括各种情况下的增删改查的正确性验证。
 
-- Test测试工程中的[KeyIn54BitCASHashTablePerfTest.cs ](https://github.com/daleiyang/LockFreeHashTable/blob/master/Test/KeyIn54BitCASHashTablePerfTest.cs)是压力测试，测试方法是同时使用30个进程压测，其中10个进程进行随机“读取”操作、10个进程进行随机“删除”操作、10个进程进行随机“添加/更新”操作。代码中每种操作进行的总次数是精心调整过的，保证这30个进程能够在同时结束，这样能够得到一个有意义的结果。
+- Test测试工程中的[KeyIn54BitCASHashTablePerfTest.cs ](https://github.com/daleiyang/LockFreeHashTable/blob/master/Test/KeyIn54BitCASHashTablePerfTest.cs)是压力测试，测试方法是同时使用30个进程压测，其中10个进程进行随机“读取”操作、10个进程进行随机“删除”操作、10个进程进行随机“添加/更新”操作。代码中每种操作进行的总次数是精心调整过的，保证这30个进程能够在同时结束，这样能够得到一个有意义的结果。这样做的理由如下：
 
 - 代码中的位运算逻辑和其他逻辑经过了大量反复的测试，应该没有Bug，如果你发现了，请发pull request。
 
