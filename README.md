@@ -19,8 +19,8 @@
 
 ### 性能对比结果、压力测试报告[PerfTestingResults.xlsx](https://github.com/daleiyang/LockFreeHashTable/raw/master/CASHashTable/PerfTestingResults.xlsx)详解
 
-#### 使用随机抽取数据的方式进行测试，使用30个进程分别进行“读取/更新/删除”操作
-“读取”操作测试结果
+#### 使用随机抽取数据的方式进行测试，同时使用10个进程进行“读取”操作、10个进程进行“添加/更新”操作、10个进程进行“删除”操作
+10个“读取”进程测试结果
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Get%20Random.jpg)
 每列含义:
 - Get Attemps：尝试“读取”的次数。每次调用时在装载的3百万的键值中随机选择一个。
