@@ -21,18 +21,30 @@
 
 #### 随机抽取数据的方式进行测试，同时10个进程“读取”操作、10个进程“添加/更新”操作、10个进程“删除”操作
 10个“读取”进程测试结果
+
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Get%20Random.jpg)
 每列含义:
-- Get Attemps：尝试“读取”的次数。每次调用时在装载的3百万的键值中随机选择一个。
+- Get Attemps：尝试“读取”的总次数。每次调用时在装载的3百万的键值中随机选择一个。
 - API Call Elapsed Time：单纯TryGet函数调用所消耗时间，排除其他辅助测试逻辑的时间消耗。
 - Get RPS/One Thread：每秒执行的TryGet函数调用次数。
 - Get API Call Elapsed Time/100,000,000 Attemps：每1亿次TryGet调用所消耗的时间。
 - Get Successfully：成功取到值的次数。
-- Get Successfully Percentage：成功取到值的次数占总T尝试次数的百分比。
+- Get Successfully Percentage：成功取到值的次数占总尝试次数的百分比。
 - Is Deleted：目标数据已经删除的次数。
 - Is Deleted Percentage：目标数据已经删除次数占总尝试次数百分比。
 - Result Match：数据正确性验证，确保取到的值和原始值一致。
 - Result Match Percentage：数据正确性百分比。
+- Test Elapsed Time：测试总用时。
+
+10个“更新”进程测试结果
+
+![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Update%20Random.jpg)
+每列含义:
+- Update Attemps：尝试“更新”的总次数。每次调用时在装载的3百万的键值中随机选择一个。
+- API Call Elapsed Time：单纯TrySet函数调用所消耗时间，排除其他辅助测试逻辑的时间消耗。
+- Update RPS / Thread：每秒执行的TrySet函数调用次数。
+- Update API Call Elapsed Time / 100,000,000 Attemps：每1亿次TrySet调用所消耗的时间。
+- Update Successfully：更新成功的次数。
 - Test Elapsed Time：测试总用时。
 
 #### 让30个进程的三种不同操作“读取/更新/删除”同时操作同一个数据的极限情况测试
