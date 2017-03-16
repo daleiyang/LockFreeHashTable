@@ -69,17 +69,17 @@
 #### 10个“读取”进程测试结果
 
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Get%20One.jpg)
-每列含义:同上
+每列含义:同上，除了30个测试进程选择同样一条数据进行测试。
 
 #### 10个“更新”进程测试结果
 
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Update%20One.jpg)
-每列含义:同上
+每列含义:同上，除了30个测试进程选择同样一条数据进行测试。
 
 #### 10个“删除”进程测试结果
 
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Delete%20One.jpg)
-每列含义:同上
+每列含义:同上，除了30个测试进程选择同样一条数据进行测试。
 
 ## 源代码说明：
 - CASHashTable工程中的[KeyIn54BitCASHashTableBase.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/CASHashTable/KeyIn54BitCASHashTableBase.cs)是核心代码、基类，代码中提供了详细的注释，解释了每种位运算的原理、对应不同操作(set/update,get,delete)时CAS操作应该出现的位置和原理。
