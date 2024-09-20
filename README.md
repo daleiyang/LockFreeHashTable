@@ -1,12 +1,14 @@
 # Lock Free Hash Table / CAS Hash Table 
 
 ## Background
-Saw an [article](http://chuansong.me/n/1489885) outlining the core data structures and algorithms of the trading system used by the Shanghai Stock Exchange. Implemented it in C# and applied it to a pre-production environment for the MS short link service.
+Saw an [article](http://chuansong.me/n/1489885) outlining the core data structures and algorithms of the trading system used by the Shanghai Stock Exchange. 
+Implemented it in C# and applied it to a pre-production environment for the MS short link service.
 
 ## Data structure
+The key in hash table is a 64 bit integer.
+其中54个字节留给业务放置key value, 1 bit 用来标记“写入者”获得排他锁，1 bit 是本条记录的“删除标记”，8 bit用来记录“读取者”的数量。
+下图中linkId+clcId+sbp = 54 bit。他们是由MS short link service的业务逻辑决定的。 
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/DataStructure.png)
-
-linkId，clcId，sbp 组成哈希表的key
 
 ## 性能实测结果汇总
 测试机为Dell Z440 工作站，16GB内存，8核CPU；当key为64位整形、value为256 bytes 时，测试结果如下
