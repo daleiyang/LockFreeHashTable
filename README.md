@@ -4,10 +4,13 @@
 - Saw an [article](http://chuansong.me/n/1489885) outlining the core data structures and algorithms of the trading system used by the Shanghai Stock Exchange. 
 - Implemented it in C# and applied it to a pre-production environment for the MS short link service.
 
-## Data structure
-- The key in hash table is a 64 bit integer.
-- 其中54个字节留给业务放置key value, 1 bit 用来标记“写入者”获得排他锁，1 bit 是本条记录的“删除标记”，8 bit用来记录“读取者”的数量。
-- 下图中linkId+clcId+sbp = 54 bit。他们是由MS short link service的业务逻辑决定的。 
+## Core Data Structure
+- The key in hash table is a 64 bit integer:
+- 54 bytes are reserved for the business logic to set the real key value; 
+- 1 byte is used to mark whether the “writer” has obtained an exclusive lock; 
+- 1 byte is used to mark whether this record has been deleted or not; 
+- 8 byte are used to record the number of “readers”. 
+- The combination of linkId, clcId, sbp in the figure below becomes the key value of the business logic, with a size of 54 bytes.
 
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/DataStructure.png)
 
