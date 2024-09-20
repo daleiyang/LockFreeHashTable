@@ -4,7 +4,7 @@
 Saw an [article](http://chuansong.me/n/1489885) outlining the core data structures and algorithms of the trading system used by the Shanghai Stock Exchange. Implemented it in C# and applied it to a pre-production environment for the MS short link service.
 
 ## Data structure
-![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/DataStructure.jpg)
+![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/DataStructure.png)
 
 linkId，clcId，sbp 组成哈希表的key
 
