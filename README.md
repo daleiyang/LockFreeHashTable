@@ -8,6 +8,7 @@ Implemented it in C# and applied it to a pre-production environment for the MS s
 The key in hash table is a 64 bit integer.
 其中54个字节留给业务放置key value, 1 bit 用来标记“写入者”获得排他锁，1 bit 是本条记录的“删除标记”，8 bit用来记录“读取者”的数量。
 下图中linkId+clcId+sbp = 54 bit。他们是由MS short link service的业务逻辑决定的。 
+
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/DataStructure.png)
 
 ## 性能实测结果汇总
