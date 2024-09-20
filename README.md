@@ -10,9 +10,10 @@
 - 1 byte is used to mark whether the ¡°writer¡± has obtained an exclusive lock; 
 - 1 byte is used to mark whether this record has been deleted or not; 
 - 8 byte are used to record the number of ¡°readers¡±. 
-- The combination of linkId, clcId, sbp in the figure below becomes the key value of the business logic, with a size of 54 bytes.
 
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/DataStructure.png)
+
+- The combination of linkId, clcId, sbp in the figure below becomes the key value of the business logic, with a size of 54 bytes.
 
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/KeyGen.png)
 
