@@ -1,7 +1,31 @@
-# Lock Free Hash Table / CAS Hash Table / 无锁哈希表
+# Lock Free Hash Table / CAS Hash Table 
 
-## 背景
-2015年8月份，我在微信公众号“大数据文摘”上看到[《史上最强算法论战：请不要嘻哈，这是哈希》](http://chuansong.me/n/1489885)一文中阐述的上交所股票交易系统的核心数据结构和算法十分吸引人。我用了一个月的业余时间做了一份C#的实现，并在公司某产品的测试阶段进行实测。希望我的这份实现能够给各位观众的日常工作带来帮助。如需表达感谢之情，请感谢“知象科技”的“龙白滔”，没有他的分享，就没有我的这一份实现。
+## Background
+Saw an [article](http://chuansong.me/n/1489885) outlining the core data structures and algorithms of the trading system used by the Shanghai Stock Exchange. Implemented it in C# and applied it to a pre-production environment for the MS short link service.
+
+## Data structures
+struct Entity
+{
+    /*      
+        linkId         		0   ~ 21 = 22 bit
+        clcId          		22 ~ 39 = 18 bit
+        sbp            		40 ~ 53 = 14 bit
+        doWrite        	54      	= 1 bit
+        isDelete       	55      	= 1 bit
+        readerCounter  	56 ~ 63 = 8 bit
+    */
+    public long key;   //64 bit
+    public byte[] url;  //256 bytes
+}
+
+linkId			: 0 ~ 4,194,303
+clcId			: 0 ~   262,143
+sbp				: 0 ~    16,383
+doWrite			: 0 ~ 1
+isDelete			: 0 ~ 1
+readerCounter	: 0 ~ 255
+
+linkId，clcId，sbp 组成哈希表的key
 
 ## 性能实测结果汇总
 测试机为Dell Z440 工作站，16GB内存，8核CPU；当key为64位整形、value为256 bytes 时，测试结果如下
@@ -93,9 +117,7 @@
 
 - Test测试工程中的[KeyIn54BitCASHashTablePerfTest.cs ](https://github.com/daleiyang/LockFreeHashTable/blob/master/Test/KeyIn54BitCASHashTablePerfTest.cs)是压力测试，测试方法和结果分析请参考上面“性能对比结果、压力测试报告”一节的内容。
 
-- 代码中的位运算逻辑和其他逻辑经过了大量反复的测试，应该没有Bug，如果你发现了，请发pull request。
-
-- 上述逻辑正确的断言是基于大量测试而没有发现问题的经验，并不是严格的证明。关于多进程、高并发的严格测试方法，我在学习研究Paxos算法时发现可以采用[Leslie Lamport](http://www.lamport.org/)提出的方法：首先把算法用[PlusCal](http://lamport.azurewebsites.net/tla/tla.html)语言进行描述，然后用[TLA+](http://lamport.azurewebsites.net/tla/tla.html)框架来长时间的测试。Leslie的[Specifying Systems](https://www.microsoft.com/en-us/research/publication/specifying-systems-the-tla-language-and-tools-for-hardware-and-software-engineers/?from=http%3A%2F%2Fresearch.microsoft.com%2Fusers%2Flamport%2Ftla%2Fbook.html)这本书详细讲解了这种方法，我读了前9章。目前还没有实施这种测试。
+- 代码中的位运算逻辑和其他逻辑经过了大量反复的测试，没有发现Bug。
 
 ## 使用方法：
 - Utility.cs 中获取数据的SQL字段，可以随机生成key/value测试。
