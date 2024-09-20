@@ -3,27 +3,8 @@
 ## Background
 Saw an [article](http://chuansong.me/n/1489885) outlining the core data structures and algorithms of the trading system used by the Shanghai Stock Exchange. Implemented it in C# and applied it to a pre-production environment for the MS short link service.
 
-## Data structures
-struct Entity
-{
-    /*      
-        linkId         		0   ~ 21 = 22 bit
-        clcId          		22 ~ 39 = 18 bit
-        sbp            		40 ~ 53 = 14 bit
-        doWrite        	54      	= 1 bit
-        isDelete       	55      	= 1 bit
-        readerCounter  	56 ~ 63 = 8 bit
-    */
-    public long key;   //64 bit
-    public byte[] url;  //256 bytes
-}
-
-linkId			: 0 ~ 4,194,303
-clcId			: 0 ~   262,143
-sbp				: 0 ~    16,383
-doWrite			: 0 ~ 1
-isDelete			: 0 ~ 1
-readerCounter	: 0 ~ 255
+## Data structure
+![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/DataStructure.jpg)
 
 linkId，clcId，sbp 组成哈希表的key
 
