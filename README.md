@@ -20,7 +20,7 @@
 
 ## Algorithms
 - The TrySet, TryGet and TryDelete functions in [KeyIn54BitCASHashTable.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/CASHashTable/KeyIn54BitCASHashTable.cs) are the entry points.
-- 下图中的代码是典型的CAS API的使用方法。具体逻辑参考[KeyIn54BitCASHashTableBase.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/CASHashTable/KeyIn54BitCASHashTableBase.cs).
+- 下图中的 do...while 循环是典型的CAS API使用方法。具体实现参考[KeyIn54BitCASHashTableBase.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/CASHashTable/KeyIn54BitCASHashTableBase.cs).
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/CAS.png)
 
 
