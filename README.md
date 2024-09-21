@@ -31,6 +31,7 @@
 - The TrySet, TryGet and TryDelete functions in [KeyIn54BitCASHashTable.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/CASHashTable/KeyIn54BitCASHashTable.cs) are the entry points.
 - [KeyIn54BitCASHashTableBase.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/CASHashTable/KeyIn54BitCASHashTableBase.cs)  contains detailed comments explaining the principles of each bit operation and how to use the CAS API to read, add, update, and delete data.
 - The ¡°do... . while¡± loop in the figure below is a typical CAS API usage. 
+
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/CAS.png)
 
 ## Performance Test Results
@@ -42,7 +43,7 @@
 Compare the performance of "Lock-Free Hash Tables" and ".Net Concurrent Dictionary Classes".
 
 |Operation|Lock-Free Hash Table|.Net Concurrent Dictionary|Performance Improvement|
-|:----------|----------:|----------:|----------:|
+|:----------|operations per second:|operations per second:|----------:|
 |Get|7,113,400|1,681,929|<font color="red">422.93%</font>|
 |Add/Update|8,927,004|240,321|<font color="red">3714.61%</font>|
 |Delete|13,566,043|245,884|<font color="red">5517.26%</font>|
