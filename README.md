@@ -24,6 +24,7 @@
 
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/KeyGen.png)
 
+- In securities trading system, the value is also 64-bit integer instead of 256 byte array in my demo. For performance reasons, 64-bit integers are the most efficient choice.
 - According to the number of keys in the business logic, select a prime number as the length of the hash table so that the load factor is 0.5. This can control the average number of hash table lookups to 1.1.
 
 ## Algorithms
