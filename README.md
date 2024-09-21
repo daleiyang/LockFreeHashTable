@@ -1,7 +1,7 @@
 # Lock-Free Hash Table / CAS Hash Table 
 
 ## Background
-- Saw an [article](http://chuansong.me/n/1489885) outlining the core data structures and algorithms of the trading system used by the Shanghai Stock Exchange. 
+- Saw an [article](https://github.com/daleiyang/LockFreeHashTable/blob/master/Source.pdf) outlining the core data structures and algorithms of the trading system used by the Shanghai Stock Exchange. 
 - Implemented it in C# and applied it to a pre-production environment for the MS short link service.
 
 ## Core Data Structure
@@ -13,10 +13,17 @@
 
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/DataStructure.png)
 
-- The combination of linkId, clcId, sbp in the figure below becomes the key value of the business logic, with a size of 54 bytes.
+- The combination of linkId, clcId, sbp in the figure above becomes the key value of the business logic, with a size of 54 bytes.
 - The code in the figure below is the process of generating a 54-byte key value based on business logic, refer to [KeyIn54BitCASHashTable.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/CASHashTable/KeyIn54BitCASHashTable.cs).
 
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/KeyGen.png)
+
+## Algorithms
+- TrySet, TryGet, TryDelete funtions in [KeyIn54BitCASHashTable.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/CASHashTable/KeyIn54BitCASHashTable.cs) are entrypoint.
+- 
+
+
+
 
 ## 性能实测结果汇总
 测试机为Dell Z440 工作站，16GB内存，8核CPU；当key为64位整形、value为256 bytes 时，测试结果如下
