@@ -42,7 +42,7 @@
 
 Compare the performance of "Lock-Free Hash Tables" and ".Net Concurrent Dictionary Classes".
 
-|Operation|Lock-Free Hash Table(operations per second)|.Net Concurrent Dictionary(operations per second)|Performance Improvement|
+|Operation|Lock-Free Hash Table (operations per second)|.Net Concurrent Dictionary (operations per second)|Performance Improvement|
 |:----------|-----------|-----------|----------:|
 |Get|7,113,400|1,681,929|<font color="red">422.93%</font>|
 |Add/Update|8,927,004|240,321|<font color="red">3714.61%</font>|
