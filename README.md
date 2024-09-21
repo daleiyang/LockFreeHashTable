@@ -38,9 +38,7 @@
 - Envrionment: Dell Z440 work station, 16 GB memory, 8 core CPU; 
 - Hash table setting: key is int64, value is 256 byte array.
 - Loads 3 million key-value pairs into a lock-free hash table in 4 seconds using a single process.
-- 30 threads are started simultaneously. 10 are used to randomly read a record, 10 are used to randomly update a record, and 10 are used to randomly delete a record.
-
-Compare the performance of "Lock-Free Hash Tables" and ".Net Concurrent Dictionary Classes".
+- 30 threads are started simultaneously. 10 are used to randomly get a record, 10 are used to randomly update a record, and 10 are used to randomly delete a record.
 
 |Operation|Lock-Free Hash Table (operations per second)|.Net Concurrent Dictionary (operations per second)|Performance Improvement|
 |:----------|-----------|-----------|----------:|
