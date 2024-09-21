@@ -26,9 +26,9 @@
 - The “do... . while” loop in the figure below is a typical CAS API usage. 
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/CAS.png)
 
-## 性能实测结果汇总
-测试机为Dell Z440 工作站，16GB内存，8核CPU；当key为64位整形、value为256 bytes 时，测试结果如下
-- 单进程装载3百万键值对用时4秒。
+## Performance Test Results
+- Envrionment: Dell Z440 work station, 16 GB memory, 8 core CPU; 
+- Hash table setting: key is int64, value is 256 byte array.
 - CPU压满情况下，一秒钟处理711,3400 随机“读取” 请求，892,7004 随机 “更新” 请求以及1356,6043随机 “删除” 请求。此处的随机指的是从装载入表的3百万Key中随机选取。
 - 测试时在内存中保存了3百万键值对当作数据源，用来装载Hash表以及随机挑选测试数据。
 - “删除”操作会从Hash表中将指定的Key标记为“已删除”，“更新”操作会重置标记为“已删除”数据的“已删除”标签，将这条数据重新恢复。
