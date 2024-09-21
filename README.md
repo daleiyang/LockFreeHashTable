@@ -20,7 +20,8 @@
 
 ## Algorithms
 - The TrySet, TryGet and TryDelete functions in [KeyIn54BitCASHashTable.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/CASHashTable/KeyIn54BitCASHashTable.cs) are the entry points.
-- The “do... . while” loop in the figure below is a typical CAS API usage. [KeyIn54BitCASHashTableBase.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/CASHashTable/KeyIn54BitCASHashTableBase.cs)  contains detailed comments explaining the principles of each bit operation and how to use the CAS API to read, add, update, and delete data.
+- [KeyIn54BitCASHashTableBase.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/CASHashTable/KeyIn54BitCASHashTableBase.cs)  contains detailed comments explaining the principles of each bit operation and how to use the CAS API to read, add, update, and delete data.
+- The “do... . while” loop in the figure below is a typical CAS API usage. 
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/CAS.png)
 
 ## 性能实测结果汇总
