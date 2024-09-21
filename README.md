@@ -24,7 +24,7 @@
 
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/KeyGen.png)
 
-- In securities trading system, the value is also 64-bit integer instead of 256 byte array in my demo. For performance reasons, 64-bit integers are the most efficient choice.
+- In securities trading system, the value is 64-bit integer instead of 256 byte array in my demo. For performance reasons, 64-bit integers are the most efficient choice.
 - According to the number of keys in the business logic, select a prime number as the length of the hash table so that the load factor is 0.5. This can control the average number of hash table lookups to 1.1.
 
 ## Algorithms
@@ -36,16 +36,12 @@
 ## Performance Test Results
 - Envrionment: Dell Z440 work station, 16 GB memory, 8 core CPU; 
 - Hash table setting: key is int64, value is 256 byte array.
-- Loads 3 million key-value pairs into a hash table in 4 seconds using a single process.
+- Loads 3 million key-value pairs into a lock-free hash table in 4 seconds using a single process.
 - CPU压满情况下，一秒钟处理711,3400 随机“读取” 请求，892,7004 随机 “更新” 请求以及1356,6043随机 “删除” 请求。此处的随机指的是从装载入表的3百万Key中随机选取。
-- 测试时在内存中保存了3百万键值对当作数据源，用来装载Hash表以及随机挑选测试数据。
-- “删除”操作会从Hash表中将指定的Key标记为“已删除”，“更新”操作会重置标记为“已删除”数据的“已删除”标签，将这条数据重新恢复。
-- 我的实现和原文中的实现区别在于：上交所hash表的value是int64，我的实现中hash表的value是256 bytes，这样的话，性能上就是Buffer.BlockCopy()拖了后腿。其实尽量避免memcpy在任何语言中都是一个很重要的优化方向，上交所key和value都是int64，也确实是做到了极致。
-- 由于是CPU密集型计算，实际吞吐量能够随着CPU Core的数量增加而同比例增长。
 
-在同样条件下，Lock-Free Hash Table 与 .Net Concurrent Dictionary 性能对比
+Compare the performance of "Lock-Free Hash Tables" and ".Net Concurrent Dictionary Classes".
 
-|操作类型|Lock-Free Hash Table|.Net Concurrent Dictionary|优势百分比|
+|Operation|Lock-Free Hash Table|.Net Concurrent Dictionary|Performance Improvement|
 |:----------|----------:|----------:|----------:|
 |Get|7,113,400|1,681,929|<font color="red">422.93%</font>|
 |Add/Update|8,927,004|240,321|<font color="red">3714.61%</font>|
