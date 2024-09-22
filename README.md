@@ -48,7 +48,7 @@
 
 ## Detailed explanation of the [stress test report](https://github.com/daleiyang/LockFreeHashTable/raw/master/CASHashTable/PerfTestingResults.xlsx).
 
-In the following two test groups, the total number of times each of the three operations in the test was repeated was adjusted so that the 30 processes used in the test ended at the same time as much as possible, which made the various test results in the screenshots below meaningful.
+In the next two test groups, the total number of each of the three operations was adjusted so that the 30 processes used in the test ended as simultaneously as possible, which made the various test results in the following screenshots meaningful.
 
 ### The test was carried out using randomly selected data, with 10 processes ¡°reading¡±, 10 processes ¡°updating¡± and 10 processes ¡°deleting¡±.
 
