@@ -10,7 +10,7 @@
 - Since 2010, the Shanghai Stock Exchange has been using this core algorithm, and even in the face of the bull market in 2015 and the explosive growth of daily trading volume exceeding one trillion RMB, the system has continued to operate smoothly.
 - Implemented it in C# and applied it to a pre-production environment for the MS short link service.
 
-## Core Data Structure
+## Data Structure
 - The key value in the hash table is a 64-bit integer:
 - 54 bytes are reserved for the business logic to set the real key value; 
 - 1 byte is used to mark whether the ¡°writer¡± has obtained an exclusive lock; 
@@ -34,7 +34,7 @@
 
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/CAS.png)
 
-## Performance Test Results
+## Performance
 - Envrionment: Dell Z440 work station, 16 GB memory, 8 core CPU; 
 - Hash table setting: key is int64, value is 256 byte array.
 - Loads 3 million key-value pairs into a lock-free hash table in 4 seconds using a single process.
@@ -46,11 +46,11 @@
 |Add/Update|8,927,004|240,321|<font color="red">3714.61%</font>|
 |Delete|13,566,043|245,884|<font color="red">5517.26%</font>|
 
-## Detailed explanation of the [stress test report](https://github.com/daleiyang/LockFreeHashTable/raw/master/CASHashTable/PerfTestingResults.xlsx).
+## [Performance test report](https://github.com/daleiyang/LockFreeHashTable/raw/master/CASHashTable/PerfTestingResults.xlsx) summary
 
 In the next two test groups, the total number of each of the three operations was adjusted so that the 30 processes used in the test ended as simultaneously as possible,  which made the test results in the following screenshots meaningful.
 
-### The test was carried out using randomly selected data, with 10 processes ¡°reading¡±, 10 processes ¡°updating¡± and 10 processes ¡°deleting¡±.
+### 1. The test was carried out using randomly selected data, with 10 processes ¡°reading¡±, 10 processes ¡°updating¡± and 10 processes ¡°deleting¡±.
 
 #### 10 ¡°reading¡± process test results
 
