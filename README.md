@@ -69,12 +69,12 @@ Data is selected at RANDOM. 10 ¡°read¡± processes, 10 ¡°update¡± processes and 1
 #### Test result for 10 ¡°update¡± processes
 
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Update%20Random.jpg)
-- Update Attemps£ºTotal number of ¡°TrySet¡± calls. Each time ¡°TrySet¡±  is called, a random key is selected from the 3 million keys.
-- API Call Elapsed Time£ºThe time consumed by the ¡°TrySet¡± function, excluding the time consumed by other auxiliary logic.
-- Update RPS/Thread£ºNumber of times the "TrySet" function is executed per second.
-- Update API Call Elapsed Time/100,000,000 Attemps£ºTime consumed per 100 million "TrySet" calls.
-- Update Successfully£ºNumber of successful "TrySet".
-- Test Elapsed Time£ºTotal test duration.
+- [Update Attemps]£ºTotal number of ¡°TrySet¡± calls. Each time ¡°TrySet¡±  is called, a random key is selected from the 3 million keys.
+- [API Call Elapsed Time]£ºThe time consumed by the ¡°TrySet¡± function, excluding the time consumed by other auxiliary logic.
+- [Update RPS/Thread]£ºNumber of times the "TrySet" function is executed per second.
+- [Update API Call Elapsed Time/100,000,000 Attemps]£ºTime consumed per 100 million "TrySet" calls.
+- [Update Successfully]£ºNumber of successful "TrySet".
+- [Test Elapsed Time]£ºTotal test duration.
 
 #### Test result for 10 ¡°delete¡± processes
 
