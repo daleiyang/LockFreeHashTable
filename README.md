@@ -61,7 +61,7 @@ Data is selected at RANDOM. 10 “read” processes, 10 “update” processes and 1
 - [Get Successfully]：The number of successful value retrievals.
 - [Get Successfully Percentage]：The number of successful value retrievals as a percentage of the total number of attempts.
 - [Is Deleted]：The number of times the target key has been deleted.
-- [Is Deleted Percentage]：The number of times the target key has been deleted as a percentage of the total number of attempts.。
+- [Is Deleted Percentage]：The number of times the target key has been deleted as a percentage of the total number of attempts.
 - [Result Match]：Data correctness verification ensures that the value obtained is consistent with the original value.
 - [Result Match Percentage]：Percentage of data that is correct.
 - [Test Elapsed Time]：Total test duration.
@@ -79,32 +79,30 @@ Data is selected at RANDOM. 10 “read” processes, 10 “update” processes and 1
 #### Test result for 10 “delete” processes
 
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Delete%20Random.jpg)
-- Delete Attemps：尝试“删除”的总次数。每次调用时在装载的3百万的键值中随机选择一个。
-- API Call Elapsed Time：单纯TryDelete函数调用所消耗时间，排除其他辅助测试逻辑的时间消耗。
-- Delete RPS/Thread：每秒执行的TryDelete函数调用次数。
-- Delete API Call Elapsed Time/100,000,000 Attemps：每1亿次TryDelete调用所消耗的时间。
-- Delete Successfully：删除成功的次数。
-- Delete Successfully Percentage：删除成功次数占总尝试次数的百分比。
-- Is Deleted：目标数据已经删除的次数。
-- Is Deleted Percentage：目标数据已经删除次数占总尝试次数百分比。
-- Test Elapsed Time：测试总用时。
+- [Delete Attemps]：Total number of “TryDelete" calls. Each time “TryDelete”  is called, a random key is selected from the 3 million keys.
+- [API Call Elapsed Time]：The time consumed by the “TryDelete” function, excluding the time consumed by other auxiliary logic.
+- [Delete RPS/Thread]：Number of times the "TryDelete" function is executed per second.
+- [Delete API Call Elapsed Time/100,000,000 Attemps]：Time consumed per 100 million "TryDelete" calls.
+- [Delete Successfully]：Number of successful "TryDelete".
+- [Delete Successfully Percentage]：The number of times the target key has been deleted as a percentage of the total number of attempts.
+- [Is Deleted]：The number of times the target key has been deleted.
+- [Is Deleted Percentage]：The target key has been deleted times as a percentage of the total number of attempts.
+- [Test Elapsed Time]：Total test duration.
 
-### 对同一个数据进行测试，同时10个进程“读取”、10个进程“更新”、10个进程“删除”
+### ### Test Case two:  
+Test on the same key. 10 “read” processes, 10 “update” processes and 10 "delete” processes are started and ended at the same time.
 
-#### 10个“读取”进程测试结果
+#### Test result for 10 “read” processes
 
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Get%20One.jpg)
-每列含义:同上，除了30个测试进程选择同样一条数据进行测试。
 
-#### 10个“更新”进程测试结果
+#### Test result for 10 “update” processes
 
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Update%20One.jpg)
-每列含义:同上，除了30个测试进程选择同样一条数据进行测试。
 
-#### 10个“删除”进程测试结果
+#### Test result for 10 “delete” processes
 
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Delete%20One.jpg)
-每列含义:同上，除了30个测试进程选择同样一条数据进行测试。
 
 ## 源代码说明：
 - CASHashTable工程中的[KeyIn54BitCASHashTableBase.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/CASHashTable/KeyIn54BitCASHashTableBase.cs)是核心代码、基类，代码中提供了详细的注释，解释了每种位运算的原理、对应不同操作(set/update,get,delete)时CAS操作应该出现的位置和原理。
