@@ -49,7 +49,7 @@
 ## Performance test report [[PerfTestingResults.xlsx]](https://github.com/daleiyang/LockFreeHashTable/raw/master/CASHashTable/PerfTestingResults.xlsx) summary
 
 ### Test Case One:  
-### Data is selected at RANDOM. 10 ¡°read¡± processes, 10 ¡°update¡± processes and t0¡°delete¡± processes are started and ended at the same time.
+Data is selected at RANDOM. 10 ¡°read¡± processes, 10 ¡°update¡± processes and 10 "delete¡± processes are started and ended at the same time.
 
 #### Test result for 10 ¡°read¡± processes
 
