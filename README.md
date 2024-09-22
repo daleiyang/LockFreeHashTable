@@ -48,11 +48,11 @@
 
 ## Detailed explanation of the [stress test report](https://github.com/daleiyang/LockFreeHashTable/raw/master/CASHashTable/PerfTestingResults.xlsx).
 
-在下面两组测试中，每组测试中的三种操作的总次数是经过反复调整的，目的是使得测试中使用的30个进程尽量在同一时间结束，这样能够让下面截图中的各种测试结果有意义。
+In the following two test groups, the total number of times each of the three operations in the test was repeated was adjusted so that the 30 processes used in the test ended at the same time as much as possible, which made the various test results in the screenshots below meaningful.
 
-### 随机抽取数据的方式测试，同时10个进程“读取”、10个进程“更新”、10个进程“删除”
+### The test was carried out using randomly selected data, with 10 processes “reading”, 10 processes “updating” and 10 processes “deleting”.
 
-#### 10个“读取”进程测试结果
+#### 10 “reading” process test results
 
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Get%20Random.jpg)
 每列含义:
@@ -118,8 +118,6 @@
 - Test测试工程中的[KeyIn54BitCASHashTableFunctionalTest.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/Test/KeyIn54BitCASHashTableFunctionalTest.cs)是功能测试，包括各种情况下的增删改查的正确性验证。
 
 - Test测试工程中的[KeyIn54BitCASHashTablePerfTest.cs ](https://github.com/daleiyang/LockFreeHashTable/blob/master/Test/KeyIn54BitCASHashTablePerfTest.cs)是压力测试，测试方法和结果分析请参考上面“性能对比结果、压力测试报告”一节的内容。
-
-- 代码中的位运算逻辑和其他逻辑经过了大量反复的测试，没有发现Bug。
 
 ## 使用方法：
 - Utility.cs 中获取数据的SQL字段，可以随机生成key/value测试。
