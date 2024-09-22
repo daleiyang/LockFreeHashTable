@@ -48,9 +48,7 @@
 
 ## Performance test report [[PerfTestingResults.xlsx]](https://github.com/daleiyang/LockFreeHashTable/raw/master/CASHashTable/PerfTestingResults.xlsx) summary
 
-In the next two test groups, the total number of each of the three operations was adjusted so that the 30 processes used in the test ended as simultaneously as possible,  which made the test results in the following screenshots meaningful.
-
-### 1. The test was carried out using randomly selected data, with 10 processes ¡°reading¡±, 10 processes ¡°updating¡± and 10 processes ¡°deleting¡±.
+### 1. Data is selected at RANDOM. 10 ¡°read¡± processes, 10 ¡°update¡± processes and 10 ¡°delete¡± processes. 
 
 #### 10 ¡°reading¡± process test results
 
