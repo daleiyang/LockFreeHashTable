@@ -54,17 +54,17 @@ Data is selected at RANDOM. 10 ¡°read¡± processes, 10 ¡°update¡± processes and 1
 #### Test result for 10 ¡°read¡± processes
 
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Get%20Random.jpg)
-- Get Attemps£ºTotal number of ¡°TryGet¡± calls. Each time ¡°TryGet¡±  is called, a random key is selected from the 3 million keys.
-- API Call Elapsed Time£ºThe time consumed by the ¡°TryGet¡± function, excluding the time consumed by other auxiliary logic.
-- Get RPS/One Thread£ºNumber of times the "TryGet" function is executed per second.
-- Get API Call Elapsed Time/100,000,000 Attemps£ºTime consumed per 100 million "TryGet" calls.
-- Get Successfully£ºThe number of successful value retrievals.
-- Get Successfully Percentage£ºThe number of successful value retrievals as a percentage of the total number of attempts.
-- Is Deleted£ºThe number of times the target key has been deleted.
-- Is Deleted Percentage£ºThe number of times the target key has been deleted as a percentage of the total number of attempts.¡£
-- Result Match£ºData correctness verification ensures that the value obtained is consistent with the original value.
-- Result Match Percentage£ºPercentage of data that is correct.
-- Test Elapsed Time£ºTotal test duration.
+- [Get Attemps]£ºTotal number of ¡°TryGet¡± calls. Each time ¡°TryGet¡±  is called, a random key is selected from the 3 million keys.
+- [API Call Elapsed Time]£ºThe time consumed by the ¡°TryGet¡± function, excluding the time consumed by other auxiliary logic.
+- [Get RPS/One Thread]£ºNumber of times the "TryGet" function is executed per second.
+- [Get API Call Elapsed Time/100,000,000 Attemps]£ºTime consumed per 100 million "TryGet" calls.
+- [Get Successfully]£ºThe number of successful value retrievals.
+- [Get Successfully Percentage]£ºThe number of successful value retrievals as a percentage of the total number of attempts.
+- [Is Deleted]£ºThe number of times the target key has been deleted.
+- [Is Deleted Percentage]£ºThe number of times the target key has been deleted as a percentage of the total number of attempts.¡£
+- [Result Match]£ºData correctness verification ensures that the value obtained is consistent with the original value.
+- [Result Match Percentage]£ºPercentage of data that is correct.
+- [Test Elapsed Time]£ºTotal test duration.
 
 #### Test result for 10 ¡°update¡± processes
 
