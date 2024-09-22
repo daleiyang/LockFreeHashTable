@@ -69,18 +69,16 @@ Data is selected at RANDOM. 10 “read” processes, 10 “update” processes and 1
 #### Test result for 10 “update” processes
 
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Update%20Random.jpg)
-每列含义:
-- Update Attemps：尝试“更新”的总次数。每次调用时在装载的3百万的键值中随机选择一个。
-- API Call Elapsed Time：单纯TrySet函数调用所消耗时间，排除其他辅助测试逻辑的时间消耗。
-- Update RPS/Thread：每秒执行的TrySet函数调用次数。
-- Update API Call Elapsed Time/100,000,000 Attemps：每1亿次TrySet调用所消耗的时间。
-- Update Successfully：更新成功的次数。
-- Test Elapsed Time：测试总用时。
+- Update Attemps：Total number of “TrySet” calls. Each time “TrySet”  is called, a random key is selected from the 3 million keys.
+- API Call Elapsed Time：The time consumed by the “TrySet” function, excluding the time consumed by other auxiliary logic.
+- Update RPS/Thread：Number of times the "TrySet" function is executed per second.
+- Update API Call Elapsed Time/100,000,000 Attemps：Time consumed per 100 million "TrySet" calls.
+- Update Successfully：Number of successful "TrySet".
+- Test Elapsed Time：Total test duration.
 
 #### Test result for 10 “delete” processes
 
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Delete%20Random.jpg)
-每列含义:
 - Delete Attemps：尝试“删除”的总次数。每次调用时在装载的3百万的键值中随机选择一个。
 - API Call Elapsed Time：单纯TryDelete函数调用所消耗时间，排除其他辅助测试逻辑的时间消耗。
 - Delete RPS/Thread：每秒执行的TryDelete函数调用次数。
