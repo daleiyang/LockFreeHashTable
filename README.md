@@ -54,20 +54,19 @@ Data is selected at RANDOM. 10 “read” processes, 10 “update” processes and 1
 #### Test result for 10 “read” processes
 
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Get%20Random.jpg)
-每列含义:
-- Get Attemps：尝试“读取”的总次数。每次调用时在装载的3百万的键值中随机选择一个。
-- API Call Elapsed Time：单纯TryGet函数调用所消耗时间，排除其他辅助测试逻辑的时间消耗。
-- Get RPS/One Thread：每秒执行的TryGet函数调用次数。
-- Get API Call Elapsed Time/100,000,000 Attemps：每1亿次TryGet调用所消耗的时间。
-- Get Successfully：成功取到值的次数。
-- Get Successfully Percentage：成功取到值的次数占总尝试次数的百分比。
-- Is Deleted：目标数据已经删除的次数。
-- Is Deleted Percentage：目标数据已经删除次数占总尝试次数百分比。
-- Result Match：数据正确性验证，确保取到的值和原始值一致。
-- Result Match Percentage：数据正确性百分比。
-- Test Elapsed Time：测试总用时。
+- Get Attemps：Total number of “TryGet” calls. Each time “TryGet”  is called, a random key is selected from the 3 million keys.
+- API Call Elapsed Time：The time consumed by the “TryGet” function, excluding the time consumed by other auxiliary logic.
+- Get RPS/One Thread：Number of times the "TryGet" function is executed per second.
+- Get API Call Elapsed Time/100,000,000 Attemps：Time consumed per 100 million "TryGet" calls.
+- Get Successfully：The number of successful value retrievals.
+- Get Successfully Percentage：The number of successful value retrievals as a percentage of the total number of attempts.
+- Is Deleted：The number of times the target key has been deleted.
+- Is Deleted Percentage：The number of times the target key has been deleted as a percentage of the total number of attempts.。
+- Result Match：Data correctness verification ensures that the value obtained is consistent with the original value.
+- Result Match Percentage：Percentage of data that is correct.
+- Test Elapsed Time：Total test duration.
 
-#### 10个“更新”进程测试结果
+#### Test result for 10 “update” processes
 
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Update%20Random.jpg)
 每列含义:
@@ -78,7 +77,7 @@ Data is selected at RANDOM. 10 “read” processes, 10 “update” processes and 1
 - Update Successfully：更新成功的次数。
 - Test Elapsed Time：测试总用时。
 
-#### 10个“删除”进程测试结果
+#### Test result for 10 “delete” processes
 
 ![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Delete%20Random.jpg)
 每列含义:
