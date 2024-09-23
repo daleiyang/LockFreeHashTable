@@ -41,7 +41,7 @@
 - 30 threads are started simultaneously. 10 are used to randomly get a record, 10 are used to randomly update a record, and 10 are used to randomly delete a record.
 
 |Operation|Lock-Free Hash Table (operations per second)|.Net Concurrent Dictionary (operations per second)|Performance Improvement|
-|:----------|-----------|-----------|----------:|
+|:----------|----------:|----------:|----------:|
 |Get|7,113,400|1,681,929|<font color="red">422.93%</font>|
 |Add/Update|8,927,004|240,321|<font color="red">3714.61%</font>|
 |Delete|13,566,043|245,884|<font color="red">5517.26%</font>|
