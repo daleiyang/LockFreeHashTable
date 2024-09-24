@@ -49,7 +49,8 @@
 ## Performance test report [[PerfTestingResults.xlsx]](https://github.com/daleiyang/LockFreeHashTable/raw/master/CASHashTable/PerfTestingResults.xlsx) summary
 
 ### Test Case One:  
-Data is selected at RANDOM. 10 ¡°read¡± processes, 10 ¡°update¡± processes and 10 "delete¡± processes are started and ended at the same time.
+A key is randomly selected for each call across all processes.
+10 ¡°read¡± processes, 10 ¡°update¡± processes and 10 "delete¡± processes are started and ended at the same time.
 
 #### Test result for 10 ¡°read¡± processes
 
@@ -90,7 +91,8 @@ Data is selected at RANDOM. 10 ¡°read¡± processes, 10 ¡°update¡± processes and 1
 - [Test Elapsed Time]£ºTotal test duration.
 
 ### ### Test Case two:  
-30 processes compete for the same key. 10 ¡°read¡± processes, 10 ¡°update¡± processes and 10 "delete¡± processes are started and ended at the same time.
+All processes select the same key on every call.
+10 ¡°read¡± processes, 10 ¡°update¡± processes and 10 "delete¡± processes are started and ended at the same time.
 
 #### Test result for 10 ¡°read¡± processes
 
