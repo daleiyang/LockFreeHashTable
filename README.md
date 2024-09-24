@@ -90,7 +90,7 @@ Data is selected at RANDOM. 10 ¡°read¡± processes, 10 ¡°update¡± processes and 1
 - [Test Elapsed Time]£ºTotal test duration.
 
 ### ### Test Case two:  
-Test on the same key. 10 ¡°read¡± processes, 10 ¡°update¡± processes and 10 "delete¡± processes are started and ended at the same time.
+30 processes compete for the same key. 10 ¡°read¡± processes, 10 ¡°update¡± processes and 10 "delete¡± processes are started and ended at the same time.
 
 #### Test result for 10 ¡°read¡± processes
 
