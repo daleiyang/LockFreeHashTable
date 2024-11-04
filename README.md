@@ -10,9 +10,9 @@
 ## Data Structure
 - The key value in the hash table is a 64-bit integer:
 - 54 bytes are reserved for the business logic to set the real key value; 
-- 1 byte is used to mark whether the writer has obtained an exclusive lock; 
+- 1 byte is used to mark whether the "writer" has obtained an exclusive lock; 
 - 1 byte is used to mark whether this record has been deleted or not; 
-- 8 byte are used to record the number of readers. 
+- 8 byte are used to record the number of "readers". 
 
 ![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/DataStructure.png)
 
@@ -27,7 +27,7 @@
 ## Algorithms
 - The TrySet, TryGet and TryDelete functions in [KeyIn54BitCASHashTable.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/CASHashTable/KeyIn54BitCASHashTable.cs) are the entry points.
 - [KeyIn54BitCASHashTableBase.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/CASHashTable/KeyIn54BitCASHashTableBase.cs)  contains detailed comments explaining the principles of each bit operation and how to use the CAS API to read, add, update, and delete data.
-- The ¡°do... . while¡± loop in the figure below is a typical CAS API usage. 
+- The "do... . while" loop in the figure below is a typical CAS API usage. 
 
 ![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/CAS.png)
 
