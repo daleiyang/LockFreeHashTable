@@ -1,3 +1,8 @@
+## How To Use
+- git clone https://github.com/daleiyang/LockFreeHashTable
+- Open solution, execute the unit tests.
+![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/ut.jpg)
+
 ## Conclusions
 - If you can combine the required keys into a 64-bit integer, using .Net's Concurrent Dictionary is a good option.
 - The following content is used for demonstrating coding capabilities, unit testing, and performance testing.
