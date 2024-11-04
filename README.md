@@ -1,9 +1,4 @@
-# Lock-Free Hash Table / CAS Hash Table / 无锁哈希表
-
-## 背景
-- 在公众号“大数据文摘”上看到[《史上最强算法论战：请不要嘻哈，这是哈希》](https://cloud.tencent.com/developer/article/1130969)一文，了解到了“上海证券交易所”的“证券交易系统”使用的核心数据结构和算法。
-- 2010年起，上交所一直使用这套核心算法，即使面对2015年牛市行情、呈爆炸式增长的每日过万亿的交易量，系统依旧平稳运行。
-- 我使用C#做了一份实现，并且应用在了MS的短链接服务的预生产环境中。
+# Lock-Free Hash Table / CAS Hash Table 
 
 ## Background
 - Saw an [article](https://cloud.tencent.com/developer/article/1130969) outlining the core data structures and algorithms used in the Shanghai Stock Exchange's securities trading system.
