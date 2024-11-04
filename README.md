@@ -1,6 +1,6 @@
 ## Conclusion
 - If you can concatenate the required key values into a int64, using .Net's Concurrent Dictionary is a good choice.
-- The following content is only for demonstrating code implementation, unit testing, and performance testing.
+- The following content is only used for demonstrating code capabilities, unit testing, and performance testing.
 
 ## Background
 - Saw an [article](https://cloud.tencent.com/developer/article/1130969) outlining the core data structures and algorithms used in the Shanghai Stock Exchange's securities trading system.
