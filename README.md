@@ -32,7 +32,7 @@
 - [KeyIn54BitCASHashTableBase.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/CASHashTable/KeyIn54BitCASHashTableBase.cs)  contains detailed comments explaining the principles of each bit operation and how to use the CAS API to read, add, update, and delete data.
 - The ¡°do... . while¡± loop in the figure below is a typical CAS API usage. 
 
-![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/CAS.png)
+![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/CAS.png)
 
 ## Performance
 - Envrionment: Dell Z440 work station, 16 GB memory, 8 core CPU; 
