@@ -1,11 +1,11 @@
-## Conclusion
+## Conclusions
 - If you can combine the required keys into a int64, using .Net's Concurrent Dictionary is a good option.
 - The following content is used for demonstrating coding capabilities, unit testing, and performance testing.
 
 ## Background
 - Saw an [article](https://cloud.tencent.com/developer/article/1130969) outlining the core data structures and algorithms used in the Shanghai Stock Exchange's securities trading system.
 - Since 2010, the Shanghai Stock Exchange has been using this core algorithm, and even in the face of the bull market in 2015 and the explosive growth of daily trading volume exceeding one trillion RMB, the system has continued to operate smoothly.
-- Implemented it in C# and applied it to a pre-production environment for the MS short link service.
+- Implemented in C# as a candidate solution for Microsoft's short link service.
 
 ## Data Structure
 - The key value in the hash table is a 64-bit integer:
