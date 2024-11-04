@@ -38,9 +38,9 @@
 
 ![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/perf.jpg)
 
-## Test Code
+## Test Project
 - [KeyIn54BitCASHashTableFunctionalTest.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/Test/KeyIn54BitCASHashTableFunctionalTest.cs) in the test project is a unit test that includes the verification of the correctness of addition, deletion, modification, and query in various situations.
 
-- [KeyIn54BitCASHashTablePerfTest.cs ](https://github.com/daleiyang/LockFreeHashTable/blob/master/Test/KeyIn54BitCASHashTablePerfTest.cs) is a stress test. For the test method and result analysis, please refer to the section ¡°Performance Test Report¡± above.
+- [KeyIn54BitCASHashTablePerfTest.cs ](https://github.com/daleiyang/LockFreeHashTable/blob/master/Test/KeyIn54BitCASHashTablePerfTest.cs) is a preformance test for lock-free hash table. For the test method and result analysis, please refer to the section ¡°Performance Test Report¡± above.
 
-- [ConcurrentDictionaryPerfTesting.cs ](https://github.com/daleiyang/LockFreeHashTable/blob/master/Test/ConcurrentDictionaryPerfTesting.cs) is a stress test. For the test method and result analysis, please refer to the section ¡°Performance Test Report¡± above.
+- [ConcurrentDictionaryPerfTesting.cs ](https://github.com/daleiyang/LockFreeHashTable/blob/master/Test/ConcurrentDictionaryPerfTesting.cs) is a preformance test for .Net Concurrent Dictionary. For the test method and result analysis, please refer to the section ¡°Performance Test Report¡± above.
