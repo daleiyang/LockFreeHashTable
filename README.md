@@ -1,6 +1,8 @@
 ## How To Use
 - git clone https://github.com/daleiyang/LockFreeHashTable
-- Open solution, execute the unit tests.
+- Open solution "CASHashTable.sln", execute the unit tests.
+- Environment: VS 2022 and .NET 4.8
+
 ![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/ut.jpg)
 
 ## Conclusions
