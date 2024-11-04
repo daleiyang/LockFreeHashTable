@@ -34,19 +34,9 @@
 
 ![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/CAS.png)
 
-## Performance
-- Envrionment: Dell Z440 work station, 16 GB memory, 8 core CPU; 
-- Hash table setting: key is int64, value is 256 byte array.
-- Loads 3 million key-value pairs into a lock-free hash table in 4 seconds using a single process.
-- 30 threads are started simultaneously. 10 are used to randomly get a record, 10 are used to randomly update a record, and 10 are used to randomly delete a record.
+## Performance Test Report [[PerformanceReport.xlsx]](https://github.com/daleiyang/LockFreeHashTable/raw/refs/heads/master/PerformanceReport.xlsx) 
 
-|Operation|Lock-Free Hash Table (operations per second)|.Net Concurrent Dictionary (operations per second)|Comparison|
-|:----------|----------:|----------:|----------:|
-|Get|7,113,400|1,681,929|<font color="red">4.2X</font>|
-|Add/Update|8,927,004|240,321|<font color="red">37.1X</font>|
-|Delete|13,566,043|245,884|<font color="red">55.2X</font>|
-
-## Performance test report [[PerfTestingResults.xlsx]](https://github.com/daleiyang/LockFreeHashTable/raw/master/CASHashTable/PerfTestingResults.xlsx) summary
+![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/perf.png)
 
 ### Test Case One:  
 - A key is randomly selected for each call across all processes.
