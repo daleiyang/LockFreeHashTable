@@ -22,7 +22,7 @@
 - The combination of linkId, clcId, sbp in the figure above becomes the key value of the business logic, with a size of 54 bytes.
 - The code in the figure below is the process of generating a 54-byte key value based on business logic, refer to [KeyIn54BitCASHashTable.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/CASHashTable/KeyIn54BitCASHashTable.cs).
 
-![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/KeyGen.png)
+![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/KeyGen.png)
 
 - In securities trading system, the value is 64-bit integer instead of 256 byte array in my demo. For performance reasons, 64-bit integers are the most efficient choice.
 - According to the number of keys in the business logic, select a prime number as the length of the hash table so that the load factor is 0.5. This can control the average number of hash table lookups to 1.1.
