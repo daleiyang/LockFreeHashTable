@@ -36,7 +36,7 @@
 
 ## Performance Test Report [[PerformanceReport.xlsx]](https://github.com/daleiyang/LockFreeHashTable/raw/refs/heads/master/PerformanceReport.xlsx) 
 
-![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/perf.png)
+![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/perf.jpg)
 
 ### Test Case One:  
 - A key is randomly selected for each call across all processes.
