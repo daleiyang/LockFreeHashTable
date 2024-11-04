@@ -38,65 +38,9 @@
 
 ![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/perf.jpg)
 
-### Test Case One:  
-- A key is randomly selected for each call across all processes.
-- 10 ¡°read¡± processes, 10 ¡°update¡± processes and 10 "delete¡± processes are started and ended at the same time.
-
-#### Test result for 10 ¡°read¡± processes
-
-![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Get%20Random.jpg)
-- [Get Attemps]£ºTotal number of ¡°TryGet¡± calls. Each time ¡°TryGet¡±  is called, a random key is selected from the 3 million keys.
-- [API Call Elapsed Time]£ºThe time consumed by the ¡°TryGet¡± function, excluding the time consumed by other auxiliary logic.
-- [Get RPS/One Thread]£ºNumber of times the "TryGet" function is executed per second.
-- [Get API Call Elapsed Time/100,000,000 Attemps]£ºTime consumed per 100 million "TryGet" calls.
-- [Get Successfully]£ºThe number of successful value retrievals.
-- [Get Successfully Percentage]£ºThe number of successful value retrievals as a percentage of the total number of attempts.
-- [Is Deleted]£ºThe number of times the target key has been deleted.
-- [Is Deleted Percentage]£ºThe number of times the target key has been deleted as a percentage of the total number of attempts.
-- [Result Match]£ºData correctness verification ensures that the value obtained is consistent with the original value.
-- [Result Match Percentage]£ºPercentage of data that is correct.
-- [Test Elapsed Time]£ºTotal test duration.
-
-#### Test result for 10 ¡°update¡± processes
-
-![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Update%20Random.jpg)
-- [Update Attemps]£ºTotal number of ¡°TrySet¡± calls. Each time ¡°TrySet¡±  is called, a random key is selected from the 3 million keys.
-- [API Call Elapsed Time]£ºThe time consumed by the ¡°TrySet¡± function, excluding the time consumed by other auxiliary logic.
-- [Update RPS/Thread]£ºNumber of times the "TrySet" function is executed per second.
-- [Update API Call Elapsed Time/100,000,000 Attemps]£ºTime consumed per 100 million "TrySet" calls.
-- [Update Successfully]£ºNumber of successful "TrySet".
-- [Test Elapsed Time]£ºTotal test duration.
-
-#### Test result for 10 ¡°delete¡± processes
-
-![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Delete%20Random.jpg)
-- [Delete Attemps]£ºTotal number of ¡°TryDelete" calls. Each time ¡°TryDelete¡±  is called, a random key is selected from the 3 million keys.
-- [API Call Elapsed Time]£ºThe time consumed by the ¡°TryDelete¡± function, excluding the time consumed by other auxiliary logic.
-- [Delete RPS/Thread]£ºNumber of times the "TryDelete" function is executed per second.
-- [Delete API Call Elapsed Time/100,000,000 Attemps]£ºTime consumed per 100 million "TryDelete" calls.
-- [Delete Successfully]£ºNumber of successful "TryDelete".
-- [Delete Successfully Percentage]£ºThe number of times the target key has been deleted as a percentage of the total number of attempts.
-- [Is Deleted]£ºThe number of times the target key has been deleted.
-- [Is Deleted Percentage]£ºThe target key has been deleted times as a percentage of the total number of attempts.
-- [Test Elapsed Time]£ºTotal test duration.
-
-### ### Test Case two:  
-- All processes select the same key on every call.
-- 10 ¡°read¡± processes, 10 ¡°update¡± processes and 10 "delete¡± processes are started and ended at the same time.
-
-#### Test result for 10 ¡°read¡± processes
-
-![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Get%20One.jpg)
-
-#### Test result for 10 ¡°update¡± processes
-
-![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Update%20One.jpg)
-
-#### Test result for 10 ¡°delete¡± processes
-
-![alt tag](https://github.com/daleiyang/LockFreeHashTable/raw/master/Delete%20One.jpg)
-
 ## Test Code
-- [KeyIn54BitCASHashTableFunctionalTest.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/Test/KeyIn54BitCASHashTableFunctionalTest.cs) in the test project is a functional test that includes the verification of the correctness of addition, deletion, modification, and query in various situations.
+- [KeyIn54BitCASHashTableFunctionalTest.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/Test/KeyIn54BitCASHashTableFunctionalTest.cs) in the test project is a unit test that includes the verification of the correctness of addition, deletion, modification, and query in various situations.
 
-- [KeyIn54BitCASHashTablePerfTest.cs ](https://github.com/daleiyang/LockFreeHashTable/blob/master/Test/KeyIn54BitCASHashTablePerfTest.cs) is a stress test. For the test method and result analysis, please refer to the section ¡°Performance test report summary¡± above.
+- [KeyIn54BitCASHashTablePerfTest.cs ](https://github.com/daleiyang/LockFreeHashTable/blob/master/Test/KeyIn54BitCASHashTablePerfTest.cs) is a stress test. For the test method and result analysis, please refer to the section ¡°Performance Test Report¡± above.
+
+- [ConcurrentDictionaryPerfTesting.cs ](https://github.com/daleiyang/LockFreeHashTable/blob/master/Test/ConcurrentDictionaryPerfTesting.cs) is a stress test. For the test method and result analysis, please refer to the section ¡°Performance Test Report¡± above.
