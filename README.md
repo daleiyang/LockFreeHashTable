@@ -1,5 +1,5 @@
 ## Conclusion
-- If you can combine the required keys into a long integer, using .Net's Concurrent Dictionary
+- If you can combine the required keys into a int64, using .Net's Concurrent Dictionary
 - The following content is only used for demonstrating code capabilities, unit testing, and performance testing.
 
 ## Background
