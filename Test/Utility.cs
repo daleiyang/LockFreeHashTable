@@ -1,160 +1,36 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Data.SqlClient;
-using CAS;
 using System.Text;
+using System.Data.SqlClient;
+using System.Linq;
 
 namespace Test
 {
     class Utility
     {
-        public static async Task<List<Record>> GetData()
+        public static List<Record> GetData(int cnt)
         {
-            string connectionString = "Data Source=tcp:XXXXX;Initial Catalog=XXXXX;User ID=XXXXX;Password=XXXXX;Trusted_Connection=False;Encrypt=True;Connection Timeout=3600";
-            string query = " SELECT Top 2000 LinkId, CLCID, SBP, MAX(URL) AS URL " +
-                           " FROM (" +
-                           " SELECT LinkId, CLCID," +
-                           " CASE " +
-                           "    WHEN LEFT(SBP, 3) = 'pc=' THEN SBP " +
-                           "    ELSE '''' " +
-                           " END AS SBP, " +
-                           " URL " +
-                           " FROM [dbo].[Links] WHERE deleted = 0 ) AS  A " +
-                           " GROUP BY LinkId, CLCID, SBP";
-
             var result = new List<Record>();
+            var ran = new Random();
+            var u8 = Encoding.UTF8;
+            int linkId = 1;
+            int clcId = 1;
+            int sbp = 1;
 
-            try
+            for (int i = 0; i < cnt; i++)
             {
-                using (var conn = new SqlConnection(connectionString))
+                result.Add(new Record
                 {
-                    conn.Open();
-                    var command = new SqlCommand(query, conn);
-                    command.CommandTimeout = 0;
-                    var reader = await command.ExecuteReaderAsync();
-                    HashSet<string> cl;
-                    var u8 = Encoding.UTF8;
+                    linkId = linkId % 4194303,
+                    clcId = clcId % 262143,
+                    sbp = sbp % 16383,
+                    url = u8.GetBytes("http://www.microsoft.com/abc.asp")
+                });
 
-                    if (reader.HasRows)
-                    {
-                        cl = Utilities.GetColumnNames(reader);
-                        while (reader.Read())
-                        {
-                            result.Add(new Record{
-                                linkId = reader.GetLong("LinkId", columnList: cl),
-                                clcId = reader.GetInt("CLCID", columnList: cl),
-                                sbp = reader.GetString("SBP", columnList: cl),
-                                url = u8.GetBytes(reader.GetString("URL", columnList: cl))
-                            });
-                        }
-                    }
-                }
+                linkId++; clcId++; sbp++;
             }
-            catch (AggregateException ae)
-            {
-                throw ae.InnerException;
-            }
-            return result;
-        }
 
-        public static async Task<List<RecordString>> GetDataString()
-        {
-            string connectionString = "Data Source=tcp:XXXXX;Initial Catalog=XXXXX;User ID=XXXXX;Password=XXXXX;Trusted_Connection=False;Encrypt=True;Connection Timeout=3600";
-            string query = " SELECT  Top 2000 LinkId, CLCID, SBP, MAX(URL) AS URL " +
-                           " FROM (" +
-                           " SELECT LinkId, CLCID," +
-                           " CASE " +
-                           "    WHEN LEFT(SBP, 3) = 'pc=' THEN SBP " +
-                           "    ELSE '''' " +
-                           " END AS SBP, " +
-                           " URL " +
-                           " FROM [dbo].[Links] WHERE deleted = 0 ) AS  A " +
-                           " GROUP BY LinkId, CLCID, SBP";
-
-            var result = new List<RecordString>();
-
-            try
-            {
-                using (var conn = new SqlConnection(connectionString))
-                {
-                    conn.Open();
-                    var command = new SqlCommand(query, conn);
-                    command.CommandTimeout = 0;
-                    var reader = await command.ExecuteReaderAsync();
-                    HashSet<string> cl;
-
-                    if (reader.HasRows)
-                    {
-                        cl = Utilities.GetColumnNames(reader);
-                        while (reader.Read())
-                        {
-                            result.Add(new RecordString
-                            {
-                                linkId = reader.GetLong("LinkId", columnList: cl),
-                                clcId = reader.GetInt("CLCID", columnList: cl),
-                                sbp = reader.GetString("SBP", columnList: cl),
-                                url = reader.GetString("URL", columnList: cl)
-                            });
-                        }
-                    }
-                }
-            }
-            catch (AggregateException ae)
-            {
-                throw ae.InnerException;
-            }
-            return result;
-        }
-
-        public static async Task<ArrayList> GetDataArrayList()
-        {
-            string connectionString = "Data Source=tcp:XXXXX;Initial Catalog=XXXXX;User ID=XXXXX;Password=XXXXX;Trusted_Connection=False;Encrypt=True;Connection Timeout=3600";
-            string query = " SELECT  Top 2000 LinkId, CLCID, SBP, MAX(URL) AS URL " +
-                           " FROM (" +
-                           " SELECT LinkId, CLCID," +
-                           " CASE " +
-                           "    WHEN LEFT(SBP, 3) = 'pc=' THEN SBP " +
-                           "    ELSE '''' " +
-                           " END AS SBP, " +
-                           " URL " +
-                           " FROM [dbo].[Links] WHERE deleted = 0 ) AS  A " +
-                           " GROUP BY LinkId, CLCID, SBP";
-
-            var result = new ArrayList();
-
-            try
-            {
-                using (var conn = new SqlConnection(connectionString))
-                {
-                    conn.Open();
-                    var command = new SqlCommand(query, conn);
-                    command.CommandTimeout = 0;
-                    var reader = await command.ExecuteReaderAsync();
-                    HashSet<string> cl;
-                    var u8 = Encoding.UTF8;
-
-                    if (reader.HasRows)
-                    {
-                        cl = Utilities.GetColumnNames(reader);
-                        while (reader.Read())
-                        {
-                            result.Add(new Record
-                            {
-                                linkId = reader.GetLong("LinkId", columnList: cl),
-                                clcId = reader.GetInt("CLCID", columnList: cl),
-                                sbp = reader.GetString("SBP", columnList: cl),
-                                url = u8.GetBytes(reader.GetString("URL", columnList: cl))
-                            });
-                        }
-                    }
-                }
-            }
-            catch (AggregateException ae)
-            {
-                throw ae.InnerException;
-            }
             return result;
         }
     }
@@ -163,15 +39,16 @@ namespace Test
     {
         public long linkId;
         public long clcId;
-        public string sbp;
+        public long sbp;
         public byte[] url;
     }
 
-    public struct RecordString
+
+    public static class Extensions
     {
-        public long linkId;
-        public long clcId;
-        public string sbp;
-        public string url;
+        public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> src)
+        {
+            return src ?? Enumerable.Empty<T>();
+        }
     }
 }

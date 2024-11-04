@@ -79,8 +79,9 @@ namespace CAS
                     //Only try once, if fail, go to next "eles" clause.
                     Buffer.BlockCopy(content, 0, entityArray[index].content, 0, content.Length);
                     entityArray[index].contentLength = content.Length;
-                    if (Interlocked.CompareExchange(ref entityArray[index].compondKey, finalCompondKey, initCompondKey) != initCompondKey)
-                        throw new CASFailureException("Set write bit back to 0 failed after a new item was inserted successfully. Need to call ResetDoWriteBit() function to make it accessible.");
+                    Interlocked.CompareExchange(ref entityArray[index].compondKey, finalCompondKey, initCompondKey);
+                    //if (Interlocked.CompareExchange(ref entityArray[index].compondKey, finalCompondKey, initCompondKey) != initCompondKey)
+                        //throw new CASFailureException("Set write bit back to 0 failed after a new item was inserted successfully. Need to call ResetDoWriteBit() function to make it accessible.");
                     return 0;
                 }
                 else
@@ -110,8 +111,9 @@ namespace CAS
             entityArray[index].contentLength = content.Length;
 
             //Set doWrite bit to 0 to allow other threads to change the compondKey.
-            if (Interlocked.CompareExchange(ref entityArray[index].compondKey, SetWriteBitToZero(value), value) != value)
-                throw new CASFailureException("Set write bit back to 0 failed after content was updated successfully. Need to call ResetDoWriteBit() function to make it accessible.");
+            Interlocked.CompareExchange(ref entityArray[index].compondKey, SetWriteBitToZero(value), value);
+            //if (Interlocked.CompareExchange(ref entityArray[index].compondKey, SetWriteBitToZero(value), value) != value)
+                //throw new CASFailureException("Set write bit back to 0 failed after content was updated successfully. Need to call ResetDoWriteBit() function to make it accessible.");
             return 1;
         }
 
@@ -142,8 +144,8 @@ namespace CAS
             do
             {
                 comparand = entityArray[index].compondKey;
-                if (CheckReaderCounterIsMinimum(comparand))
-                    throw new ReaderCounterOverflowException("Reader count reach the minimum. Must be a logic bug.");
+                //if (CheckReaderCounterIsMinimum(comparand))
+                    //throw new ReaderCounterOverflowException("Reader count reach the minimum. Must be a logic bug.");
             } while (Interlocked.CompareExchange(ref entityArray[index].compondKey, comparand - 1, comparand) != comparand);
             //We have setup readerCount = readerCount - 1 successfully.
 

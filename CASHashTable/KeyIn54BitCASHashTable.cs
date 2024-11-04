@@ -10,9 +10,10 @@ namespace CAS
 
         public int TrySet(long linkId, long clcId, long sbp, byte[] content)
         {
-            if (linkId < 1 || linkId > 4194303) throw new ArgumentOutOfRangeException("linkId");
-            if (clcId < 1 || clcId > 262143) throw new ArgumentOutOfRangeException("clcId");
-            if (sbp < 1 || sbp > 16383) throw new ArgumentOutOfRangeException("sbp");
+            if (linkId < 0 || linkId > 4194303) throw new ArgumentOutOfRangeException("linkId");
+            if (clcId < 0 || clcId > 262143) throw new ArgumentOutOfRangeException("clcId");
+            if (sbp < 0 || sbp > 16383) throw new ArgumentOutOfRangeException("sbp");
+            if (linkId == 0 && clcId == 0 && sbp == 0) throw new ArgumentOutOfRangeException("KeyIsZero Error. Must > 0.");
             if (content == null) throw new ArgumentNullException("contentLength");
             if (content.Length > base.ContentLength) throw new ArgumentOutOfRangeException("contentLength");
 
@@ -21,25 +22,26 @@ namespace CAS
 
         public int TryGet(long linkId, long clcId, long sbp, out byte[] output)
         {
-            if (linkId < 1 || linkId > 4194303) throw new ArgumentOutOfRangeException("linkId");
-            if (clcId < 1 || clcId > 262143) throw new ArgumentOutOfRangeException("clcId");
-            if (sbp < 1 || sbp > 16383) throw new ArgumentOutOfRangeException("sbp");
+            if (linkId < 0 || linkId > 4194303) throw new ArgumentOutOfRangeException("linkId");
+            if (clcId < 0 || clcId > 262143) throw new ArgumentOutOfRangeException("clcId");
+            if (sbp < 0 || sbp > 16383) throw new ArgumentOutOfRangeException("sbp");
+            if (linkId == 0 && clcId == 0 && sbp == 0) throw new ArgumentOutOfRangeException("KeyIsZero Error. Must > 0.");
+            
             output = null;
-
             return base.TryGet(GenerateKey(linkId, clcId, sbp), out output);
         }
 
         public int TryDelete(long linkId, long clcId, long sbp)
         {
-
-            if (linkId < 1 || linkId > 4194303) throw new ArgumentOutOfRangeException("linkId");
-            if (clcId < 1 || clcId > 262143) throw new ArgumentOutOfRangeException("clcId");
-            if (sbp < 1 || sbp > 16383) throw new ArgumentOutOfRangeException("sbp");
+            if (linkId < 0 || linkId > 4194303) throw new ArgumentOutOfRangeException("linkId");
+            if (clcId < 0 || clcId > 262143) throw new ArgumentOutOfRangeException("clcId");
+            if (sbp < 0 || sbp > 16383) throw new ArgumentOutOfRangeException("sbp");
+            if (linkId == 0 && clcId == 0 && sbp == 0) throw new ArgumentOutOfRangeException("KeyIsZero Error. Must > 0.");
 
             return base.TryDelete(GenerateKey(linkId, clcId, sbp));
         }
 
-        public virtual long GenerateKey(long linkId, long clcId, long sbp)
+        public long GenerateKey(long linkId, long clcId, long sbp)
         {
             return (linkId << 42) | (clcId << 24) | (sbp << 10);
         }

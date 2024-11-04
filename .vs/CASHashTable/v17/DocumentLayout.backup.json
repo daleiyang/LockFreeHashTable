@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Dalei\\\u7B80\u5386\\\u4EE5\u5F80\u9879\u76EE\\LockFreeHashTable\\LockFreeHashTable\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{D9934F00-4679-4862-8B71-3AA0EC397CA4}|Test\\Test.csproj|c:\\dalei\\\u7B80\u5386\\\u4EE5\u5F80\u9879\u76EE\\lockfreehashtable\\lockfreehashtable\\test\\concurrentdictionaryperftesting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9934F00-4679-4862-8B71-3AA0EC397CA4}|Test\\Test.csproj|solutionrelative:test\\concurrentdictionaryperftesting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ConcurrentDictionaryPerfTesting.cs",
+              "DocumentMoniker": "C:\\Dalei\\\u7B80\u5386\\\u4EE5\u5F80\u9879\u76EE\\LockFreeHashTable\\LockFreeHashTable\\Test\\ConcurrentDictionaryPerfTesting.cs",
+              "RelativeDocumentMoniker": "Test\\ConcurrentDictionaryPerfTesting.cs",
+              "ToolTip": "C:\\Dalei\\\u7B80\u5386\\\u4EE5\u5F80\u9879\u76EE\\LockFreeHashTable\\LockFreeHashTable\\Test\\ConcurrentDictionaryPerfTesting.cs",
+              "RelativeToolTip": "Test\\ConcurrentDictionaryPerfTesting.cs",
+              "ViewState": "AgIAALsAAAAAAAAAAAAkwC0BAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-03T22:58:10.591Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
