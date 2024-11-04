@@ -1,5 +1,5 @@
 ## Conclusions
-- If you can combine the required keys into a int64, using .Net's Concurrent Dictionary is a good option.
+- If you can combine the required keys into a 64-bit integer, using .Net's Concurrent Dictionary is a good option.
 - The following content is used for demonstrating coding capabilities, unit testing, and performance testing.
 
 ## Background
