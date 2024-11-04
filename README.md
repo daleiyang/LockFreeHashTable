@@ -10,9 +10,9 @@
 ## Data Structure
 - The key value in the hash table is a 64-bit integer:
 - 54 bytes are reserved for the business logic to set the real key value; 
-- 1 byte is used to mark whether the ¡°writer¡± has obtained an exclusive lock; 
+- 1 byte is used to mark whether the writer has obtained an exclusive lock; 
 - 1 byte is used to mark whether this record has been deleted or not; 
-- 8 byte are used to record the number of ¡°readers¡±. 
+- 8 byte are used to record the number of readers. 
 
 ![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/DataStructure.png)
 
