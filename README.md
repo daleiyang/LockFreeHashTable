@@ -17,7 +17,7 @@
 - 1 byte is used to mark whether this record has been deleted or not; 
 - 8 byte are used to record the number of ¡°readers¡±. 
 
-![alt tag](https://github.com/daleiyang/LockFreeHashTable/Images/raw/master/DataStructure.png)
+![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/DataStructure.png)
 
 - The combination of linkId, clcId, sbp in the figure above becomes the key value of the business logic, with a size of 54 bytes.
 - The code in the figure below is the process of generating a 54-byte key value based on business logic, refer to [KeyIn54BitCASHashTable.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/CASHashTable/KeyIn54BitCASHashTable.cs).
