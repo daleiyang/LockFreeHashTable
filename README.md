@@ -1,3 +1,14 @@
+## How To Use This Demo
+- Environment: VS 2022 or VS Code, .NET 8.0, Docker Desktop.
+- git clone https://github.com/daleiyang/LockFreeHashTable
+- Open local floder "LockFreeHashTable" with VS Code.
+- Start a Terminal and execute: " docker compose up --build ".
+- If everthings goes just fine, you will see four microservice are deployed in docker desktop.
+
+![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/1.jpg)
+
+![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/2.jpg)
+
 ## How To Use
 - git clone https://github.com/daleiyang/LockFreeHashTable
 - Open solution "CASHashTable.sln", execute the unit tests.
