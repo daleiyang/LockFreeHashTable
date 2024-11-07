@@ -1,4 +1,4 @@
-# Technology showcase: microservices, docker compose, event-driven architecture with RabbitMQ, RESTful WebApi and my implimentation of lock-free hash table as a in-memory cache, Unit test, Performance test.
+# Technology showcase: microservices, docker compose, event-driven architecture with RabbitMQ, REST WebApi and my implimentation of lock-free hash table as a in-memory cache, unit test, performance test.
 
 ## How To Use
 - Environment: VS Code, .NET 8.0, Docker Desktop, RabbitMQ.Client 7.0
