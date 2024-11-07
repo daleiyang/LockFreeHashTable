@@ -20,6 +20,8 @@
 
 ![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/4.jpg)
 
+- $${\color{red}4.}$$
+
 # Lock-Free Hash Table
 
 ## How To Use 
