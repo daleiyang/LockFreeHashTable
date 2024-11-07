@@ -14,10 +14,11 @@
 
 ![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/2.jpg)
 
-## How To Use
+# Design, implementation and testing of a Lock-Free Hash Table
+## How To Use 
 - git clone https://github.com/daleiyang/LockFreeHashTable
 - Open solution "CASHashTable.sln", execute the unit tests.
-- Environment: VS 2022 and .NET 4.8
+- Environment: VS 2022 and .NET 8.0
 
 ![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/ut.jpg)
 
