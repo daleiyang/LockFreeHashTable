@@ -1,7 +1,7 @@
-# Technology showcase: microservices, event-driven architecture, docker compose, Rabbitmq RPC, RESTful WebApi and lock-free hash tables.
+# Technology showcase: microservices, docker compose, event-driven architecture with Rabbitmq, RESTful WebApi and my implimentation of lock-free hash table as a in-memory cache.
 
 ## How To Use
-- Environment: VS 2022 or VS Code, .NET 8.0, Docker Desktop.
+- Environment: VS Code, .NET 8.0, Docker Desktop, RabbitMQ.Client 7.0
 - git clone https://github.com/daleiyang/LockFreeHashTable
 - Open local floder "LockFreeHashTable" with VS Code.
 - Start a Terminal and execute: " docker compose up --build ".
@@ -16,7 +16,7 @@
 
 ![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/2.jpg)
 
-# Design, implementation and testing of a Lock-Free Hash Table
+# Lock-Free Hash Table
 
 ## How To Use 
 - git clone https://github.com/daleiyang/LockFreeHashTable
@@ -25,9 +25,8 @@
 
 ![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/ut.jpg)
 
-## Conclusions
+## First, the conclusion
 - If you can combine the required keys into a 64-bit integer, using .Net's Concurrent Dictionary is a good option.
-- The following content is used for demonstrating coding capabilities, unit testing, and performance testing.
 
 ## Background
 - Saw an [article](https://cloud.tencent.com/developer/article/1130969) outlining the core data structures and algorithms used in the Shanghai Stock Exchange's securities trading system.
@@ -44,7 +43,7 @@
 ![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/DataStructure.png)
 
 - The combination of linkId, clcId, sbp in the figure above becomes the key value of the business logic, with a size of 54 bytes.
-- The code in the figure below is the process of generating a 54-byte key value based on business logic, refer to [KeyIn54BitCASHashTable.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/CASHashTable/KeyIn54BitCASHashTable.cs).
+- The code in the figure below is the process of generating a 54-byte key value based on business logic, refer to [KeyIn54BitCASHashTable.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/CASHashTable/KeyIn54BitCASHashTable.cs#L44) line 44 to 47.
 
 ![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/KeyGen.png)
 
