@@ -1,4 +1,6 @@
-## How To Use This Demo
+# Technology showcase: microservices, event-driven architecture, docker compose, Rabbitmq RPC, RESTful WebApi and lock-free hash tables.
+
+## How To Use
 - Environment: VS 2022 or VS Code, .NET 8.0, Docker Desktop.
 - git clone https://github.com/daleiyang/LockFreeHashTable
 - Open local floder "LockFreeHashTable" with VS Code.
@@ -15,6 +17,7 @@
 ![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/2.jpg)
 
 # Design, implementation and testing of a Lock-Free Hash Table
+
 ## How To Use 
 - git clone https://github.com/daleiyang/LockFreeHashTable
 - Open solution "CASHashTable.sln", execute the unit tests.
