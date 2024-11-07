@@ -6,9 +6,11 @@
 
 ![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/3.jpg)
 
-- If all goes well, you should see four microservices successfully built and deployed in Docker Desktop, and they should continue to run.
+- If all goes well, you should see four microservices successfully built.
 
 ![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/1.jpg)
+
+- If all goes well, you should see four microservices successfully deployed in Docker Desktop, and they should continue to run.
 
 ![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/2.jpg)
 
