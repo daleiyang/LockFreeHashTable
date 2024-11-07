@@ -1,40 +1,71 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CASHashTable", "CASHashTable\CASHashTable.csproj", "{89CD0421-3A73-4BE6-9344-943190C91284}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "WebApi\WebApi.csproj", "{249DBD78-44CC-4BB4-A16D-830F01B71B73}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{D9934F00-4679-4862-8B71-3AA0EC397CA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CASHashTableTest", "CASHashTableTest\CASHashTableTest.csproj", "{810B55D3-A843-4AE2-8D81-59B3EA953A11}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CASHashTable", "CASHashTable\CASHashTable.csproj", "{128B6C78-0220-4D1F-9F20-6B0C80EF5A55}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPCClient", "RPCClient\RPCClient.csproj", "{6CE0135A-AE75-44F8-A1FA-75C8C0A63E06}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPCServer", "RPCServer\RPCServer.csproj", "{68B6948D-E57A-4F34-AB94-8694E83934F6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{89CD0421-3A73-4BE6-9344-943190C91284}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{89CD0421-3A73-4BE6-9344-943190C91284}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{89CD0421-3A73-4BE6-9344-943190C91284}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{89CD0421-3A73-4BE6-9344-943190C91284}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D9934F00-4679-4862-8B71-3AA0EC397CA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D9934F00-4679-4862-8B71-3AA0EC397CA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D9934F00-4679-4862-8B71-3AA0EC397CA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D9934F00-4679-4862-8B71-3AA0EC397CA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{249DBD78-44CC-4BB4-A16D-830F01B71B73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{249DBD78-44CC-4BB4-A16D-830F01B71B73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{249DBD78-44CC-4BB4-A16D-830F01B71B73}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{249DBD78-44CC-4BB4-A16D-830F01B71B73}.Debug|x64.Build.0 = Debug|Any CPU
+		{249DBD78-44CC-4BB4-A16D-830F01B71B73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{249DBD78-44CC-4BB4-A16D-830F01B71B73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{249DBD78-44CC-4BB4-A16D-830F01B71B73}.Release|x64.ActiveCfg = Release|Any CPU
+		{249DBD78-44CC-4BB4-A16D-830F01B71B73}.Release|x64.Build.0 = Release|Any CPU
+		{810B55D3-A843-4AE2-8D81-59B3EA953A11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{810B55D3-A843-4AE2-8D81-59B3EA953A11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{810B55D3-A843-4AE2-8D81-59B3EA953A11}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{810B55D3-A843-4AE2-8D81-59B3EA953A11}.Debug|x64.Build.0 = Debug|Any CPU
+		{810B55D3-A843-4AE2-8D81-59B3EA953A11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{810B55D3-A843-4AE2-8D81-59B3EA953A11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{810B55D3-A843-4AE2-8D81-59B3EA953A11}.Release|x64.ActiveCfg = Release|Any CPU
+		{810B55D3-A843-4AE2-8D81-59B3EA953A11}.Release|x64.Build.0 = Release|Any CPU
+		{128B6C78-0220-4D1F-9F20-6B0C80EF5A55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{128B6C78-0220-4D1F-9F20-6B0C80EF5A55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{128B6C78-0220-4D1F-9F20-6B0C80EF5A55}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{128B6C78-0220-4D1F-9F20-6B0C80EF5A55}.Debug|x64.Build.0 = Debug|Any CPU
+		{128B6C78-0220-4D1F-9F20-6B0C80EF5A55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{128B6C78-0220-4D1F-9F20-6B0C80EF5A55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{128B6C78-0220-4D1F-9F20-6B0C80EF5A55}.Release|x64.ActiveCfg = Release|Any CPU
+		{128B6C78-0220-4D1F-9F20-6B0C80EF5A55}.Release|x64.Build.0 = Release|Any CPU
+		{6CE0135A-AE75-44F8-A1FA-75C8C0A63E06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CE0135A-AE75-44F8-A1FA-75C8C0A63E06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CE0135A-AE75-44F8-A1FA-75C8C0A63E06}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6CE0135A-AE75-44F8-A1FA-75C8C0A63E06}.Debug|x64.Build.0 = Debug|Any CPU
+		{6CE0135A-AE75-44F8-A1FA-75C8C0A63E06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CE0135A-AE75-44F8-A1FA-75C8C0A63E06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CE0135A-AE75-44F8-A1FA-75C8C0A63E06}.Release|x64.ActiveCfg = Release|Any CPU
+		{6CE0135A-AE75-44F8-A1FA-75C8C0A63E06}.Release|x64.Build.0 = Release|Any CPU
+		{68B6948D-E57A-4F34-AB94-8694E83934F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68B6948D-E57A-4F34-AB94-8694E83934F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68B6948D-E57A-4F34-AB94-8694E83934F6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{68B6948D-E57A-4F34-AB94-8694E83934F6}.Debug|x64.Build.0 = Debug|Any CPU
+		{68B6948D-E57A-4F34-AB94-8694E83934F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68B6948D-E57A-4F34-AB94-8694E83934F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68B6948D-E57A-4F34-AB94-8694E83934F6}.Release|x64.ActiveCfg = Release|Any CPU
+		{68B6948D-E57A-4F34-AB94-8694E83934F6}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 3
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://daleiyang.visualstudio.com/defaultcollection
-		SccProjectUniqueName0 = Test\\Test.csproj
-		SccProjectName0 = Test
-		SccLocalPath0 = Test
-		SccProjectUniqueName1 = CASHashTable\\CASHashTable.csproj
-		SccProjectName1 = CASHashTable
-		SccLocalPath1 = CASHashTable
-		SccLocalPath2 = .
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {146FF995-FE65-489C-A8AE-7A81C5AA212D}
 	EndGlobalSection
 EndGlobal

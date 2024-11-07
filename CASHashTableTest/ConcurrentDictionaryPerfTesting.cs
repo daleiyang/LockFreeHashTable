@@ -364,7 +364,7 @@ namespace Test
 
             Task.WaitAll(
                 tGet1, tGet2, tGet3, tGet4,
-                tDelete1, tDelete2, tDelete3, tDelete4, 
+                tDelete1, tDelete2, tDelete3, tDelete4,
                 tUpdate1, tUpdate2, tUpdate3, tUpdate4
             );
 
@@ -394,7 +394,7 @@ namespace Test
             for (var i = 0; i < perfTestAttemptsForGetOneKeyword; i++)
             {
                 output = null;
-                
+
                 internalStopWatch.Start();
                 key = GenerateKey(record[index].linkId, record[index].clcId, record[index].sbp);
                 result = hashTable.TryGetValue(key, out output);

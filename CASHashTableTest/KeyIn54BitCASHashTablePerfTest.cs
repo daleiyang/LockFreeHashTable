@@ -66,7 +66,7 @@ namespace Test
                 tGet3 = Task.Run(() => { perfGetRandomVerifyResult(mre, hashTable, result); });
                 tGet4 = Task.Run(() => { perfGetRandomVerifyResult(mre, hashTable, result); });
             }
-            
+
             if (updateEnabled)
             {
                 tUpdate1 = Task.Run(() => { perfUpdateRandomVerifyResult(mre, hashTable, result); });
@@ -74,7 +74,7 @@ namespace Test
                 tUpdate3 = Task.Run(() => { perfUpdateRandomVerifyResult(mre, hashTable, result); });
                 tUpdate4 = Task.Run(() => { perfUpdateRandomVerifyResult(mre, hashTable, result); });
             }
-            
+
             if (deleteEnabled)
             {
                 tDelete1 = Task.Run(() => { perfDeleteRandomVerifyResult(mre, hashTable, result); });
@@ -398,7 +398,7 @@ namespace Test
                 tUpdate3 = Task.Run(() => { perfUpdateOneRecordVerifyResult(mre, hashTable, result, index); });
                 tUpdate4 = Task.Run(() => { perfUpdateOneRecordVerifyResult(mre, hashTable, result, index); });
             }
-                
+
             if (deleteEnabled)
             {
                 tDelete1 = Task.Run(() => { perfDeleteOneRecordVerifyResult(mre, hashTable, result, index); });
@@ -406,7 +406,7 @@ namespace Test
                 tDelete3 = Task.Run(() => { perfDeleteOneRecordVerifyResult(mre, hashTable, result, index); });
                 tDelete4 = Task.Run(() => { perfDeleteOneRecordVerifyResult(mre, hashTable, result, index); });
             }
-                
+
             mre.Set();
             stopWatch.Restart();
             Task.WaitAll(
@@ -536,7 +536,7 @@ namespace Test
                     Interlocked.Increment(ref ExceptionError);
                     Console.WriteLine(ex.Message + "\t" + ex.StackTrace);
                 }
-           
+
                 switch (result)
                 {
                     case 0:

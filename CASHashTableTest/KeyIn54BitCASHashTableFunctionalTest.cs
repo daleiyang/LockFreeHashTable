@@ -17,13 +17,13 @@ namespace Test
         [TestMethod]
         public void KeyIn54BitInitialize()
         {
-           var hashTable = new KeyIn54BitCASHashTable(arrayLength, contentLength);
+            var hashTable = new KeyIn54BitCASHashTable(arrayLength, contentLength);
         }
 
         [TestMethod]
         public void KeyIn54BitCheckAddTotalSync()
         {
-            KeyIn54BitCASHashTable hashTable = null;
+            KeyIn54BitCASHashTable? hashTable = null;
             hashTable = new KeyIn54BitCASHashTable(arrayLength, contentLength);
 
             var result = Utility.GetData(dataNumber);
@@ -33,7 +33,7 @@ namespace Test
             }
 
             var u8 = Encoding.UTF8;
-            byte[] output = null;
+            byte[]? output;
             foreach (var record in result.EmptyIfNull())
             {
                 Assert.AreEqual(hashTable.TryGet(record.linkId, record.clcId, record.sbp, out output), 0);
@@ -45,7 +45,7 @@ namespace Test
         [TestMethod]
         public void KeyIn54BitCheckAddEachSync()
         {
-            KeyIn54BitCASHashTable hashTable = null;
+            KeyIn54BitCASHashTable hashTable;
             hashTable = new KeyIn54BitCASHashTable(arrayLength, contentLength);
 
             var result = Utility.GetData(dataNumber);
@@ -59,8 +59,7 @@ namespace Test
         [TestMethod]
         public void KeyIn54BitCheckAddInvildInput()
         {
-            KeyIn54BitCASHashTable hashTable = null;
-            hashTable = new KeyIn54BitCASHashTable(arrayLength, contentLength);
+            KeyIn54BitCASHashTable hashTable = new KeyIn54BitCASHashTable(arrayLength, contentLength);
 
             var temp0 = new byte[hashTable.ContentLength];
             for (int i = 0; i < hashTable.ContentLength; i++)
@@ -200,10 +199,10 @@ namespace Test
         [TestMethod]
         public void KeyIn54BitCheckGetNotFound()
         {
-             var hashTable = new KeyIn54BitCASHashTable(arrayLength, contentLength);
-             byte[] output;
-             Assert.AreEqual(hashTable.TryGet(2097151, 262143, 16383, out output), -2);
-             Assert.IsNull(output);
+            var hashTable = new KeyIn54BitCASHashTable(arrayLength, contentLength);
+            byte[] output;
+            Assert.AreEqual(hashTable.TryGet(2097151, 262143, 16383, out output), -2);
+            Assert.IsNull(output);
         }
 
         [TestMethod]
@@ -361,7 +360,7 @@ namespace Test
                 Assert.AreEqual(hashTable.TrySet(record.linkId, record.clcId, record.sbp, record.url), 0);
             }
 
-            foreach(var record in result.EmptyIfNull())
+            foreach (var record in result.EmptyIfNull())
             {
                 for (var j = 0; j < record.url.Length; j++)
                 {
@@ -420,7 +419,7 @@ namespace Test
                 Assert.AreEqual(hashTable.TryGet(record.linkId, record.clcId, record.sbp, out output), -3);
                 Assert.IsNull(output);
             }
-            
+
             var u8 = Encoding.UTF8;
             //Update all the records again.
             foreach (var record in result.EmptyIfNull())
@@ -450,7 +449,7 @@ namespace Test
             //Failed to change the value.
             target = 0;
             value = 1;
-            ret = Interlocked.CompareExchange(ref target, value, target+1);
+            ret = Interlocked.CompareExchange(ref target, value, target + 1);
             Assert.AreEqual(target, 0);
             Assert.AreEqual(ret, 0);
         }

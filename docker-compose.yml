@@ -1,0 +1,63 @@
+services:
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:4.0-management-alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+      # RabbitMq instance
+      - 5671:5671
+      - 5672:5672
+      # Web interface
+      - 15672:15672
+    healthcheck:
+      test: exit 0
+      interval: 15s
+
+  webapi:
+    container_name: webapi
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: lock_free_webapi_serve
+    environment:
+      - ASPNETCORE_HTTP_PORT=https://+:5001
+      - ASPNETCORE_URLS=http://+:5000
+    ports:
+      - 5000:5000
+      - 5001:5001
+
+  rpcserver:
+    container_name: rpcserver
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: rpcserver_serve
+    environment:
+      - rabbitmq_host=rabbitmq
+      - rabbitmq_port=5672
+      - rabbitmq_user=guest
+      - rabbitmq_pwd=guest
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    healthcheck:
+      test: exit 0
+      interval: 10s
+
+  rpcclient:
+    container_name: rpcclient
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: rpcclient_serve
+    environment:
+      - rabbitmq_host=rabbitmq
+      - rabbitmq_port=5672
+      - rabbitmq_user=guest
+      - rabbitmq_pwd=guest
+    depends_on:
+      rpcserver:
+        condition: service_healthy

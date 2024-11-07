@@ -2,11 +2,11 @@
 
 namespace CAS
 {
-    public class KeyIn54BitCASHashTable: KeyIn54BitCASHashTableBase
+    public class KeyIn54BitCASHashTable : KeyIn54BitCASHashTableBase
     {
         public KeyIn54BitCASHashTable(int arrayLength, int contentLength)
             : base(arrayLength, contentLength)
-        {}
+        { }
 
         public int TrySet(long linkId, long clcId, long sbp, byte[] content)
         {
@@ -26,7 +26,7 @@ namespace CAS
             if (clcId < 0 || clcId > 262143) throw new ArgumentOutOfRangeException("clcId");
             if (sbp < 0 || sbp > 16383) throw new ArgumentOutOfRangeException("sbp");
             if (linkId == 0 && clcId == 0 && sbp == 0) throw new ArgumentOutOfRangeException("KeyIsZero Error. Must > 0.");
-            
+
             output = null;
             return base.TryGet(GenerateKey(linkId, clcId, sbp), out output);
         }

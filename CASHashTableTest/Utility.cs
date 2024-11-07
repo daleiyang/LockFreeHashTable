@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Text;
-using System.Data.SqlClient;
 using System.Linq;
 
 namespace Test
@@ -25,7 +24,7 @@ namespace Test
                     linkId = linkId % 4194303,
                     clcId = clcId % 262143,
                     sbp = sbp % 16383,
-                    url = u8.GetBytes("http://www.microsoft.com/abc.asp")
+                    url = u8.GetBytes("http://www.microsoft.com/abc.asp+" + i.ToString())
                 });
 
                 linkId++; clcId++; sbp++;
