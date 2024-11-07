@@ -3,7 +3,10 @@
 - git clone https://github.com/daleiyang/LockFreeHashTable
 - Open local floder "LockFreeHashTable" with VS Code.
 - Start a Terminal and execute: " docker compose up --build ".
-- If everthings goes just fine, you will see four microservice are deployed in docker desktop.
+
+![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/3.jpg)
+
+- If all goes well, you should see four microservices successfully built and deployed in Docker Desktop, and they should continue to run.
 
 ![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/1.jpg)
 
