@@ -1,4 +1,4 @@
-# Technology showcase: microservices, docker compose, event-driven architecture with Rabbitmq, RESTful WebApi and my implimentation of lock-free hash table as a in-memory cache.
+# Technology showcase: microservices, docker compose, event-driven architecture with RabbitMQ, RESTful WebApi and my implimentation of lock-free hash table as a in-memory cache, Unit test, Performance test.
 
 ## How To Use
 - Environment: VS Code, .NET 8.0, Docker Desktop, RabbitMQ.Client 7.0
@@ -15,6 +15,10 @@
 - If all goes well, you should see four microservices successfully deployed in Docker Desktop, and they should continue to run.
 
 ![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/2.jpg)
+
+## Architecture
+
+![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/4.jpg)
 
 # Lock-Free Hash Table
 
