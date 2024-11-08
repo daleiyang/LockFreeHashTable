@@ -20,7 +20,7 @@
 
 ![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/4.jpg)
 
-- # $${\color{red}4.}$$
+- # $${\color{red}4.}$$ Initial with 3 million records. For example: records[1] has properties "linkId = 2 clid = 2 sbp = 2" and it's value = "http://www.microsoft.com/abc.asp+1"
 
 # Lock-Free Hash Table
 
