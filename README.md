@@ -20,7 +20,7 @@
 
 ![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/4.jpg)
 
-- /4/. Load 3 million records in lock-free hash table. [Program.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/WebApi/Program.cs#L3)(line 3 to 4). For example: records[1] has properties "linkId = 2 clid = 2 sbp = 2" and it's value = "http://www.microsoft.com/abc.asp+1" 
+4. Load 3 million records in lock-free hash table. See [Program.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/WebApi/Program.cs#L3)(line 3 to 4). For example: records[1] has properties "linkId = 2 clid = 2 sbp = 2" and it's value = "http://www.microsoft.com/abc.asp+1" 
 
 # Implementation of lock-free hash table
 
