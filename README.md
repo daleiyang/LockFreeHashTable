@@ -32,7 +32,9 @@ $${\color{red}Step\ 5}$$ The Web API receives requests and performs operations o
 
 $${\color{red}Step\ 6}$$ The RPC Server receives response from Web Api. See [RPCServer.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/RPCServer/RPCServer.cs#L43) (line 43 to 49)
 
-$${\color{red}Step\ 7}$$ The RPC Server send response to RabbitMQ. See [RPCServer.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/RPCServer/RPCServer.cs#L62) (line 62 to 65)
+$${\color{red}Step\ 7}$$ The RPC Server sends responses to RabbitMQ. See [RPCServer.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/RPCServer/RPCServer.cs#L62) (line 62 to 65)
+
+$${\color{red}Step\ 8}$$ The callback function of the RPC Client obtains responses from RabbitMQ. See [RPCClient.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/RPCClient/RPCClient.cs#L127) (line 127)
 
 # Implementation of lock-free hash table
 
