@@ -98,6 +98,8 @@ public class RpcClient : IAsyncDisposable
 }
 public class Rpc
 {
+    static RpcClient rpcClient = new RpcClient();
+
     public static async Task Main(string[] args)
     {
         List<string> ops = new();
@@ -109,6 +111,8 @@ public class Rpc
         Random rnd = new Random(seed);
 
         Console.WriteLine("RPC Client");
+        await rpcClient.StartAsync();
+
         while (true)
         {
             int idx = rnd.Next(0, ops.Count);
@@ -120,9 +124,6 @@ public class Rpc
 
     private static async Task InvokeAsync(string n)
     {
-        var rpcClient = new RpcClient();
-        await rpcClient.StartAsync();
-
         Console.WriteLine("Sent = {0}", n);
         var response = await rpcClient.CallAsync(n);
         Console.WriteLine("Got = {0}", response);
