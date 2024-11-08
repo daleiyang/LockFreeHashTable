@@ -20,7 +20,7 @@
 
 ![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/4.jpg)
 
-$${\color{red}Step\ 4}$$ Load 3 million records in lock-free hash table. See [Program.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/WebApi/Program.cs#L3) (line 3 to 4) and [CAS.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/WebApi/CAS.cs#L104) (line 104 to 130). For example: records[1] has properties "linkId = 2 clid = 2 sbp = 2" and value = "http://www.microsoft.com/abc.asp+1" 
+$${\color{red}Step\ 4}$$ Load 3 million records in lock-free hash table. See [Program.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/WebApi/Program.cs#L3){:target="_blank"} (line 3 to 4) and [CAS.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/WebApi/CAS.cs#L104){:target="_blank"} (line 104 to 130). For example: records[1] has properties "linkId = 2 clid = 2 sbp = 2" and value = "http://www.microsoft.com/abc.asp+1" 
 
 # Implementation of lock-free hash table
 
