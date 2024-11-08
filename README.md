@@ -28,7 +28,7 @@ $${\color{red}Step\ 2}$$ The callback function of the RPC Server obtains request
 
 $${\color{red}Step\ 3}$$ The RPC Server calls corresponding REST Web Api. See [RPCServer.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/RPCServer/RPCServer.cs#L39) (line 39 to 51)
 
-$${\color{red}Step\ 4}$$ The Web API receives requests and performs operations on lock-free hash table. See [RPCServer.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/WebApi/Program.cs#L10) (line 10 to 44)
+$${\color{red}Step\ 5}$$ The Web API receives requests and performs operations on lock-free hash table. See [RPCServer.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/WebApi/Program.cs#L10) (line 10 to 44)
 
 # Implementation of lock-free hash table
 
