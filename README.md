@@ -22,7 +22,7 @@
 
 - [4]. Initial with 3 million records. For example: records[1] has properties "linkId = 2 clid = 2 sbp = 2" and it's value = "http://www.microsoft.com/abc.asp+1"
 
-# Lock-Free Hash Table
+# Implementation of lock-free hash table
 
 ## How To Use 
 - git clone https://github.com/daleiyang/LockFreeHashTable
