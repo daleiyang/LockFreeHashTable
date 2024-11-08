@@ -68,8 +68,8 @@
 ![alt tag](https://raw.githubusercontent.com/daleiyang/LockFreeHashTable/refs/heads/master/Images/perf.jpg)
 
 ## Test Project
-- [KeyIn54BitCASHashTableFunctionalTest.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/Test/KeyIn54BitCASHashTableFunctionalTest.cs) is unit tests for lock-free hash table.
+- [KeyIn54BitCASHashTableFunctionalTest.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/CASHashTableTest/KeyIn54BitCASHashTableFunctionalTest.cs) is unit tests for lock-free hash table.
 
-- [KeyIn54BitCASHashTablePerfTest.cs ](https://github.com/daleiyang/LockFreeHashTable/blob/master/Test/KeyIn54BitCASHashTablePerfTest.cs) is preformance tests for lock-free hash table. Please see [[Report]](https://github.com/daleiyang/LockFreeHashTable/raw/refs/heads/master/PerformanceReport.xlsx) .
+- [KeyIn54BitCASHashTablePerfTest.cs ](https://github.com/daleiyang/LockFreeHashTable/blob/master/CASHashTableTest/KeyIn54BitCASHashTablePerfTest.cs) is preformance tests for lock-free hash table. Please see [[Report]](https://github.com/daleiyang/LockFreeHashTable/raw/refs/heads/master/PerformanceReport.xlsx) .
 
-- [ConcurrentDictionaryPerfTesting.cs ](https://github.com/daleiyang/LockFreeHashTable/blob/master/Test/ConcurrentDictionaryPerfTesting.cs) is preformance tests for .Net Concurrent Dictionary. Please see [[Report]](https://github.com/daleiyang/LockFreeHashTable/raw/refs/heads/master/PerformanceReport.xlsx) .
+- [ConcurrentDictionaryPerfTesting.cs ](https://github.com/daleiyang/LockFreeHashTable/blob/master/CASHashTableTest/ConcurrentDictionaryPerfTesting.cs) is preformance tests for .Net Concurrent Dictionary. Please see [[Report]](https://github.com/daleiyang/LockFreeHashTable/raw/refs/heads/master/PerformanceReport.xlsx) .
