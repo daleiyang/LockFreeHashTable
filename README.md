@@ -24,7 +24,9 @@ $${\color{red}Step\ 4}$$ Load 3 million records into lock-free hash table. See [
 
 $${\color{red}Step\ 1}$$ The RPC Client continuously randomly selects "Get" or "Update" or "Delete" records[1] and sends requests to RabbitMQ. See [RPCClient.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/RPCClient/RPCClient.cs#L103) (line 103 to 117)
 
-$${\color{red}Step\ 2}$$ The callback function of the RPC Server obtains requests from RabbitMQ. See [RPCServer.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/RPCServer/RPCServer.cs#L36) (line 36)
+$${\color{red}Step\ 2}$$ The callback function of the RPC Server obtains requests from RabbitMQ. See [RPCServer.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/RPCServer/RPCServer.cs#L36) (line 36 to 37)
+
+$${\color{red}Step\ 3}$$ The RPC Server calls corresponding REST Web Api. See [RPCServer.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/RPCServer/RPCServer.cs#L39) (line 39 to 51)
 
 # Implementation of lock-free hash table
 
