@@ -22,7 +22,7 @@
 
 $${\color{red}Step\ 4}$$ Load 3 million records into lock-free hash table. See [Program.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/WebApi/Program.cs#L3) (line 3 to 4) and [CAS.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/WebApi/CAS.cs#L104) (line 104 to 130). For example: records[1] has properties "linkId = 2 clid = 2 sbp = 2" and value = "http://www.microsoft.com/abc.asp+1" 
 
-$${\color{red}Step\ 1}$$ The RPC client continuously randomly selects Get/Update/Delete records [1] and sends a request to RabbitMQ. See [RPCClient.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/RPCClient/RPCClient.cs#L103) (line 103 to 117)
+$${\color{red}Step\ 1}$$ The RPC client continuously randomly selects "Get" or "Update" or "Delete" records[1] and sends requests to RabbitMQ. See [RPCClient.cs](https://github.com/daleiyang/LockFreeHashTable/blob/master/RPCClient/RPCClient.cs#L103) (line 103 to 117)
 
 # Implementation of lock-free hash table
 
