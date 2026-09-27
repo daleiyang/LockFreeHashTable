@@ -1,0 +1,10 @@
+## E13 ConcurrentDictionary memory for the same 3M entries
+CD 3M entries incl. private value copies: +366 MB
+   (e13 took 5.7s)
+
+## E14 why is CD upsert-with-copy slow? 8 threads x 3M ops, 3M keys
+CD indexer set, reuse existing reference (no alloc): 10.66 M ops/s, gen0 GCs=0, gen2 GCs=0
+allocation only (new byte[~40], not stored)        : 28.41 M ops/s, gen0 GCs=367, gen2 GCs=0
+CD indexer set with fresh copy (old->young refs)   : 0.57 M ops/s, gen0 GCs=341, gen2 GCs=6
+   (e14 took 49.5s)
+

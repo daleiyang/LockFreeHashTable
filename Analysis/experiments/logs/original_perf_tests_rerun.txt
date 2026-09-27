@@ -1,0 +1,60 @@
+  已通过 ConcurrentDictionaryPerfTestingConcurrentDictionaryRandomVerifyResult [33 s]
+ Add all records	00:00:02.4830509
+ TaskId	1	PerfGetConcurrentDictionaryRandomVerifyResult	4000000	InternalAPICallTotalTime	00:00:02.2154858	TestingTotalTime	00:00:05.2019996	KeyFound	4000000	KeyNotFound	0	ResultMatch	4000000	ResultNotMatch	0	
+ TaskId	2	PerfGetConcurrentDictionaryRandomVerifyResult	4000000	InternalAPICallTotalTime	00:00:02.2336362	TestingTotalTime	00:00:05.2090532	KeyFound	4000000	KeyNotFound	0	ResultMatch	4000000	ResultNotMatch	0	
+ TaskId	3	PerfGetConcurrentDictionaryRandomVerifyResult	4000000	InternalAPICallTotalTime	00:00:02.2062582	TestingTotalTime	00:00:05.2790654	KeyFound	3999695	KeyNotFound	305	ResultMatch	3999695	ResultNotMatch	0	
+ TaskId	4	PerfGetConcurrentDictionaryRandomVerifyResult	4000000	InternalAPICallTotalTime	00:00:02.2067536	TestingTotalTime	00:00:05.6059922	KeyFound	3988501	KeyNotFound	11499	ResultMatch	3988501	ResultNotMatch	0	
+ TaskId	5	PerfAddConcurrentDictionaryRandomVerifyResult	12000000	InternalAPICallTotalTime	00:00:10.1364414	TestingTotalTime	00:00:12.9691477	AddSuccess	1092074	AlreayExists	10907926	
+ TaskId	6	PerfAddConcurrentDictionaryRandomVerifyResult	12000000	InternalAPICallTotalTime	00:00:10.6197058	TestingTotalTime	00:00:13.3139661	AddSuccess	1136617	AlreayExists	10863383	
+ TaskId	7	PerfAddConcurrentDictionaryRandomVerifyResult	12000000	InternalAPICallTotalTime	00:00:11.7474783	TestingTotalTime	00:00:13.7584047	AddSuccess	1134900	AlreayExists	10865100	
+ TaskId	8	PerfAddConcurrentDictionaryRandomVerifyResult	12000000	InternalAPICallTotalTime	00:00:14.3606179	TestingTotalTime	00:00:20.1005736	AddSuccess	6559787	AlreayExists	5440213	
+ TaskId	9	PerfDeleteConcurrentDictionaryRandomVerifyResult	18000000	InternalAPICallTotalTime	00:00:08.4443447	TestingTotalTime	00:00:24.2187978	DeleteSuccessfully	3380700	DeleteFailed	14619300	ResultMatch	3380700	ResultNotMatch	0	
+ TaskId	10	PerfDeleteConcurrentDictionaryRandomVerifyResult	18000000	InternalAPICallTotalTime	00:00:08.3989770	TestingTotalTime	00:00:23.9732373	DeleteSuccessfully	3272241	DeleteFailed	14727759	ResultMatch	3272241	ResultNotMatch	0	
+ TaskId	11	PerfDeleteConcurrentDictionaryRandomVerifyResult	18000000	InternalAPICallTotalTime	00:00:08.1661646	TestingTotalTime	00:00:23.4824048	DeleteSuccessfully	3024498	DeleteFailed	14975502	ResultMatch	3024498	ResultNotMatch	0	
+ TaskId	12	PerfDeleteConcurrentDictionaryRandomVerifyResult	18000000	InternalAPICallTotalTime	00:00:08.3594434	TestingTotalTime	00:00:24.4870813	DeleteSuccessfully	3245939	DeleteFailed	14754061	ResultMatch	3245939	ResultNotMatch	0	
+ Finish all tast in	00:00:29.6986079
+  已通过 ConcurrentDictionaryPerfTestingOneRecordVerifyResult [45 s]
+ Add all records	00:00:02.0368613
+ TaskId	13	PerfGetConcurrentDictionaryOneRecordVerifyResult	14000000	InternalAPICallTotalTime	00:00:00.9406332	TestingTotalTime	00:00:06.9637837	KeyFound	11549186	KeyNotFound	2450814	ResultMatch	11549186	ResultNotMatch	0	
+ TaskId	14	PerfGetConcurrentDictionaryOneRecordVerifyResult	14000000	InternalAPICallTotalTime	00:00:00.9473305	TestingTotalTime	00:00:07.0390017	KeyFound	11464276	KeyNotFound	2535724	ResultMatch	11464276	ResultNotMatch	0	
+ TaskId	15	PerfGetConcurrentDictionaryOneRecordVerifyResult	14000000	InternalAPICallTotalTime	00:00:00.9600430	TestingTotalTime	00:00:07.0790087	KeyFound	11447105	KeyNotFound	2552895	ResultMatch	11447105	ResultNotMatch	0	
+ TaskId	16	PerfGetConcurrentDictionaryOneRecordVerifyResult	14000000	InternalAPICallTotalTime	00:00:00.9633343	TestingTotalTime	00:00:07.1227448	KeyFound	11405053	KeyNotFound	2594947	ResultMatch	11405053	ResultNotMatch	0	
+ TaskId	17	PerfAddConcurrentDictionaryOneRecordVerifyResult	20000000	InternalAPICallTotalTime	00:00:28.3348701	TestingTotalTime	00:00:30.0860708	AddSuccess	7416906	AlreadyExists	12583094	
+ TaskId	18	PerfAddConcurrentDictionaryOneRecordVerifyResult	20000000	InternalAPICallTotalTime	00:00:28.4164223	TestingTotalTime	00:00:30.6196120	AddSuccess	7517452	AlreadyExists	12482548	
+ TaskId	19	PerfAddConcurrentDictionaryOneRecordVerifyResult	20000000	InternalAPICallTotalTime	00:00:30.2242663	TestingTotalTime	00:00:31.8179823	AddSuccess	7838999	AlreadyExists	12161001	
+ TaskId	20	PerfAddConcurrentDictionaryOneRecordVerifyResult	20000000	InternalAPICallTotalTime	00:00:31.4835187	TestingTotalTime	00:00:32.6713279	AddSuccess	10893555	AlreadyExists	9106445	
+ TaskId	21	PerfDeleteConcurrentDictionaryOneRecordVerifyResult	25000000	InternalAPICallTotalTime	00:00:32.5088746	TestingTotalTime	00:00:37.3487666	DeleteSuccessfully	10216700	DeleteFailed	14783300	ResultMatch	10216700	ResultNotMatch	0	
+ TaskId	22	PerfDeleteConcurrentDictionaryOneRecordVerifyResult	25000000	InternalAPICallTotalTime	00:00:31.4033575	TestingTotalTime	00:00:34.9429971	DeleteSuccessfully	7870453	DeleteFailed	17129547	ResultMatch	7870453	ResultNotMatch	0	
+ TaskId	23	PerfDeleteConcurrentDictionaryOneRecordVerifyResult	25000000	InternalAPICallTotalTime	00:00:31.4878971	TestingTotalTime	00:00:35.0776448	DeleteSuccessfully	7694837	DeleteFailed	17305163	ResultMatch	7694837	ResultNotMatch	0	
+ TaskId	24	PerfDeleteConcurrentDictionaryOneRecordVerifyResult	25000000	InternalAPICallTotalTime	00:00:31.4732885	TestingTotalTime	00:00:35.0129432	DeleteSuccessfully	7884923	DeleteFailed	17115077	ResultMatch	7884923	ResultNotMatch	0	
+ Finish all tast in	00:00:42.0530048
+  已通过 KeyIn54BitPerfTestingRandomVerifyResult [18 s]
+ Add all records	00:00:01.1744164
+ TaskId	25	perfGetRandomVerifyResult	3000000	InternalAPICallTotalTime	00:00:02.4142326	TestingTotalTime	00:00:04.8901503	GetSuccessfully	3000000	ResultMatch	3000000	ResultNotMatch	0	InputParametersError	0	NoExists	0	IsDeleted	0	ExceptionError	0	Zero	0	
+ TaskId	26	perfGetRandomVerifyResult	3000000	InternalAPICallTotalTime	00:00:02.4536633	TestingTotalTime	00:00:05.1306916	GetSuccessfully	2992433	ResultMatch	2992433	ResultNotMatch	0	InputParametersError	0	NoExists	0	IsDeleted	7567	ExceptionError	0	Zero	0	
+ TaskId	27	perfGetRandomVerifyResult	3000000	InternalAPICallTotalTime	00:00:02.5071256	TestingTotalTime	00:00:05.2435752	GetSuccessfully	2980803	ResultMatch	2980803	ResultNotMatch	0	InputParametersError	0	NoExists	0	IsDeleted	19197	ExceptionError	0	Zero	0	
+ TaskId	28	perfGetRandomVerifyResult	3000000	InternalAPICallTotalTime	00:00:02.5353427	TestingTotalTime	00:00:05.4037442	GetSuccessfully	2946774	ResultMatch	2946774	ResultNotMatch	0	InputParametersError	0	NoExists	0	IsDeleted	53226	ExceptionError	0	Zero	0	
+ TaskId	29	perfUpdateRandomVerifyResult	6000000	InternalAPICallTotalTime	00:00:04.9418924	TestingTotalTime	00:00:05.4961880	AddSuccessfully	0	UpdateSuccessfully	6000000	InputParametersError	0	ExceptionError	0	Zero	0	
+ TaskId	30	perfUpdateRandomVerifyResult	6000000	InternalAPICallTotalTime	00:00:05.0045498	TestingTotalTime	00:00:05.5047669	AddSuccessfully	0	UpdateSuccessfully	6000000	InputParametersError	0	ExceptionError	0	Zero	0	
+ TaskId	31	perfUpdateRandomVerifyResult	6000000	InternalAPICallTotalTime	00:00:05.0544440	TestingTotalTime	00:00:05.5843225	AddSuccessfully	0	UpdateSuccessfully	6000000	InputParametersError	0	ExceptionError	0	Zero	0	
+ TaskId	32	perfUpdateRandomVerifyResult	6000000	InternalAPICallTotalTime	00:00:04.9846373	TestingTotalTime	00:00:05.7328157	AddSuccessfully	0	UpdateSuccessfully	6000000	InputParametersError	0	ExceptionError	0	Zero	0	
+ TaskId	33	perfDeleteRandomVerifyResult	15000000	InternalAPICallTotalTime	00:00:05.4903264	TestingTotalTime	00:00:06.2401299	DeleteSuccessfully	1430554	InputParametersError	0	NoExists	0	IsDeleted	13569446	ExceptionError	0	Zero	0	
+ TaskId	34	perfDeleteRandomVerifyResult	15000000	InternalAPICallTotalTime	00:00:05.4471595	TestingTotalTime	00:00:06.1746946	DeleteSuccessfully	964045	InputParametersError	0	NoExists	0	IsDeleted	14035955	ExceptionError	0	Zero	0	
+ TaskId	35	perfDeleteRandomVerifyResult	15000000	InternalAPICallTotalTime	00:00:05.3802948	TestingTotalTime	00:00:06.1002402	DeleteSuccessfully	823133	InputParametersError	0	NoExists	0	IsDeleted	14176867	ExceptionError	0	Zero	0	
+ TaskId	36	perfDeleteRandomVerifyResult	15000000	InternalAPICallTotalTime	00:00:05.3168803	TestingTotalTime	00:00:06.0429647	DeleteSuccessfully	577244	InputParametersError	0	NoExists	0	IsDeleted	14422756	ExceptionError	0	Zero	0	
+ Finish all tast in	00:00:11.4478738
+  已通过 KeyIn54BitPerfTestingOneRecordVerifyResult [57 s]
+ Add all records	00:00:01.5841580
+ TaskId	37	perfGetOneRecordVerifyResult	14000000	InternalAPICallTotalTime	00:00:10.5345291	TestingTotalTime	00:00:14.3928583	GetSuccessfully	3712636	ResultMatch	3712636	ResultNotMatch	0	InputParametersError	0	NoExists	0	IsDeleted	10287364	ExceptionError	0	Zero	0	
+ TaskId	38	perfGetOneRecordVerifyResult	14000000	InternalAPICallTotalTime	00:00:17.6727160	TestingTotalTime	00:00:26.1743110	GetSuccessfully	3440137	ResultMatch	3440137	ResultNotMatch	0	InputParametersError	0	NoExists	0	IsDeleted	10559863	ExceptionError	0	Zero	0	
+ TaskId	39	perfGetOneRecordVerifyResult	14000000	InternalAPICallTotalTime	00:00:17.6664918	TestingTotalTime	00:00:27.3673548	GetSuccessfully	3538765	ResultMatch	3538765	ResultNotMatch	0	InputParametersError	0	NoExists	0	IsDeleted	10461235	ExceptionError	0	Zero	0	
+ TaskId	40	perfGetOneRecordVerifyResult	14000000	InternalAPICallTotalTime	00:00:17.8570166	TestingTotalTime	00:00:27.7031657	GetSuccessfully	3654782	ResultMatch	3654782	ResultNotMatch	0	InputParametersError	0	NoExists	0	IsDeleted	10345218	ExceptionError	0	Zero	0	
+ TaskId	41	perfUpdateOneRecordVerifyResult	14000000	InternalAPICallTotalTime	00:00:30.7031488	TestingTotalTime	00:00:31.9548997	AddSuccessfully	0	UpdateSuccessfully	14000000	InputParametersError	0	ExceptionError	0	Zero	0	
+ TaskId	42	perfUpdateOneRecordVerifyResult	14000000	InternalAPICallTotalTime	00:00:37.5170250	TestingTotalTime	00:00:39.0096918	AddSuccessfully	0	UpdateSuccessfully	14000000	InputParametersError	0	ExceptionError	0	Zero	0	
+ TaskId	43	perfUpdateOneRecordVerifyResult	14000000	InternalAPICallTotalTime	00:00:37.7166868	TestingTotalTime	00:00:39.4177651	AddSuccessfully	0	UpdateSuccessfully	14000000	InputParametersError	0	ExceptionError	0	Zero	0	
+ TaskId	44	perfUpdateOneRecordVerifyResult	14000000	InternalAPICallTotalTime	00:00:37.9045675	TestingTotalTime	00:00:39.5750068	AddSuccessfully	0	UpdateSuccessfully	14000000	InputParametersError	0	ExceptionError	0	Zero	0	
+ TaskId	45	perfDeleteOneRecordVerifyResult	70000000	InternalAPICallTotalTime	00:00:39.3930550	TestingTotalTime	00:00:45.6548226	DeleteSuccessfully	11214617	InputParametersError	0	NoExists	0	IsDeleted	58785383	ExceptionError	0	Zero	0	
+ TaskId	46	perfDeleteOneRecordVerifyResult	70000000	InternalAPICallTotalTime	00:00:29.7995907	TestingTotalTime	00:00:33.4142297	DeleteSuccessfully	9290585	InputParametersError	0	NoExists	0	IsDeleted	60709415	ExceptionError	0	Zero	0	
+ TaskId	47	perfDeleteOneRecordVerifyResult	70000000	InternalAPICallTotalTime	00:00:31.7820664	TestingTotalTime	00:00:37.3335551	DeleteSuccessfully	6920161	InputParametersError	0	NoExists	0	IsDeleted	63079839	ExceptionError	0	Zero	0	
+ TaskId	48	perfDeleteOneRecordVerifyResult	70000000	InternalAPICallTotalTime	00:00:20.5162722	TestingTotalTime	00:00:23.8750342	DeleteSuccessfully	3616903	InputParametersError	0	NoExists	0	IsDeleted	66383097	ExceptionError	0	Zero	0	
+ Finish all tast in	00:00:49.7553876

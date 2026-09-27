@@ -1,0 +1,43 @@
+## E6 probe length (linear probing) with the test's config: arrayLength=10107313, 3M keys
+test data (linkId=clcId=sbp sequential): avg probes per successful lookup=1.045, max=3, histogram(1..7+)=2875781,112868,11351,0,0,0,0
+uniform random keys: avg probes per successful lookup=1.212, max=19, histogram(1..7+)=2554287,325542,79159,25199,9239,3706,2868
+   (e6 took 2.4s)
+
+## E7 torn-read / consistency stress (versioned payload, 4 readers + 2 writers + 2 deleters, 16 hot keys, 5 s)
+successful reads=21,174,067, torn/inconsistent reads=0, reads of deleted=101,183,303, writes=20,843,047, deletes=97,183,315
+   (e7 took 5.1s)
+
+## E8 writer latency on a hot key vs number of concurrent readers (content 256B)
+readers=0: writes=20000, p50=0.20us p99=0.30us p99.9=0.50us max=529us
+readers=1: writes=20000, p50=0.40us p99=1.70us p99.9=13.00us max=411us
+readers=3: writes=20000, p50=1.50us p99=11.60us p99.9=81.70us max=2023us
+readers=7: writes=20000, p50=16.40us p99=510.90us p99.9=12458.50us max=31551us
+   (e8 took 2.5s)
+
+## E9 8-bit reader counter: 400 threads reading ONE key for 5 s (oversubscribed, 8 logical cores)
+successful gets=31,717,714, ReaderCounterOverflowException=265,636
+   (e9 took 12.1s)
+
+## E12 one hot key, mixed get/set, 8 vs 64 threads, 3 s each (spin-without-backoff under preemption)
+threads=8: 2.10 M ops/s
+threads=64: 1.07 M ops/s
+   (e12 took 89.5s)
+
+## E11 memory & construction cost of the test configuration
+new KeyIn54BitCASHashTable(10107313, 256): 7117 ms, managed heap +2.86 GB, 10,107,313 separate byte[] objects
+one full blocking Gen2 GC with the table alive: 698 ms
+ConcurrentDictionary with the same 3M entries (incl. value arrays): +-2.41 GB
+   (e11 took 15.3s)
+
+## E10 fair micro-benchmark, 3M keys, 8 threads, whole-loop timing (no per-call Stopwatch)
+Stopwatch Start()+Stop() pair overhead ¡Ö 34.2 ns (the original tests wrap every call in one)
+CAS  TryGet (copy out, alloc)        : 10.84 M ops/s
+CAS  TrySet (update, copy in)        : 9.48 M ops/s
+CAS  mixed 80% get/15% set/5% delete : 10.07 M ops/s
+CD   TryGetValue (reference, no copy) : 19.09 M ops/s
+CD   TryGetValue + copy out (same sem.): 11.31 M ops/s
+CD   TryAdd (as original test, mostly no-op): 9.76 M ops/s
+CD   indexer set (real upsert, new copy): 0.49 M ops/s
+CD   mixed 80/15/5 (copy semantics)   : 1.54 M ops/s
+   (e10 took 87.3s)
+

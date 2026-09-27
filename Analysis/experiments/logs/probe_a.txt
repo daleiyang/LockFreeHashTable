@@ -1,0 +1,33 @@
+## E1 linkId=2^21, clcId=0, sbp=0 -> key == long.MinValue
+GenerateKey = -9223372036854775808 (long.MinValue=-9223372036854775808)
+TrySet threw OverflowException: Negating the minimum value of a twos complement number is invalid.
+TryGet threw OverflowException: Negating the minimum value of a twos complement number is invalid.
+   (e1 took 0.0s)
+
+## E2 table full (arrayLength=7, 7 keys inserted) then query/insert a missing key
+TryGet(missing) finished within 3s: False  => INFINITE LOOP (HashSearch never meets an empty slot)
+TryDelete(missing) finished within 3s: False
+TrySet(new key) finished within 3s: False  => INFINITE LOOP (AddOrUpdate probes forever)
+   (e2 took 9.0s)
+
+## E3 tombstones are never reclaimed (arrayLength=11): insert+delete 11 distinct keys, live count = 0
+TrySet(12th distinct key) finished within 3s: False  => table 'full' of deleted slots, INFINITE LOOP
+   (e3 took 3.0s)
+
+## E4 exception inside write critical section leaves doWrite bit set forever
+base.TrySet(content 17 bytes > 16) threw ArgumentException
+TryGet same key finished within 3s: False  => spins forever (slot permanently write-locked)
+TrySet same key (valid content) finished within 3s: False
+-- same thing on the Update path
+base.TrySet (update) threw ArgumentException
+TryGet after failed update finished within 3s: False
+-- key 0 via public base API
+base.TrySet(0, ...) returned 0 (0 = 'added')
+base.TryGet(0, ...) returned -2 (-2 = 'not found') => silent data loss
+   (e4 took 9.1s)
+
+## E5 arrayLength = power of two vs prime (keys always have low 10 bits = 0)
+len=65536: distinct home slots=64 for 20000 keys, insert 20k keys took 42 ms
+len=65537: distinct home slots=20000 for 20000 keys, insert 20k keys took 4 ms
+   (e5 took 0.1s)
+

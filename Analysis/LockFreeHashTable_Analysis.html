@@ -1,0 +1,927 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CAS 哈希表研究报告</title>
+<meta name="description" content="KeyIn54BitCASHashTable 的设计、测试与问题分析：结构图、流程图、实测复现与改进建议">
+<style>
+:root{
+  --bg:#f7f6f3; --surface:#ffffff; --surface-2:#f0efec; --border:#e2e0da;
+  --text:#1b1b1a; --text-2:#52514e; --muted:#7a7873;
+  --accent:#2a78d6; --accent-soft:#e3eefb;
+  --series-1:#2a78d6; --series-2:#eb6834;
+  --p0:#c0322f; --p0-soft:#fbe7e6; --p1:#b26a00; --p1-soft:#fdf1dc; --p2:#2a6fb0; --p2-soft:#e3eefb; --ok:#1d7f4e; --ok-soft:#e1f3e8;
+  --code-bg:#f3f2ee;
+  --seg-link:#cde2fb; --seg-clc:#d9f0e5; --seg-sbp:#fde8c8; --seg-w:#f7c9c8; --seg-d:#e6d9f7; --seg-r:#e4e3de;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141413; --surface:#1c1c1b; --surface-2:#262624; --border:#383835;
+    --text:#f2f1ec; --text-2:#c3c2b7; --muted:#9a988f;
+    --accent:#5598e7; --accent-soft:#1d3350;
+    --series-1:#3987e5; --series-2:#d95926;
+    --p0:#f07472; --p0-soft:#3d1f1e; --p1:#e8a441; --p1-soft:#3a2c14; --p2:#6da7ec; --p2-soft:#1d3350; --ok:#4fc58a; --ok-soft:#173226;
+    --code-bg:#232321;
+    --seg-link:#1f3b5e; --seg-clc:#1d3d30; --seg-sbp:#4a3718; --seg-w:#4d2322; --seg-d:#3a2d55; --seg-r:#33332f;
+  }
+}
+:root[data-theme="dark"]{
+    --bg:#141413; --surface:#1c1c1b; --surface-2:#262624; --border:#383835;
+    --text:#f2f1ec; --text-2:#c3c2b7; --muted:#9a988f;
+    --accent:#5598e7; --accent-soft:#1d3350;
+    --series-1:#3987e5; --series-2:#d95926;
+    --p0:#f07472; --p0-soft:#3d1f1e; --p1:#e8a441; --p1-soft:#3a2c14; --p2:#6da7ec; --p2-soft:#1d3350; --ok:#4fc58a; --ok-soft:#173226;
+    --code-bg:#232321;
+    --seg-link:#1f3b5e; --seg-clc:#1d3d30; --seg-sbp:#4a3718; --seg-w:#4d2322; --seg-d:#3a2d55; --seg-r:#33332f;
+}
+*{box-sizing:border-box}
+html{color-scheme:light dark}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.7 -apple-system,"Segoe UI","Microsoft YaHei","PingFang SC",sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 16px 80px}
+header.hero{padding:8px 0 20px;border-bottom:1px solid var(--border);margin-bottom:8px}
+.eyebrow{color:var(--muted);font-size:13px;letter-spacing:.04em}
+h1{font-size:30px;line-height:1.25;margin:6px 0 10px}
+h2{font-size:22px;margin:48px 0 12px;padding-top:8px;border-top:1px solid var(--border)}
+h3{font-size:17px;margin:28px 0 8px}
+h4{font-size:15px;margin:18px 0 6px}
+p{margin:8px 0}
+a{color:var(--accent)}
+code,pre{font-family:Consolas,"Cascadia Mono","SF Mono",monospace;font-size:13px}
+code{background:var(--code-bg);padding:1px 5px;border-radius:4px}
+pre.code{background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:12px 14px;overflow-x:auto;line-height:1.5;margin:10px 0}
+pre.code code{background:none;padding:0}
+.muted{color:var(--muted)} .small{font-size:13px}
+nav.toc{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 18px;margin:18px 0}
+nav.toc ol{margin:4px 0;padding-left:20px;columns:2;column-gap:32px}
+nav.toc li{break-inside:avoid;font-size:14px}
+@media (max-width:640px){nav.toc ol{columns:1}}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin:12px 0}
+.grid{display:grid;gap:12px}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:760px){.g3,.g2{grid-template-columns:1fr}}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 16px}
+.stat .n{font-size:26px;font-weight:650;line-height:1.2}
+.stat .l{color:var(--text-2);font-size:13px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;margin:10px 0}
+th,td{border-bottom:1px solid var(--border);padding:7px 8px;text-align:left;vertical-align:top}
+th{background:var(--surface-2);font-weight:600}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tscroll{overflow-x:auto}
+.badge{display:inline-block;font-size:12px;font-weight:650;padding:1px 8px;border-radius:999px;white-space:nowrap}
+.b-p0{background:var(--p0-soft);color:var(--p0)} .b-p1{background:var(--p1-soft);color:var(--p1)} .b-p2{background:var(--p2-soft);color:var(--p2)} .b-ok{background:var(--ok-soft);color:var(--ok)}
+.finding{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--border);border-radius:8px;padding:12px 16px;margin:12px 0}
+.finding.p0{border-left-color:var(--p0)} .finding.p1{border-left-color:var(--p1)} .finding.p2{border-left-color:var(--p2)}
+.finding h4{margin:0 0 6px}
+.finding .ev{background:var(--code-bg);border-radius:6px;padding:8px 10px;font-family:Consolas,monospace;font-size:12.5px;white-space:pre-wrap;margin:8px 0}
+.kv{display:grid;grid-template-columns:max-content 1fr;gap:2px 12px;font-size:14px}
+.kv b{color:var(--text-2);font-weight:600}
+/* bit layout */
+.bits{display:grid;grid-template-columns:repeat(64,minmax(0,1fr));border:1px solid var(--border);border-radius:8px;overflow:hidden;margin:12px 0 4px;font-size:12px}
+.seg{padding:10px 4px;text-align:center;border-right:2px solid var(--surface);color:var(--text);line-height:1.3;min-width:0;overflow:hidden}
+.seg b{display:block;font-size:13px}
+.seg span{color:var(--text-2);font-size:11px}
+.s-link{grid-column:span 22;background:var(--seg-link)} .s-clc{grid-column:span 18;background:var(--seg-clc)} .s-sbp{grid-column:span 14;background:var(--seg-sbp)}
+.s-w{grid-column:span 1;background:var(--seg-w)} .s-d{grid-column:span 1;background:var(--seg-d)} .s-r{grid-column:span 8;background:var(--seg-r);border-right:0}
+.bitaxis{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;font-family:Consolas,monospace}
+.legend-row{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--text-2);margin-top:8px}
+.legend-row i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+/* mermaid */
+.diagram{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;margin:12px 0;overflow-x:auto}
+.diagram .cap{font-size:13px;color:var(--muted);margin-bottom:6px}
+pre.mermaid{margin:0;background:none;font-family:inherit;text-align:center}
+.diagram svg{max-height:1100px}
+/* bars */
+.chart{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin:12px 0}
+.chart h4{margin:0 0 2px}
+.chart .sub{color:var(--muted);font-size:13px;margin-bottom:10px}
+.bgroup{margin:12px 0 4px}
+.bgroup .gt{font-size:13px;font-weight:600;color:var(--text-2);margin-bottom:4px}
+.brow{display:grid;grid-template-columns:230px 1fr;align-items:center;gap:10px;margin:3px 0;position:relative}
+@media (max-width:640px){.brow{grid-template-columns:1fr}}
+.brow .bl{font-size:12.5px;color:var(--text-2);text-align:right;line-height:1.3}
+@media (max-width:640px){.brow .bl{text-align:left}}
+.track{position:relative;height:20px}
+.bar{height:20px;border-radius:0 4px 4px 0;min-width:2px;cursor:default}
+.bar.cas{background:var(--series-1)} .bar.cd{background:var(--series-2)}
+.bv{position:absolute;top:0;font-size:12px;line-height:20px;color:var(--text);font-variant-numeric:tabular-nums;white-space:nowrap;padding-left:6px}
+.tip{position:fixed;pointer-events:none;background:var(--text);color:var(--bg);font-size:12px;padding:6px 8px;border-radius:6px;max-width:320px;z-index:10;display:none;line-height:1.4}
+.callout{border-left:3px solid var(--accent);background:var(--accent-soft);padding:10px 14px;border-radius:0 8px 8px 0;margin:12px 0}
+.callout.warn{border-left-color:var(--p0);background:var(--p0-soft)}
+ul{padding-left:22px} li{margin:3px 0}
+.meter{height:8px;background:var(--surface-2);border-radius:4px;overflow:hidden;min-width:90px}
+.meter i{display:block;height:100%;background:var(--accent);border-radius:0 4px 4px 0}
+.score-hero{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:8px 0 4px}
+.score-hero .big{font-size:44px;font-weight:700;line-height:1}
+.score-hero .of{color:var(--muted);font-size:18px}
+blockquote.verdict{margin:14px 0;padding:12px 16px;border-left:4px solid var(--accent);background:var(--surface);border-radius:0 8px 8px 0;font-size:15.5px}
+footer{margin-top:56px;color:var(--muted);font-size:13px;border-top:1px solid var(--border);padding-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div class="eyebrow">研究课题 · LockFreeHashTable / CASHashTable · 2026-09-27</div>
+  <h1>KeyIn54BitCASHashTable：设计、测试与问题分析</h1>
+  <p class="muted">分析范围：<code>CASHashTable/</code>（源代码）、<code>CASHashTableTest/</code>（功能与性能测试）、<code>PerformanceReport.xlsx</code>（性能汇总）、README 后半部分及 <code>CASHashTable/readme.txt</code>。WebApi / RPC / Docker / RabbitMQ 等演示骨架不在范围内。所有结论都在本机（Windows 11、i7-1065G7 4C/8T、16 GB、.NET SDK 8.0.403，与原报告为同型号 CPU）上实际运行验证。</p>
+</header>
+
+<nav class="toc">
+  <strong>目录</strong>
+  <ol>
+    <li><a href="#summary">结论摘要</a></li>
+    <li><a href="#structure">代码结构</a></li>
+    <li><a href="#data">数据结构与位布局</a></li>
+    <li><a href="#algo">算法流程图</a></li>
+    <li><a href="#protocol">并发协议本质</a></li>
+    <li><a href="#tests">测试工程分析</a></li>
+    <li><a href="#repro">性能报告复现</a></li>
+    <li><a href="#bench">公平基准对比</a></li>
+    <li><a href="#findings">问题清单（附实测证据）</a></li>
+    <li><a href="#improve">改进建议与示例代码</a></li>
+    <li><a href="#score">综合评价与评分</a></li>
+    <li><a href="#appendix">附录：实验与复现方式</a></li>
+  </ol>
+</nav>
+
+<!-- ============================ 1 ============================ -->
+<h2 id="summary">1. 结论摘要</h2>
+
+<div class="grid g3">
+  <div class="stat"><div class="n">15 / 15</div><div class="l">功能测试通过（耗时 2.0 分钟）</div></div>
+  <div class="stat"><div class="n">4 / 4</div><div class="l">性能测试通过（但性能测试没有任何断言）</div></div>
+  <div class="stat"><div class="n" style="color:var(--p0)">3 个 P0</div><div class="l">可复现的死循环 / 永久锁死缺陷</div></div>
+</div>
+
+<div class="callout">
+<p><strong>综合评分：61 / 100。</strong>难的部分（并发协议）做对了，简单的部分（边界防御、并发测试）反而没做。作为技术探索或面试作品约 75 分，作为生产组件约 40 分。分项理由见 <a href="#score">第 11 节</a>。</p>
+</div>
+
+<div class="card">
+<p><strong>设计评价。</strong>这是一个<b>开放寻址（线性探测）+ 每槽位 64 位"复合键"</b>的哈希表。复合键里同时放了业务键（54 bit）和一个<b>嵌入式读写锁</b>（1 bit 写标志、1 bit 删除标志、8 bit 读者计数），所有状态转换都用 <code>Interlocked.CompareExchange</code> 完成。核心并发协议是<b>正确的</b>：我用带版本号的载荷做了 5 秒高强度压力测试，2,117 万次成功读取中<b>没有出现一次撕裂读</b>。</p>
+<p><strong>但它不是严格意义上的"无锁"（lock-free）</strong>，而是"用 CAS 实现的、按槽位划分的读写自旋锁"。持有写标志的线程被抢占、抛异常或阻塞时，其他线程会在该槽位上无限自旋。这一点直接导致了下面的几个严重问题。</p>
+</div>
+
+<div class="tscroll">
+<table>
+<thead><tr><th>级别</th><th>问题</th><th>证据</th></tr></thead>
+<tbody>
+<tr><td><span class="badge b-p0">P0</span></td><td>表满时 <code>TryGet/TryDelete/TrySet</code> 对不存在的键<b>无限循环</b></td><td>实验 E2：3 秒超时仍未返回</td></tr>
+<tr><td><span class="badge b-p0">P0</span></td><td>删除只打墓碑、永不回收：累计写入过 N 个不同键后，即使全部删除也无法再插入（死循环）</td><td>实验 E3</td></tr>
+<tr><td><span class="badge b-p0">P0</span></td><td>写临界区内抛异常（无 try/finally）→ 写标志永远不释放 → 该键<b>永久不可读写</b></td><td>实验 E4</td></tr>
+<tr><td><span class="badge b-p1">P1</span></td><td>合法输入 <code>linkId=2097152, clcId=0, sbp=0</code> 生成 <code>long.MinValue</code>，<code>Math.Abs</code> 抛 <code>OverflowException</code></td><td>实验 E1</td></tr>
+<tr><td><span class="badge b-p1">P1</span></td><td>基类 <code>TrySet/TryGet/TryDelete(long key…)</code> 是 public，绕过全部校验（键 0 会"写入成功但读不到"）</td><td>实验 E4</td></tr>
+<tr><td><span class="badge b-p1">P1</span></td><td>8 位读者计数在线程超额订阅时溢出，抛异常给调用方</td><td>实验 E9：5 秒 26.6 万次异常</td></tr>
+<tr><td><span class="badge b-p1">P1</span></td><td>读者优先 → 写者饥饿：7 个读者时写延迟 p99.9 = 12.5 ms（无读者时 0.5 µs）</td><td>实验 E8</td></tr>
+<tr><td><span class="badge b-p2">P2</span></td><td>无退避自旋、内存占用（2.86 GB / 1010 万个对象）、哈希函数、API 设计等</td><td>E5/E6/E11/E12</td></tr>
+<tr><td><span class="badge b-p1">P1</span></td><td>测试层面：没有任何并发正确性断言；性能对比口径不一致（TryAdd vs 更新拷贝、引用 vs 拷贝），计时方法本身占 ~34 ns/次</td><td>第 6、7、8 节</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout">
+<p><strong>关于 README 的结论"如果键能组合成 64 位整数，用 ConcurrentDictionary 就好"。</strong>在"值不可变、可以共享引用"的前提下，这一结论成立（读吞吐 CD 19.1 M/s vs CAS 10.8 M/s）。但原性能测试并没有比较同一语义：一旦要求<b>写入时拷贝值</b>（CAS 表的真实语义），ConcurrentDictionary 因为 GC 写屏障/卡表开销，更新吞吐只有 0.49–0.57 M/s，CAS 表是 9.48 M/s（约 17–19 倍）。CAS 设计真正的优势是<b>预分配、原地覆写、不产生 GC 压力</b>，而这个优势恰好没有被原测试测到。详见 <a href="#bench">第 8 节</a>。</p>
+</div>
+
+<!-- ============================ 2 ============================ -->
+<h2 id="structure">2. 代码结构</h2>
+
+<div class="tscroll">
+<table>
+<thead><tr><th>文件</th><th class="num">行数</th><th>职责</th></tr></thead>
+<tbody>
+<tr><td><code>CASHashTable/KeyIn54BitCASHashTableBase.cs</code></td><td class="num">345</td><td>抽象基类：槽位数组、哈希/探测、CAS 状态机（Add/Update/Get/Delete）、位掩码辅助函数、两个异常类型</td></tr>
+<tr><td><code>CASHashTable/KeyIn54BitCASHashTable.cs</code></td><td class="num">48</td><td>业务包装：校验 linkId / clcId / sbp 的取值范围，把三元组编码成 54 位键</td></tr>
+<tr><td><code>CASHashTable/readme.txt</code></td><td class="num">—</td><td>早期设计笔记（2015），表长 6,080,023，与现代码有出入（见 P2-7）</td></tr>
+<tr><td><code>CASHashTableTest/KeyIn54BitCASHashTableFunctionalTest.cs</code></td><td class="num">457</td><td>15 个 MSTest 功能测试，全部单线程</td></tr>
+<tr><td><code>CASHashTableTest/KeyIn54BitCASHashTablePerfTest.cs</code></td><td class="num">646</td><td>2 个性能测试：随机键 / 单一热点键，4 读 + 4 写 + 4 删并发</td></tr>
+<tr><td><code>CASHashTableTest/ConcurrentDictionaryPerfTesting.cs</code></td><td class="num">544</td><td>同样结构的 ConcurrentDictionary 对照测试</td></tr>
+<tr><td><code>CASHashTableTest/Utility.cs</code></td><td class="num">52</td><td>测试数据生成：linkId、clcId、sbp 同步递增</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="diagram">
+<div class="cap">图 2-1　类结构与依赖关系</div>
+<pre class="mermaid">
+classDiagram
+  direction LR
+  class KeyIn54BitCASHashTableBase {
+    &lt;&lt;abstract&gt;&gt;
+    -Entity[] entityArray
+    -int arrayLength
+    -int contentLength
+    +int ContentLength
+    +TrySet(long key, byte[] content) int
+    +TryGet(long key, out byte[] output) int
+    +TryDelete(long key) int
+    +Hash(long key) int
+    +Collision(long key, int i) int
+    +KeysAreEqual(long key, long target) bool
+    -AddOrUpdate(...) int
+    -Update(int index, byte[] content) int
+    -HashSearch(long key, out int index) bool
+    -位掩码辅助函数 x11
+  }
+  class Entity {
+    &lt;&lt;struct&gt;&gt;
+    +long compondKey
+    +byte[] content
+    +int contentLength
+  }
+  class KeyIn54BitCASHashTable {
+    +TrySet(linkId, clcId, sbp, content) int
+    +TryGet(linkId, clcId, sbp, out output) int
+    +TryDelete(linkId, clcId, sbp) int
+    +GenerateKey(linkId, clcId, sbp) long
+  }
+  class ReaderCounterOverflowException
+  class CASFailureException
+  KeyIn54BitCASHashTableBase *-- Entity : 预分配 arrayLength 个
+  KeyIn54BitCASHashTable --|> KeyIn54BitCASHashTableBase
+  KeyIn54BitCASHashTableBase ..> ReaderCounterOverflowException : throws
+  KeyIn54BitCASHashTableBase ..> CASFailureException : 定义但未使用
+  FunctionalTest ..> KeyIn54BitCASHashTable
+  PerfTest ..> KeyIn54BitCASHashTable
+  ConcurrentDictionaryPerfTesting ..> ConcurrentDictionary
+</pre>
+</div>
+
+<p>返回值约定（魔法数字）：</p>
+<div class="tscroll">
+<table>
+<thead><tr><th>返回值</th><th>TrySet</th><th>TryGet</th><th>TryDelete</th></tr></thead>
+<tbody>
+<tr><td class="num">0</td><td>新增成功</td><td>读取成功</td><td>删除成功</td></tr>
+<tr><td class="num">1</td><td>更新成功（含"复活"已删除项）</td><td>—</td><td>—</td></tr>
+<tr><td class="num">-2</td><td>—</td><td>不存在</td><td>不存在</td></tr>
+<tr><td class="num">-3</td><td>—</td><td>已被删除</td><td>已被删除（重复删除）</td></tr>
+<tr><td class="num">-1</td><td colspan="3">测试代码中统计"InputParametersError"，但实现从不返回 -1（参数错误以异常方式抛出）</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- ============================ 3 ============================ -->
+<h2 id="data">3. 数据结构与位布局</h2>
+
+<h3>3.1　64 位复合键 <code>compondKey</code></h3>
+<p>代码中的实际布局（高位在左；注意 README 写的是"54 bytes"，实为 54 <b>bit</b>；<code>readme.txt</code> 的位编号方向与代码相反）：</p>
+<div class="bits" role="img" aria-label="64 位复合键布局">
+  <div class="seg s-link"><b>linkId</b><span>22 bit · 63–42</span></div>
+  <div class="seg s-clc"><b>clcId</b><span>18 bit · 41–24</span></div>
+  <div class="seg s-sbp"><b>sbp</b><span>14 bit · 23–10</span></div>
+  <div class="seg s-w" title="doWrite, bit 9"><b>W</b></div>
+  <div class="seg s-d" title="isDelete, bit 8"><b>D</b></div>
+  <div class="seg s-r"><b>readers</b><span>8 bit · 7–0</span></div>
+</div>
+<div class="bitaxis"><span>bit 63</span><span>bit 0</span></div>
+<div class="legend-row">
+  <span><i style="background:var(--seg-w)"></i>W = doWrite（bit 9，0x200）写者独占标志</span>
+  <span><i style="background:var(--seg-d)"></i>D = isDelete（bit 8，0x100）墓碑标志</span>
+  <span><i style="background:var(--seg-r)"></i>readers（bit 0–7，0xFF）并发读者计数 0–255</span>
+</div>
+
+<pre class="code"><code>// KeyIn54BitCASHashTable.cs:44
+public long GenerateKey(long linkId, long clcId, long sbp)
+    =&gt; (linkId &lt;&lt; 42) | (clcId &lt;&lt; 24) | (sbp &lt;&lt; 10);   // 低 10 位恒为 0，留给 W / D / readers</code></pre>
+
+<p>注意：linkId 占到第 63 位（符号位）。linkId ≥ 2<sup>21</sup> 时键为负数，而 linkId = 2<sup>21</sup>、其余为 0 时键恰好是 <code>long.MinValue</code>（见 P1-1）。</p>
+
+<h3>3.2　代码中的"魔法常量"解码</h3>
+<div class="tscroll">
+<table>
+<thead><tr><th>常量</th><th>十六进制</th><th>含义</th><th>用于</th></tr></thead>
+<tbody>
+<tr><td class="num"><code>0x200</code></td><td><code>…0000 0010 0000 0000</code></td><td>W 位</td><td>加写锁</td></tr>
+<tr><td class="num"><code>0x100</code></td><td><code>…0000 0001 0000 0000</code></td><td>D 位</td><td>删除、判断已删除</td></tr>
+<tr><td class="num"><code>-257</code></td><td><code>0xFFFF…FEFF</code></td><td>清 D</td><td>更新时"复活"已删除项</td></tr>
+<tr><td class="num"><code>-513</code></td><td><code>0xFFFF…FDFF</code></td><td>清 W</td><td>释放写锁</td></tr>
+<tr><td class="num"><code>-768</code></td><td><code>0xFFFF…FD00</code></td><td>清 W + readers，保留 D</td><td>Update 的期望值：无写者、无读者</td></tr>
+<tr><td class="num"><code>-769</code></td><td><code>0xFFFF…FCFF</code></td><td>清 W + D，保留 readers</td><td>Get / Delete 的期望值：无写者、未删除</td></tr>
+<tr><td class="num"><code>-1024</code></td><td><code>0xFFFF…FC00</code></td><td>清低 10 位</td><td>KeysAreEqual：只比较业务键</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>3.3　槽位数组与内存布局</h3>
+<p>构造函数一次性分配 <code>arrayLength</code> 个 <code>Entity</code>（24 字节：long + 引用 + int + 填充），并为<b>每个槽位</b>单独 <code>new byte[contentLength]</code>。测试配置 <code>arrayLength = 10,107,313</code>（质数）、<code>contentLength = 256</code>：</p>
+<div class="grid g3">
+  <div class="stat"><div class="n">2.86 GB</div><div class="l">托管堆增量（实测 E11）</div></div>
+  <div class="stat"><div class="n">7.1 s</div><div class="l">构造耗时（1010 万个 byte[] 对象）</div></div>
+  <div class="stat"><div class="n">698 ms</div><div class="l">表存活时一次完整 Gen2 GC 的停顿</div></div>
+</div>
+<p class="small muted">对照：同样 300 万条数据（实际每条 URL 仅 ~35–41 字节）放进 ConcurrentDictionary，含值拷贝共 366 MB（E13）。实际装载因子 3,000,000 / 10,107,313 = 0.30，而不是 README 所说的 0.5。</p>
+
+<!-- ============================ 4 ============================ -->
+<h2 id="algo">4. 算法流程图</h2>
+
+<h3>4.1　TrySet → AddOrUpdate（新增或更新）</h3>
+<div class="diagram">
+<div class="cap">图 4-1　TrySet 流程（KeyIn54BitCASHashTable.cs:11 → Base.cs:38–97）</div>
+<pre class="mermaid">
+flowchart TD
+  S(["TrySet(linkId, clcId, sbp, content)"]) --> V{"参数校验"}
+  V -- 不通过 --> X["抛 ArgumentOutOfRange / ArgumentNull<br/>（范围、全 0 键、内容长度）"]
+  V -- 通过 --> K["key = GenerateKey(...)<br/>init = key + W　final = key"]
+  K --> H["index = Hash(key) = Abs(key) mod N"]
+  H --> P{"空槽或同键?"}
+  P -- "否（被其他键占用）" --> C["index = (Hash(key) + i++) mod N<br/>线性探测，无上限"]
+  C --> P
+  P -- 业务键相同 --> U[["Update(index)<br/>见图 4-2"]]
+  U --> R1(["return 1：更新"])
+  P -- 空槽 --> CAS1{"CAS 0 → init"}
+  CAS1 -- "成功：抢占空槽并持有 W" --> W1["BlockCopy(content)<br/>写 contentLength"]
+  W1 --> REL["CAS(slot: init → final)<br/>释放 W"]
+  REL --> R0(["return 0：新增"])
+  CAS1 -- "失败（被其他线程抢先）" --> REC["递归 AddOrUpdate(同一 index)<br/>重新判断：同键则更新，异键则继续探测"]
+  REC --> P
+  classDef danger fill:#fbe7e6,stroke:#c0322f,color:#1b1b1a
+  class C,W1 danger
+</pre>
+</div>
+<p class="small muted">红色节点：<b>探测循环没有上限</b>（表满/墓碑满时死循环，P0-1/P0-2）；<b>BlockCopy 位于持有 W 位期间且无 try/finally</b>（异常即永久锁死，P0-3）。</p>
+
+<h3>4.2　Update（写锁 → 覆写 → 释放）</h3>
+<div class="diagram">
+<div class="cap">图 4-2　Update 流程（Base.cs:99–118）</div>
+<pre class="mermaid">
+flowchart TD
+  U0(["Update(index, content)"]) --> U1["cur = slot.compondKey<br/>comparand = cur 清 W、清 readers（保留 D）<br/>value = comparand 置 W=1、D=0"]
+  U1 --> U2{"CAS 加写锁"}
+  U2 -- "失败：有读者或其他写者<br/>（无退避，忙等）" --> U1
+  U2 -- 成功：独占 --> U3["BlockCopy(content)<br/>contentLength = len"]
+  U3 --> U4["CAS(slot: value → value 清 W)<br/>释放写锁（返回值被忽略）"]
+  U4 --> U5(["return 1"])
+  classDef danger fill:#fbe7e6,stroke:#c0322f,color:#1b1b1a
+  class U3 danger
+</pre>
+</div>
+<p>要点：Update 要求 <b>readers = 0 且 W = 0</b> 才能成功，所以只要读者持续进入，写者就一直失败（读者优先 → 写者饥饿，P1-4）。Update 会把 D 清零，因此 <code>TrySet</code> 可以"复活"已删除的键。</p>
+
+<h3>4.3　TryGet（读者计数 +1 → 拷贝 → 计数 −1）</h3>
+<div class="diagram">
+<div class="cap">图 4-3　TryGet 流程（Base.cs:120–153）</div>
+<pre class="mermaid">
+flowchart TD
+  G0(["TryGet(key)"]) --> HS{"HashSearch"}
+  HS -- 未找到 --> RN(["return -2"])
+  HS -- 找到 index --> G1["cur = slot.compondKey<br/>comparand = cur 清 W、清 D"]
+  G1 --> G2{"readers=255?"}
+  G2 -- 是 --> EX["抛 ReaderCounterOverflowException"]
+  G2 -- 否 --> G3{"CAS 读者+1"}
+  G3 -- 成功 --> G5["output = new byte[len]<br/>BlockCopy 拷出内容"]
+  G3 -- 失败 --> G4{"原值 D=1?"}
+  G4 -- 是 --> RD(["return -3：已删除"])
+  G4 -- "否（有写者或计数变化）<br/>忙等重试" --> G1
+  G5 --> G6["循环：cur = slot<br/>CAS(slot: cur → cur - 1)"]
+  G6 --> R0(["return 0"])
+  classDef danger fill:#fbe7e6,stroke:#c0322f,color:#1b1b1a
+  class EX danger
+</pre>
+</div>
+<p>每次读取要对<b>共享的键字</b>做至少 2 次 CAS 写操作。对同一热点键，这意味着所有读者都在争抢同一条缓存行（缓存行乒乓）。这也是单热点键场景下 CAS 表读吞吐远低于 ConcurrentDictionary 的根本原因（复现：CD 5,878 万 vs CAS 370 万 RPS）。</p>
+
+<h3>4.4　TryDelete（打墓碑）</h3>
+<div class="diagram">
+<div class="cap">图 4-4　TryDelete 流程（Base.cs:155–175）</div>
+<pre class="mermaid">
+flowchart TD
+  D0(["TryDelete(key)"]) --> HS{"HashSearch"}
+  HS -- 未找到 --> RN(["return -2"])
+  HS -- 找到 --> D1["comparand = cur 清 W、清 D（保留 readers）<br/>value = comparand 置 D=1"]
+  D1 --> D2{"CAS 置 D"}
+  D2 -- 成功 --> R0(["return 0"])
+  D2 -- 失败 --> D3{"原值 D=1?"}
+  D3 -- 是 --> R3(["return -3：已删除"])
+  D3 -- "否（写者持锁或读者计数变化）" --> D1
+</pre>
+</div>
+<p>删除<b>不等待读者退出</b>（保留 readers），因为删除并不修改内容；正在读取的线程仍会读到完整旧值，这是安全的。删除后业务键与内容都保留在槽位中，槽位永不回到 0。</p>
+
+<h3>4.5　HashSearch（查找槽位）</h3>
+<div class="diagram">
+<div class="cap">图 4-5　HashSearch 流程（Base.cs:177–196）</div>
+<pre class="mermaid">
+flowchart LR
+  A(["HashSearch(key)"]) --> B["index = Hash(key)"]
+  B --> C{"slot=0?"}
+  C -- 是 --> NF(["false：不存在"])
+  C -- 否 --> D{"同键?"}
+  D -- 是 --> F(["true + index"])
+  D -- 否 --> E["index = Collision(key, i++)<br/>i 从 0 开始：第一次重复探测起始槽"]
+  E --> C
+  classDef danger fill:#fbe7e6,stroke:#c0322f,color:#1b1b1a
+  class E danger
+</pre>
+</div>
+
+<h3>4.6　槽位状态机</h3>
+<div class="diagram">
+<div class="cap">图 4-6　单个槽位的生命周期（W/D/readers 的组合）</div>
+<pre class="mermaid">
+stateDiagram-v2
+  direction LR
+  [*] --> Empty
+  Empty --> Inserting : CAS 0 到 key+W
+  Inserting --> Live : 拷贝完成，清 W
+  Live --> Reading : 读者 +1
+  Reading --> Reading : 读者 ±1
+  Reading --> Live : 最后一个读者 -1
+  Live --> Updating : CAS 置 W（要求 readers=0）
+  Updating --> Live : 拷贝完成，清 W
+  Live --> Deleted : 置 D
+  Reading --> Deleted : 置 D（读者继续读完旧值）
+  Deleted --> Updating : TrySet 复活（W=1, D=0）
+  note right of Deleted
+    永远不会回到 Empty：
+    墓碑一直占用槽位与探测链
+  end note
+</pre>
+</div>
+
+<!-- ============================ 5 ============================ -->
+<h2 id="protocol">5. 并发协议本质：嵌入键中的"读写自旋锁"</h2>
+<p>把各操作 CAS 成功所需的前置条件列出来，协议的性质就很清楚了：</p>
+<div class="tscroll">
+<table>
+<thead><tr><th>操作</th><th>要求 W</th><th>要求 D</th><th>要求 readers</th><th>CAS 后</th><th>相当于</th></tr></thead>
+<tbody>
+<tr><td>新增</td><td colspan="3">槽位整体为 0</td><td>key + W</td><td>获取写锁</td></tr>
+<tr><td>读取</td><td>0</td><td>0</td><td>任意（&lt;255）</td><td>readers + 1</td><td>获取读锁</td></tr>
+<tr><td>更新</td><td>0</td><td>任意</td><td><b>0</b></td><td>W = 1, D = 0</td><td>获取写锁</td></tr>
+<tr><td>删除</td><td>0</td><td>0</td><td>任意</td><td>D = 1</td><td>单次原子标记</td></tr>
+</tbody>
+</table>
+</div>
+<ul>
+  <li><b>读写互斥是正确的。</b>写者持有 W 时，读、删、其他写的 CAS 都必然失败；读者持有计数时，更新必然失败。<code>Interlocked</code> 在 .NET 中是全栅栏，所以内容写入对随后获得读锁的线程可见。实验 E7 用"8 字节版本号重复填满整个载荷、长度随机"的方式检测撕裂读：<b>21,174,067 次成功读取，0 次不一致</b>。</li>
+  <li><b>但它是阻塞算法。</b>无锁（lock-free）的定义是"任一线程被挂起都不妨碍其他线程继续推进"。这里持有 W 或读者计数的线程一旦被操作系统抢占、异常退出或卡在 GC 上，其他线程就只能自旋等待。"没有用 lock 关键字"不等于"无锁"。</li>
+  <li><b>读是写。</b>每次读取都修改共享字，热点键下缓存行在核之间来回迁移，读扩展性差；这也使得 8 位读者计数成为一个硬上限。</li>
+  <li>README 提到的上交所原型里值是 64 位整数，可以和键一起原子读写，那种场景下天然没有"大值拷贝"的临界区；移植成 256 字节值后，才引入了读写锁语义和它带来的所有问题。</li>
+</ul>
+
+<!-- ============================ 6 ============================ -->
+<h2 id="tests">6. 测试工程分析</h2>
+
+<h3>6.1　功能测试（15 个，全部通过）</h3>
+<div class="tscroll">
+<table>
+<thead><tr><th>测试</th><th>覆盖点</th><th class="num">本机耗时</th><th>评注</th></tr></thead>
+<tbody>
+<tr><td>KeyIn54BitInitialize</td><td>构造</td><td class="num">6 s</td><td>没有断言</td></tr>
+<tr><td>CheckAddTotalSync / CheckAddEachSync / CheckGet</td><td>300 万条新增 + 读取比对</td><td class="num">7–9 s</td><td>三者高度重复</td></tr>
+<tr><td>CheckAdd/Get/DeleteInvildInput</td><td>参数越界</td><td class="num">3–5 s</td><td>很完整；但每个都先分配 2.86 GB 表</td></tr>
+<tr><td>CheckGetNotFound / CheckDeleteNotFound</td><td>-2 路径</td><td class="num">3–4 s</td><td>只在空表上测</td></tr>
+<tr><td>CheckGetDeleted / CheckDelete / CheckDeleteAgain</td><td>-3 路径、重复删除</td><td class="num">6–8 s</td><td>OK</td></tr>
+<tr><td>CheckUpdate / CheckUpdateBringDeletedBack</td><td>更新、复活</td><td class="num">10–32 s</td><td>含无意义分支 <code>url.Length == 0</code> → 断言 "haha"</td></tr>
+<tr><td>InterlockTesting</td><td>测试 BCL 的 <code>Interlocked</code></td><td class="num">&lt;1 ms</td><td>没有测到被测代码</td></tr>
+</tbody>
+</table>
+</div>
+<p><b>缺口：</b></p>
+<ul>
+  <li><b>完全没有并发正确性测试。</b>一个以并发为卖点的数据结构，15 个功能测试全部是单线程的。</li>
+  <li>没有边界：<code>long.MinValue</code> 键、表满、墓碑满、小表、哈希冲突链（测试用的 1010 万槽位几乎不冲突）、内容长度等于 0 / 等于上限、基类 API。</li>
+  <li>测试数据 <code>Utility.GetData</code> 让 linkId、clcId、sbp 同步 +1，分布非常"整齐"。E6 显示：这种数据的平均探测长度 1.045、最长 3；均匀随机键则为 1.212、最长 19。测试数据让冲突处理代码几乎没有被执行到。</li>
+  <li>每个测试都新建 10,107,313 槽 × 256 B 的表，功能测试整体 2 分钟，其中大部分时间在分配内存。功能测试应使用小表（如 README 注释掉的 4139）。</li>
+</ul>
+
+<h3>6.2　性能测试的设计问题</h3>
+<div class="finding p1">
+<h4>(a) 验证方式无法发现并发错误</h4>
+<p>更新线程写回的内容与原值<b>完全相同</b>（<code>record[index].url</code>），所以即使发生撕裂读或丢失更新，<code>ResultMatch</code> 仍然会成立。而且 <code>ResultNotMatch</code> 只打印，从不 <code>Assert</code>，测试永远"通过"。</p>
+</div>
+<div class="finding p1">
+<h4>(b) 计时方式与结果口径</h4>
+<ul>
+<li>每次调用都包一对 <code>Stopwatch.Start()/Stop()</code>，本机实测<b>单对开销 ≈ 34 ns</b>，与被测操作（~100 ns）同量级。在 CD 单键读取测试中，每次调用计时约 67 ns，其中一半是秒表本身。</li>
+<li>RPS 计算方法为 Σ(每线程调用次数 / 该线程的 API 累计时间)，并不是墙钟吞吐。</li>
+<li>12 个任务调用次数不同（读 3M、写 6M、删 15M），完成时间也不同。例如复现中 CD 随机测试：读线程 5 秒就结束了，删除线程跑了 24 秒，所以"并发混合"只存在于前 5 秒。因此"成功率"随调度变化很大：CD 随机读成功率在原报告中为 96.1%，本机复现为 99.9%。</li>
+<li>发生异常时 <code>internalStopWatch</code> 不会 Stop，<code>result</code> 也不会重置，上一次的结果会被重复计数。</li>
+<li>线程内部的局部计数器用 <code>Interlocked.Increment</code> 是多余开销；<code>Task.Run</code> 启动 12 个任务依赖线程池注入，不保证同时开始。</li>
+</ul>
+</div>
+<div class="finding p1">
+<h4>(c) 两边比较的不是同一件事</h4>
+<div class="tscroll">
+<table>
+<thead><tr><th></th><th>CAS 表</th><th>ConcurrentDictionary 测试</th></tr></thead>
+<tbody>
+<tr><td>写</td><td><code>TrySet</code>：插入或更新，把 256 B 缓冲区内容拷贝进槽位</td><td><code>TryAdd</code>：仅在不存在时插入，<b>80–97% 的调用什么都不做</b>；只存引用，不拷贝</td></tr>
+<tr><td>读</td><td>分配新数组并拷贝</td><td>返回内部引用（调用方可以篡改表内数据）</td></tr>
+<tr><td>删</td><td>打标记，槽位保留</td><td>真正移除节点</td></tr>
+<tr><td>"成功率"</td><td colspan="2">语义不同，互相比较没有意义（例如 TrySet 成功率 100% vs TryAdd 3.4%）</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- ============================ 7 ============================ -->
+<h2 id="repro">7. 性能报告复现</h2>
+<p>在本机原样运行 4 个性能测试，并用与 Excel 相同的公式（Σ 调用次数 / API 时间）汇总：</p>
+<div class="tscroll">
+<table>
+<thead><tr><th>场景</th><th>操作</th><th class="num">原报告 RPS</th><th class="num">本机复现 RPS</th><th class="num">原成功率</th><th class="num">复现成功率</th></tr></thead>
+<tbody>
+<tr><td rowspan="6">随机键</td><td>CAS TryGet</td><td class="num">3,780,242</td><td class="num">4,845,154</td><td class="num">86.5%</td><td class="num">99.3%</td></tr>
+<tr><td>CD TryGetValue</td><td class="num">4,924,242</td><td class="num">7,221,917</td><td class="num">96.1%</td><td class="num">99.9%</td></tr>
+<tr><td>CAS TrySet</td><td class="num">3,233,309</td><td class="num">4,803,791</td><td class="num">100%</td><td class="num">100%</td></tr>
+<tr><td>CD TryAdd</td><td class="num">4,404,597</td><td class="num">4,170,937</td><td class="num">3.4%</td><td class="num">20.7%</td></tr>
+<tr><td>CAS TryDelete</td><td class="num">7,625,000</td><td class="num">11,094,961</td><td class="num">5.6%</td><td class="num">6.3%</td></tr>
+<tr><td>CD TryRemove</td><td class="num">9,584,365</td><td class="num">8,632,193</td><td class="num">6.5%</td><td class="num">18.0%</td></tr>
+<tr><td rowspan="6">单一热点键</td><td>CAS TryGet</td><td class="num">2,058,975</td><td class="num">3,697,611</td><td class="num">28.9%</td><td class="num">25.6%</td></tr>
+<tr><td>CD TryGetValue</td><td class="num">19,667,943</td><td class="num">58,777,498</td><td class="num">49.3%</td><td class="num">81.9%</td></tr>
+<tr><td>CAS TrySet</td><td class="num">1,332,888</td><td class="num">1,569,680</td><td class="num">100%</td><td class="num">100%</td></tr>
+<tr><td>CD TryAdd</td><td class="num">5,006,571</td><td class="num">2,706,635</td><td class="num">4.5%</td><td class="num">42.1%</td></tr>
+<tr><td>CAS TryDelete</td><td class="num">7,053,979</td><td class="num">9,740,414</td><td class="num">7.3%</td><td class="num">11.1%</td></tr>
+<tr><td>CD TryRemove</td><td class="num">5,992,542</td><td class="num">3,153,394</td><td class="num">3.6%</td><td class="num">33.7%</td></tr>
+</tbody>
+</table>
+</div>
+<p><b>解读：</b>总体排序（随机键下两者同量级、热点键读 CD 远胜）可以复现，但具体数值偏差可达 ±50%～3 倍，成功率更是随线程调度大幅漂移（例如 CD 单键 TryAdd 成功率 4.5% → 42.1%）。这说明原测试的数字不稳定，不适合做"-30%、-855%"这样精确的对比结论。原始输出保存在 <code>experiments/logs/original_perf_tests_rerun.txt</code>。</p>
+
+<!-- ============================ 8 ============================ -->
+<h2 id="bench">8. 公平基准对比（同语义、整段计时）</h2>
+<p>方法：300 万个键，8 个线程各执行 300 万次随机操作，用 <code>Barrier</code> 同时起跑，只测整段墙钟时间（没有每次调用的秒表）。CAS 表使用与测试相同的配置。ConcurrentDictionary 分别测试"引用语义"和"拷贝语义"（与 CAS 表相同）。</p>
+
+<div class="chart" id="chart-bench">
+  <h4>8 线程吞吐（百万次操作 / 秒，越长越好）</h4>
+  <div class="sub">
+    <span class="legend-row" style="display:inline-flex;margin:0">
+      <span><i style="background:var(--series-1)"></i>CAS 哈希表</span>
+      <span><i style="background:var(--series-2)"></i>ConcurrentDictionary</span>
+    </span>
+  </div>
+  <div id="bars"></div>
+</div>
+
+<div class="tscroll">
+<table id="bench-table">
+<thead><tr><th>操作</th><th>实现</th><th>语义</th><th class="num">M ops/s</th><th class="num">GC</th></tr></thead>
+<tbody></tbody>
+</table>
+</div>
+
+<div class="callout">
+<p><b>为什么"CD + 拷贝更新"这么慢？</b>实验 E14 做了归因。只分配、不存入：28.4 M/s。存入但复用旧引用、不分配：10.7 M/s。<b>存入新分配的数组</b>：0.57 M/s，期间发生 341 次 Gen0 GC 和 6 次 Gen2 GC。原因是老年代的 300 万个节点不断指向新生代对象，写屏障标脏卡表，每次 Gen0 GC 都要扫描大量卡片，还会提升对象、触发 Gen2。CAS 表把值原地拷进预分配缓冲区，完全没有这个问题，这才是它真正的价值所在。</p>
+<p><b>结论修正：</b>如果值是不可变的（string 或只读 byte[]）、可以共享引用，就用 <code>ConcurrentDictionary&lt;long, T&gt;</code>，简单且读更快（19.1 vs 10.8 M/s）。如果值必须以固定长度缓冲区原地更新，且写占比不低、对 GC 停顿敏感，CAS 这类预分配设计有数量级优势（混合负载 10.07 vs 1.54 M/s），前提是修掉第 9 节的问题。</p>
+</div>
+
+<!-- ============================ 9 ============================ -->
+<h2 id="findings">9. 问题清单（附实测证据）</h2>
+
+<h3>9.1　正确性 / 可用性</h3>
+
+<div class="finding p0">
+<h4><span class="badge b-p0">P0-1</span>　表满时查找和插入无限循环</h4>
+<p><code>HashSearch</code>（Base.cs:187–191）和 <code>AddOrUpdate</code>（Base.cs:60–64）的探测循环只以"遇到空槽"或"键相等"为终止条件，没有探测次数上限。表满后，对不存在的键做 Get、Delete 或 Set，都会让线程 100% 占用一个 CPU 核并永远不返回。</p>
+<div class="ev">E2  arrayLength=7，插入 7 个键后：
+TryGet(missing)    3 秒内返回: False  => 死循环
+TryDelete(missing) 3 秒内返回: False
+TrySet(new key)    3 秒内返回: False  => 死循环</div>
+<p><b>修复：</b>探测次数上限设为 <code>arrayLength</code>，超出时返回"表满"或"不存在"；插入时维护计数，超过装载因子阈值即拒绝或扩容。</p>
+</div>
+
+<div class="finding p0">
+<h4><span class="badge b-p0">P0-2</span>　墓碑永不回收：容量按"历史上出现过的不同键数"计算</h4>
+<p>删除只置 D 位，槽位永远不回到 0（图 4-6）。短链接服务里键会持续新增，被删除的键又永远占着槽位，所以表迟早会"被墓碑填满"并触发 P0-1。墓碑还会拉长所有探测链，让查找越来越慢。</p>
+<div class="ev">E3  arrayLength=11：依次 插入+删除 11 个不同键（存活数 = 0）
+TrySet(第 12 个键) 3 秒内返回: False  => 死循环</div>
+<p><b>修复：</b>插入时如果确认键不存在，可以复用探测链上遇到的第一个"D=1 且 readers=0"的墓碑。要避免同一个键被两个线程插到两个不同墓碑上，需要"占位 + 复查"的两阶段协议。更简单可靠的做法是定期<b>重建</b>：把存活项复制到新表，再用一次 <code>Volatile.Write</code> 原子替换引用。</p>
+</div>
+
+<div class="finding p0">
+<h4><span class="badge b-p0">P0-3</span>　临界区异常 → 槽位被永久锁死</h4>
+<p><code>AddOrUpdate</code> 和 <code>Update</code> 在持有 W 位期间调用 <code>Buffer.BlockCopy</code>，却没有 <code>try/finally</code> 释放 W 位；<code>TryGet</code> 在持有读者计数期间 <code>new byte[]</code>（可能 OOM），同样没有保护。代码作者注释掉的 <code>CASFailureException</code> 和 <code>ResetDoWriteBit()</code> 说明作者意识到了这个问题，但没有实现。</p>
+<div class="ev">E4  通过基类 public API 写入 17 字节内容（上限 16）：
+base.TrySet 抛出 ArgumentException
+随后 TryGet 同一键   3 秒内返回: False  => 永久自旋
+随后 TrySet 合法内容 3 秒内返回: False
+（更新路径同样复现）</div>
+<p><b>修复：</b>所有"获取 → 操作 → 释放"都放进 <code>try { … } finally { Release(); }</code>，并把可能抛异常的校验和分配移到获取锁之前。</p>
+</div>
+
+<div class="finding p1">
+<h4><span class="badge b-p1">P1-1</span>　合法输入触发 OverflowException</h4>
+<p>包装类允许 linkId ≤ 4,194,303（22 位），而 <code>2097152 &lt;&lt; 42 = 2<sup>63</sup></code> 在 long 中就是 <code>long.MinValue</code>。<code>Hash()</code> 使用 <code>Math.Abs(key)</code>（Base.cs:200），对 MinValue 会抛异常。</p>
+<div class="ev">E1  GenerateKey(2097152,0,0) = -9223372036854775808
+TrySet 抛 OverflowException: Negating the minimum value of a twos complement number is invalid.
+TryGet 抛 OverflowException</div>
+<p><b>修复：</b><code>(int)((ulong)key % (ulong)arrayLength)</code>，或者先 <code>key &gt;&gt;&gt; 10</code> 再做乘法散列（见第 10 节）。</p>
+</div>
+
+<div class="finding p1">
+<h4><span class="badge b-p1">P1-2</span>　基类 public API 绕过全部校验</h4>
+<p>派生类的 3 参数重载并没有隐藏基类的 <code>TrySet(long key, byte[])</code>、<code>TryGet(long key, …)</code>、<code>TryDelete(long key)</code>，这些方法都是 public。它们不检查键的低 10 位、键是否为 0、内容长度或 null。</p>
+<div class="ev">E4  base.TrySet(0, "zero") 返回 0（"新增成功"）
+    base.TryGet(0)         返回 -2（"不存在"）=> 静默丢数据
+（键 0 时 final = 0，槽位被写回"空"，但内容已写入）</div>
+<p>低 10 位不为 0 的键会让 <code>key + doWrite</code> 进位，污染业务键。<b>修复：</b>把基类方法改为 <code>protected</code>（或 internal），并在基类里做最低限度的防御性检查。</p>
+</div>
+
+<div class="finding p1">
+<h4><span class="badge b-p1">P1-3</span>　8 位读者计数溢出以异常形式暴露给调用方</h4>
+<p>读者上限 255。在 8 核机器上，只要线程数远超核心数（例如 ASP.NET 线程池在高负载下扩张），被抢占在读临界区内的线程就会累积起来。</p>
+<div class="ev">E9  400 个线程读同一个键 5 秒：成功 31,717,714 次，ReaderCounterOverflowException 265,636 次</div>
+<p>WebApi 调用方只会看到 500 错误。<b>修复：</b>计数满时自旋等待（<code>SpinWait</code>）而不是抛异常；或者改用 seqlock，读者不写共享状态（第 10 节）。</p>
+</div>
+
+<div class="finding p1">
+<h4><span class="badge b-p1">P1-4</span>　读者优先 → 写者饥饿，尾延迟不可控</h4>
+<p>Update 要求 readers 恰好为 0。读者之间的持有区间只要有重叠，写者就一直 CAS 失败。</p>
+<div class="tscroll">
+<table>
+<thead><tr><th class="num">并发读者数</th><th class="num">写 p50</th><th class="num">写 p99</th><th class="num">写 p99.9</th><th class="num">写 max</th></tr></thead>
+<tbody>
+<tr><td class="num">0</td><td class="num">0.20 µs</td><td class="num">0.30 µs</td><td class="num">0.50 µs</td><td class="num">529 µs</td></tr>
+<tr><td class="num">1</td><td class="num">0.40 µs</td><td class="num">1.70 µs</td><td class="num">13.0 µs</td><td class="num">411 µs</td></tr>
+<tr><td class="num">3</td><td class="num">1.50 µs</td><td class="num">11.6 µs</td><td class="num">81.7 µs</td><td class="num">2,023 µs</td></tr>
+<tr><td class="num">7</td><td class="num">16.4 µs</td><td class="num">510.9 µs</td><td class="num">12,458 µs</td><td class="num">31,551 µs</td></tr>
+</tbody>
+</table>
+</div>
+<p class="small muted">E8：单热点键、256 B 内容、每档 20,000 次写入。7 个读者时 p99.9 比无读者时高约 25,000 倍。</p>
+<p><b>修复：</b>加写意图位（writer-pending），置位后新读者不再进入；或者改用 seqlock，写者永远不需要等待读者。</p>
+</div>
+
+<h3>9.2　性能 / 资源</h3>
+
+<div class="finding p2">
+<h4><span class="badge b-p2">P2-1</span>　无退避自旋，超额订阅时吞吐下降</h4>
+<p>所有 CAS 重试循环都是紧循环，没有 <code>SpinWait</code>、<code>Thread.Yield</code> 或 <code>Pause</code>。持锁线程被抢占后，其余线程会把整个时间片烧在自旋上。</p>
+<div class="ev">E12  单热点键，75% 读 / 25% 写：8 线程 2.10 M ops/s；64 线程 1.07 M ops/s（下降 49%）
+     两组各运行 3 秒，但整个实验实际耗时 89.5 秒：发出停止信号后，自旋线程迟迟无法全部退出</div>
+<p>代码末尾的中文 TODO（Base.cs:342–346）也提到应统计重试次数，但没有实现。</p>
+</div>
+
+<div class="finding p2">
+<h4><span class="badge b-p2">P2-2</span>　内存：1010 万个独立 byte[]，按最大长度预分配</h4>
+<p>E11：托管堆 +2.86 GB，构造 7.1 秒，每次完整 GC 要遍历 1010 万个对象（698 ms 停顿）。实际 URL 平均约 40 字节，却按 256 字节预留，只用了约 15%。<code>Entity</code> 为 24 字节，一条缓存行放不下 3 个槽，相邻热点键之间还存在伪共享。</p>
+<p><b>修复：</b>用一整块 <code>byte[arrayLength * contentLength]</code>（<code>GC.AllocateUninitializedArray(pinned: true)</code>）或 <code>NativeMemory</code> 作为数据区，槽位只存偏移；这样只有 1 个大对象，GC 几乎零成本。</p>
+</div>
+
+<div class="finding p2">
+<h4><span class="badge b-p2">P2-3</span>　哈希函数与表长</h4>
+<ul>
+<li>键的低 10 位恒为 0。构造函数不强制质数长度，一旦传入 2 的幂，所有键都挤进极少数起始槽。E5：长度 65536 时，20,000 个键只落在 <b>64 个</b>不同起始槽上，插入慢 10 倍；65537（质数）时则是 20,000 个。</li>
+<li>线性探测对聚集敏感。E6：均匀随机键在 0.3 装载因子下最长探测链为 19。</li>
+<li>README 称"装载因子 0.5 时平均查找 1.1 次"，但 <code>readme.txt</code> 自己按线性探测公式算出的是 1.5 次（成功）/ 2.5 次（失败）。测试实际装载因子是 0.3，实测为 1.045（测试数据）/ 1.212（随机键）。</li>
+<li>取模运算（<code>%</code>，64 位除法 ~20–40 周期）可以换成 2 的幂表长 + 乘法散列（Fibonacci hashing）。</li>
+</ul>
+</div>
+
+<div class="finding p2">
+<h4><span class="badge b-p2">P2-4</span>　TryGet 每次分配新数组</h4>
+<p>读路径每次 <code>new byte[len]</code>，在高 QPS 下产生持续的 Gen0 压力。建议提供 <code>int TryGet(key, Span&lt;byte&gt; destination)</code>，让调用方复用缓冲区。</p>
+</div>
+
+<h3>9.3　代码质量 / 文档</h3>
+<div class="finding p2">
+<h4><span class="badge b-p2">P2-5</span>　API 与可维护性</h4>
+<ul>
+<li>返回值用魔法数字（0/1/-2/-3），测试里还统计从不存在的 -1。应改成 <code>enum SetResult { Added, Updated }</code> 和 <code>enum GetResult { Found, NotFound, Deleted }</code>。</li>
+<li>参数错误抛出 <code>ArgumentOutOfRangeException("KeyIsZero Error…")</code>，却把消息放进了 paramName 参数；<code>ArgumentNullException("contentLength")</code> 的参数名也写错了（应为 content）。</li>
+<li>位掩码用十进制负数（-257、-768、-769、-1024）表达，可读性差。应定义 <code>const long WriteBit = 1L &lt;&lt; 9</code> 等具名常量。</li>
+<li>未使用的代码：<code>CheckWriteBitIsZero</code>、<code>CheckReaderCounterIsMinimum</code>、<code>CASFailureException</code>，以及大量注释掉的代码。</li>
+<li><code>AddOrUpdate</code> 用递归重试，可以改为循环；<code>HashSearch</code> 的 i 从 0 开始，第一次探测重复访问了起始槽（与 AddOrUpdate 从 1 开始不一致）。</li>
+<li><code>Hash</code>、<code>Collision</code>、<code>KeysAreEqual</code> 是 public 却属于实现细节。</li>
+<li>拼写：compondKey → compoundKey、Invild → Invalid、Nubmer、totoalRecord 等。</li>
+</ul>
+</div>
+<div class="finding p2">
+<h4><span class="badge b-p2">P2-6</span>　Update 读取当前值的时机</h4>
+<p><code>Update</code> 在循环里每次重新读 <code>compondKey</code> 来构造期望值（源码中的 ToDo 说可以移到循环外）。实际上正是因为每次都重新读，才能正确保留 D 位，所以<b>不应</b>按 ToDo 那样移出循环。这里需要在注释里说明。</p>
+</div>
+<div class="finding p2">
+<h4><span class="badge b-p2">P2-7</span>　文档与实现不一致</h4>
+<ul>
+<li>README："54 bytes / 1 byte / 8 byte" 应为 bit。Excel："265 byte arrays" 应为 256，且实际数据约 40 字节。</li>
+<li><code>readme.txt</code>：位编号方向与代码相反；表长 6,080,023 与代码中的 10,107,313 不同；冲突公式写成 <code>/</code>，应为 <code>%</code>；Get "返回 URL 或 null" 与实现不符。</li>
+</ul>
+</div>
+
+<!-- ============================ 10 ============================ -->
+<h2 id="improve">10. 改进建议与示例代码</h2>
+
+<h3>10.1　最小修复（不改变整体设计）</h3>
+<pre class="code"><code>// 1) 安全哈希：不会溢出；先去掉恒为 0 的低 10 位再混合
+private int Hash(long key)
+{
+    ulong h = (ulong)key &gt;&gt; 10;
+    h *= 0x9E3779B97F4A7C15UL;              // Fibonacci hashing
+    return (int)(h % (ulong)arrayLength);   // 或 2 的幂长度下：(int)(h &gt;&gt; (64 - bits))
+}
+
+// 2) 有界探测：最多探测 arrayLength 次
+private bool HashSearch(long key, out int index)
+{
+    int home = Hash(key);
+    for (int i = 0; i &lt; arrayLength; i++)
+    {
+        index = home + i; if (index &gt;= arrayLength) index -= arrayLength;
+        long k = Volatile.Read(ref entityArray[index].compondKey);
+        if (k == 0) return false;
+        if (KeysAreEqual(key, k)) return true;
+    }
+    index = -1; return false;                // 表满且不存在
+}
+
+// 3) 临界区用 try/finally 保证释放；带退避的自旋
+private int Update(int index, ReadOnlySpan&lt;byte&gt; content)
+{
+    ref long slot = ref entityArray[index].compondKey;
+    var spin = new SpinWait();
+    long locked;
+    while (true)
+    {
+        long cur = Volatile.Read(ref slot);
+        long expected = cur &amp; ~(WriteBit | ReaderMask);
+        locked = (expected | WriteBit) &amp; ~DeleteBit;
+        if (Interlocked.CompareExchange(ref slot, locked, expected) == expected) break;
+        spin.SpinOnce();                     // 超额订阅时会让出 CPU
+    }
+    try
+    {
+        content.CopyTo(entityArray[index].content);
+        entityArray[index].contentLength = content.Length;
+    }
+    finally
+    {
+        Volatile.Write(ref slot, locked &amp; ~WriteBit);   // 持锁期间无人能改，普通写即可
+    }
+    return 1;
+}</code></pre>
+
+<h3>10.2　结构性改进：用 seqlock 替代读者计数</h3>
+<p>把 8 位读者计数换成<b>版本号</b>：写者把版本加 1（变奇数，表示正在写）→ 写内容 → 再加 1（变偶数）。读者不写任何共享状态：先读版本，是偶数就拷贝内容，拷完再读一次版本，两次一致则成功，否则重试。</p>
+<ul>
+<li>读不再修改缓存行，热点键的读可以线性扩展（解决单键读 370 万 vs 5,878 万 RPS 的差距）。</li>
+<li>没有读者计数，也就没有 255 上限（P1-3），写者无需等待读者（P1-4）。</li>
+<li>代价：读者可能读到"写了一半"的内容，但会被版本校验发现并丢弃重试。拷贝必须拷进私有缓冲区，拷贝前后都要有正确的内存屏障（<code>Volatile.Read</code> / <code>Interlocked.MemoryBarrier</code>）。</li>
+</ul>
+<pre class="code"><code>// 读者（示意）
+while (true)
+{
+    long v1 = Volatile.Read(ref slot.Version);
+    if ((v1 &amp; 1) != 0) { spin.SpinOnce(); continue; }       // 写者进行中
+    int len = slot.Length;
+    data.AsSpan(slot.Offset, len).CopyTo(dest);                // 拷到私有缓冲区
+    Interlocked.MemoryBarrier();
+    if (Volatile.Read(ref slot.Version) == v1) return len;    // 版本未变：读取有效
+}</code></pre>
+
+<h3>10.3　其他建议</h3>
+<ul>
+<li><b>容量管理：</b>维护存活数和墓碑数，超过阈值时后台重建新表（只拷存活项）并原子切换引用；或者至少在达到阈值时拒绝插入，并通过日志或指标报警。</li>
+<li><b>内存布局：</b>单块数据区 + 槽位只存 key、版本、长度；按缓存行对齐热点字段。</li>
+<li><b>API：</b>枚举返回值；<code>Span&lt;byte&gt;</code> 读写接口；基类实现细节改为 private/protected；<code>sealed</code> 包装类。</li>
+<li><b>可观测性：</b>按 Base.cs 末尾 TODO 的想法，统计 CAS 重试次数分布、最长探测长度、墓碑比例。</li>
+</ul>
+
+<h3>10.4　测试改进</h3>
+<ul>
+<li><b>加入并发不变量测试</b>（可直接改造附录中的 E7）：写入"版本号重复填充 + 随机长度"的载荷，读者校验一致性，并用 <code>Assert.AreEqual(0, torn)</code> 断言。</li>
+<li><b>边界测试：</b><code>long.MinValue</code> 键、表满、墓碑满、小表强制冲突、内容长度 0 或等于上限、基类 API（或确认它们不再 public）。所有可能挂死的测试都加 <code>[Timeout]</code>。</li>
+<li><b>功能测试使用小表</b>（如 4139 槽），把单元测试从 2 分钟降到秒级；大表只在性能测试中使用。</li>
+<li><b>性能测试改用 BenchmarkDotNet</b>（单线程微基准），以及"整段计时 + Barrier 同时起跑 + 固定时长"的多线程吞吐测试；对照组使用相同语义（upsert + 拷贝）；报告 p50/p99/p99.9 延迟，而不是每次调用都掐秒表。</li>
+<li>测试数据使用均匀随机键（或真实分布），并单独测试高冲突场景。</li>
+<li>可以考虑用 Microsoft Coyote 等工具做系统化的并发调度探索。</li>
+</ul>
+
+<!-- ============================ 11 ============================ -->
+<h2 id="score">11. 综合评价与评分</h2>
+
+<div class="score-hero"><span class="big">61</span><span class="of">/ 100</span><span class="muted">思路和动手能力扎实，但离可上生产的代码还有明显距离</span></div>
+
+<h3>11.1　分项评分</h3>
+<div class="tscroll">
+<table>
+<thead><tr><th>维度</th><th class="num">得分</th><th style="width:120px"></th><th>理由</th></tr></thead>
+<tbody>
+<tr><td>核心并发设计</td><td class="num">19 / 25</td><td><div class="meter"><i style="width:76%"></i></div></td>
+<td>把业务键和读写锁状态压进一个 64 位整数，用一次 CAS 完成状态转换，这个想法对且精巧。撕裂读压力测试（E7）中 2,117 万次读取 0 次出错，读写互斥这条主线是正确的。扣分在于它本质上是自旋锁而非真正的 lock-free，而且读者优先会导致写者饥饿（P1-4）。</td></tr>
+<tr><td>健壮性 / 边界处理</td><td class="num">6 / 20</td><td><div class="meter"><i style="width:30%"></i></div></td>
+<td>最大短板。三个 P0 缺陷（表满死循环、墓碑占满后死循环、临界区异常后永久锁死）都出在最基本的边界上，<code>long.MinValue</code> 也是合法输入就能触发的。这类问题一旦在生产环境触发，就不是"慢"，而是"挂"。</td></tr>
+<tr><td>代码质量 / API</td><td class="num">9 / 15</td><td><div class="meter"><i style="width:60%"></i></div></td>
+<td>注释用心，每个位掩码都解释了原理，这点难得。但返回值是魔法数字，基类方法全部 public 且不做校验，还有死代码、拼写错误、用递归重试等问题。</td></tr>
+<tr><td>测试</td><td class="num">12 / 25</td><td><div class="meter"><i style="width:48%"></i></div></td>
+<td>参数校验测得很全，功能路径也基本覆盖了。但一个以并发为卖点的数据结构没有任何并发正确性断言，性能测试也没有断言；更新时写回的值与原值相同，数据错了也验不出来；与 ConcurrentDictionary 的对比口径不一致。工作量不小，但测试设计没有对准真正的风险点。</td></tr>
+<tr><td>工程判断 / 文档</td><td class="num">15 / 15</td><td><div class="meter"><i style="width:100%"></i></div></td>
+<td>反而是亮点。做了真实的对照基准，而且 README 的结论是"用 ConcurrentDictionary 就好"，没有硬推自己的方案，这种诚实比代码本身更有价值。本项其实略超满分，文档与实现不一致（bytes/bit 混用、1.1 与 1.5 次查找矛盾、表长不一致，见 P2-7）已抵扣，按满分计。</td></tr>
+<tr><th>合计</th><th class="num">61 / 100</th><th></th><th></th></tr>
+</tbody>
+</table>
+</div>
+
+<h3>11.2　换个角度看</h3>
+<div class="grid g2">
+  <div class="stat"><div class="n">≈ 75</div><div class="l"><b>作为个人技术探索或面试作品。</b>能读懂上交所的核心算法并用 C# 实现，位运算、CAS 协议、内存可见性都没有写错，还做了系统的性能对比，这已经超过大多数同类作品。</div></div>
+  <div class="stat"><div class="n" style="color:var(--p0)">≈ 40</div><div class="l"><b>作为可上线的生产组件。</b>光是"表满或墓碑满就死循环"和"异常后永久锁死"两条就一票否决，更不用说没有并发测试兜底。</div></div>
+</div>
+
+<h3>11.3　一句话评价</h3>
+<blockquote class="verdict"><b>难的部分做对了，简单的部分反而没做。</b></blockquote>
+<p>并发协议这种最容易出错的地方是正确的，而探测上限、<code>try/finally</code>、删除后的空间回收这些常规防御却缺失了。这通常说明当时的注意力全放在"让算法跑通、跑快"上，还没有切换到"假设一切都会出错"的生产思维。这是经验阶段的问题，不是能力问题。</p>
+<p>补上第 10.1 节的最小修复（大约一两百行），再按 10.4 节加入并发不变量测试和边界测试后，评分可以提到 <b>75–80 分</b>。</p>
+
+<!-- ============================ 12 ============================ -->
+<h2 id="appendix">12. 附录：实验与复现方式</h2>
+<p>所有实验都在副本目录中构建运行，没有修改原仓库。实验代码与原始输出保存在本报告旁边：</p>
+<div class="tscroll">
+<table>
+<thead><tr><th>路径</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td><code>experiments/Probe/Program.cs</code></td><td>实验程序 E1–E14（控制台程序，引用 <code>../../../CASHashTable</code>）</td></tr>
+<tr><td><code>experiments/logs/probe_a.txt</code></td><td>E1–E5（缺陷复现）</td></tr>
+<tr><td><code>experiments/logs/probe_b.txt</code></td><td>E6–E12（统计、压力、饥饿、溢出、基准、内存）</td></tr>
+<tr><td><code>experiments/logs/probe_c.txt</code></td><td>E13–E14（CD 内存、GC 归因）</td></tr>
+<tr><td><code>experiments/logs/original_perf_tests_rerun.txt</code></td><td>原 4 个性能测试的本机输出</td></tr>
+</tbody>
+</table>
+</div>
+<pre class="code"><code>cd Analysis\experiments\Probe
+dotnet run -c Release -- e1 e2 e3 e4 e5     # 注意：E2–E4 会留下自旋线程，程序结束时 Environment.Exit 统一清理
+dotnet run -c Release -- e7                  # 每个实验单独运行，避免互相干扰
+# 原测试（在仓库根目录 LockFreeHashTable 下执行）：
+cd ..\..\..
+dotnet test CASHashTableTest -c Release --filter "FullyQualifiedName~FunctionalTest"
+dotnet test CASHashTableTest -c Release --filter "FullyQualifiedName~Perf"</code></pre>
+
+<div class="tscroll">
+<table>
+<thead><tr><th>编号</th><th>实验</th><th>关键结果</th></tr></thead>
+<tbody>
+<tr><td>E1</td><td>long.MinValue 键</td><td>OverflowException</td></tr>
+<tr><td>E2</td><td>表满后查找/插入</td><td>死循环</td></tr>
+<tr><td>E3</td><td>墓碑填满</td><td>死循环</td></tr>
+<tr><td>E4</td><td>临界区异常 / 基类 API / 键 0</td><td>永久锁死；静默丢数据</td></tr>
+<tr><td>E5</td><td>2 的幂表长</td><td>20,000 个键只有 64 个起始槽</td></tr>
+<tr><td>E6</td><td>探测长度统计</td><td>平均 1.045 / 1.212，最长 3 / 19</td></tr>
+<tr><td>E7</td><td>撕裂读压力测试</td><td>21,174,067 次读取，0 次不一致 <span class="badge b-ok">正确</span></td></tr>
+<tr><td>E8</td><td>写者饥饿</td><td>p99.9：0.5 µs → 12,458 µs</td></tr>
+<tr><td>E9</td><td>读者计数溢出</td><td>5 秒 265,636 次异常</td></tr>
+<tr><td>E10</td><td>公平基准</td><td>见第 8 节</td></tr>
+<tr><td>E11/E13</td><td>内存</td><td>2.86 GB vs 366 MB</td></tr>
+<tr><td>E12</td><td>超额订阅</td><td>8 → 64 线程吞吐 -49%</td></tr>
+<tr><td>E14</td><td>CD 拷贝更新归因</td><td>老年代指向新生代 → 卡表扫描 + Gen2</td></tr>
+</tbody>
+</table>
+</div>
+
+<footer>
+本报告由 Claude Code 生成，所有数据来自本机实测（2026-09-27）。数值受机器负载影响，可按附录方法复现。
+</footer>
+</div>
+
+<div class="tip" id="tip"></div>
+
+<script>
+// ---- bar chart (8-thread fair benchmark, E10/E14) ----
+const bench = [
+  {g:"读取", label:"CAS TryGet（拷贝输出）", impl:"cas", sem:"拷贝 + 新数组", v:10.84, gc:"—"},
+  {g:"读取", label:"CD TryGetValue（返回引用）", impl:"cd", sem:"共享引用，不拷贝", v:19.09, gc:"—"},
+  {g:"读取", label:"CD TryGetValue + 拷贝", impl:"cd", sem:"与 CAS 同语义", v:11.31, gc:"—"},
+  {g:"写入", label:"CAS TrySet（原地拷贝）", impl:"cas", sem:"upsert + 拷贝", v:9.48, gc:"—"},
+  {g:"写入", label:"CD TryAdd（原测试口径）", impl:"cd", sem:"已存在即空操作", v:9.76, gc:"—"},
+  {g:"写入", label:"CD 索引器赋值（复用引用）", impl:"cd", sem:"upsert，无分配", v:10.66, gc:"Gen0 0 / Gen2 0"},
+  {g:"写入", label:"CD 索引器赋值（新拷贝）", impl:"cd", sem:"与 CAS 同语义", v:0.49, gc:"Gen0 341 / Gen2 6（E14 同场景 0.57）"},
+  {g:"混合 80% 读 / 15% 写 / 5% 删", label:"CAS", impl:"cas", sem:"拷贝语义", v:10.07, gc:"—"},
+  {g:"混合 80% 读 / 15% 写 / 5% 删", label:"CD（拷贝语义）", impl:"cd", sem:"与 CAS 同语义", v:1.54, gc:"—"},
+];
+const max = Math.max(...bench.map(b=>b.v));
+const host = document.getElementById('bars');
+const tbody = document.querySelector('#bench-table tbody');
+const tip = document.getElementById('tip');
+let cur = null, grp = null;
+bench.forEach(b=>{
+  if (b.g !== cur){ cur = b.g; grp = document.createElement('div'); grp.className='bgroup'; grp.innerHTML='<div class="gt">'+b.g+'</div>'; host.appendChild(grp); }
+  const row = document.createElement('div'); row.className='brow';
+  const pct = (b.v/(max*1.15)*100);   // headroom for the value label
+  row.innerHTML = '<div class="bl">'+b.label+'</div><div class="track"><div class="bar '+b.impl+'" style="width:'+pct+'%"></div><span class="bv" style="left:'+pct+'%">'+b.v.toFixed(2)+'</span></div>';
+  const bar = row.querySelector('.track');
+  bar.addEventListener('mousemove', e=>{ tip.style.display='block'; tip.innerHTML='<b>'+b.label+'</b><br>'+b.v.toFixed(2)+' M ops/s · '+b.sem+(b.gc!=='—'?'<br>'+b.gc:''); tip.style.left=Math.min(e.clientX+12, innerWidth-330)+'px'; tip.style.top=(e.clientY+12)+'px'; });
+  bar.addEventListener('mouseleave', ()=>{ tip.style.display='none'; });
+  grp.appendChild(row);
+  const tr = document.createElement('tr');
+  tr.innerHTML = '<td>'+b.g+'</td><td>'+(b.impl==='cas'?'CAS':'ConcurrentDictionary')+'</td><td>'+b.label+' · '+b.sem+'</td><td class="num">'+b.v.toFixed(2)+'</td><td class="num">'+b.gc+'</td>';
+  tbody.appendChild(tr);
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script>
+(function(){
+  const t = document.documentElement.dataset.theme;
+  const dark = t === 'dark' || (t !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+  if (window.mermaid){
+    mermaid.initialize({ startOnLoad:false, theme: dark ? 'dark' : 'neutral', securityLevel:'loose',
+      flowchart:{ htmlLabels:true, curve:'basis', useMaxWidth:true }, fontFamily:'"Segoe UI","Microsoft YaHei",sans-serif' });
+    mermaid.run({ querySelector:'pre.mermaid' });
+  } else {
+    document.querySelectorAll('pre.mermaid').forEach(p=>{ p.style.textAlign='left'; p.insertAdjacentHTML('beforebegin','<div class="small muted">（离线：Mermaid 未加载，显示图的源代码）</div>'); });
+  }
+})();
+</script>
+</body>
+</html>
