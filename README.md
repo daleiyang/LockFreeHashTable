@@ -87,3 +87,32 @@ $${\color{red}Step\ 8}$$ The callback function of the RPC Client obtains respons
 - [KeyIn54BitCASHashTablePerfTest.cs ](https://github.com/daleiyang/LockFreeHashTable/blob/master/CASHashTableTest/KeyIn54BitCASHashTablePerfTest.cs) is preformance tests for lock-free hash table. Please see [[Report]](https://github.com/daleiyang/LockFreeHashTable/raw/refs/heads/master/PerformanceReport.xlsx) .
 
 - [ConcurrentDictionaryPerfTesting.cs ](https://github.com/daleiyang/LockFreeHashTable/blob/master/CASHashTableTest/ConcurrentDictionaryPerfTesting.cs) is preformance tests for .Net Concurrent Dictionary. Please see [[Report]](https://github.com/daleiyang/LockFreeHashTable/raw/refs/heads/master/PerformanceReport.xlsx) .
+
+# Code Analysis by Claude Code (2026-09)
+
+An independent review of the lock-free hash table (`CASHashTable`), its tests (`CASHashTableTest`) and `PerformanceReport.xlsx`. The WebApi / RPC / Docker / RabbitMQ demo skeleton is out of scope. Every conclusion was verified by actually running the code on the same laptop model as the performance report (i7-1065G7, 16GB, .NET 8).
+
+- **[View the full report (rendered HTML)](https://raw.githack.com/daleiyang/LockFreeHashTable/master/Analysis/LockFreeHashTable_Analysis.html)** (in Chinese) · [alternative viewer](https://htmlpreview.github.io/?https://github.com/daleiyang/LockFreeHashTable/blob/master/Analysis/LockFreeHashTable_Analysis.html) · [HTML source](Analysis/LockFreeHashTable_Analysis.html)
+- The report contains a class diagram, flowcharts of TrySet / Update / TryGet / TryDelete / HashSearch, a slot state diagram, the 64-bit key layout, a decoded table of every bit mask, a findings list with evidence, suggested fixes with sample code, and an overall score.
+- Experiment code (E1 to E14) and raw logs: [Analysis/experiments](Analysis/experiments)
+
+## Key findings
+- All 15 functional tests and 4 performance tests pass.
+- **The concurrency protocol is correct.** A stress test with versioned payloads (4 readers, 2 writers, 2 deleters) did 21,174,067 successful reads with 0 torn reads.
+- **Strictly speaking, it is not lock-free.** It is a per-slot reader-writer spin lock implemented with CAS: if a thread holding the write bit is preempted or throws, other threads spin on that slot.
+- **Three critical bugs, all reproduced:**
+  - When the table is full, `TryGet` / `TryDelete` / `TrySet` on a missing key loop forever.
+  - Deleted slots (tombstones) are never reclaimed, so after enough distinct keys have ever been inserted, inserts loop forever even if every key was deleted.
+  - An exception inside the write critical section (no `try/finally`) leaves the write bit set, so the key can never be read or written again.
+- **Other issues:**
+  - A valid input (`linkId = 2097152, clcId = 0, sbp = 0`) produces `long.MinValue`, and `Math.Abs` throws `OverflowException`.
+  - The public base-class API bypasses all validation.
+  - The 8-bit reader counter overflows under thread oversubscription.
+  - Writers starve: with 7 readers, p99.9 write latency grows from 0.5 µs to 12.5 ms.
+- **Tests:**
+  - No concurrency correctness assertions.
+  - Performance tests have no assertions.
+  - A Stopwatch pair per call costs about 34 ns.
+  - The ConcurrentDictionary comparison does not use the same semantics (`TryAdd` vs upsert-with-copy, references vs copies).
+- **Revisiting "First, the conclusion":** it holds when values are immutable and can be shared by reference (reads: ConcurrentDictionary 19.1 vs CAS 10.8 M ops/s). With the same copy-on-write semantics, the CAS table is much faster for updates (9.48 vs 0.49 M ops/s) because preallocated in-place buffers avoid GC card-marking costs.
+- **Overall score: 61 / 100.** The hard part (the concurrency protocol) is right; the routine defenses (probe limits, `try/finally`, space reclamation) and concurrency tests are missing. With the minimal fixes in the report, it would rate 75 to 80.
